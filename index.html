@@ -4,153 +4,149 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ela Thermomix | Nowoczesny Doradca</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
             --primary: #76b82a;
             --primary-dark: #2d5a27;
-            --bg: #ffffff;
-            --card-bg: #16161e; /* Ciemne karty jak na wzorze */
-            --glass: rgba(255, 255, 255, 0.9);
+            --dark-card: #16161e;
         }
 
-        body { 
-            margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; 
-            background: var(--bg); color: #333; overflow-x: hidden;
-            transition: 0.3s;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #fff; color: #1a1a1a; line-height: 1.6; }
 
-        /* Sekcja Dostępności (3 kreski) */
-        .accessibility-panel { position: fixed; top: 20px; right: 20px; z-index: 2000; }
-        .menu-trigger {
-            background: var(--primary); border: none; padding: 12px; border-radius: 12px;
-            cursor: pointer; display: flex; flex-direction: column; gap: 5px; box-shadow: 0 4px 15px rgba(118,184,42,0.4);
+        /* MENU / 3 KRESKI */
+        .nav-container { position: fixed; top: 20px; right: 20px; z-index: 10000; }
+        .menu-btn {
+            background: var(--primary); border: none; width: 50px; height: 50px; 
+            border-radius: 12px; cursor: pointer; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; gap: 5px;
         }
-        .menu-trigger span { width: 25px; height: 3px; background: white; display: block; border-radius: 2px; }
+        .menu-btn span { width: 25px; height: 3px; background: white; border-radius: 2px; }
         
-        .dropdown-content {
-            position: absolute; right: 0; top: 60px; background: white;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1); border-radius: 15px;
-            padding: 20px; width: 250px; display: none; border: 1px solid #eee;
+        .dropdown {
+            position: absolute; top: 60px; right: 0; background: white; width: 250px;
+            padding: 20px; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            display: none; border: 1px solid #eee;
         }
-        .dropdown-content.active { display: block; animation: slideIn 0.3s forwards; }
+        .dropdown.open { display: block; animation: fadeIn 0.3s ease; }
+        .dropdown button, .dropdown a {
+            width: 100%; padding: 12px; margin-bottom: 8px; border-radius: 8px; border: 1px solid #f0f0f0;
+            background: #f9f9f9; cursor: pointer; text-align: left; text-decoration: none; 
+            color: #333; display: block; font-weight: 600; font-family: inherit;
+        }
 
-        /* Hero z animacją wejścia */
-        .hero {
-            height: 100vh; display: flex; align-items: center; justify-content: center;
-            text-align: center; background: radial-gradient(circle at top right, #f0fdf4, #ffffff);
-            position: relative;
+        /* HERO - Bez zewnętrznych animacji blokujących widok */
+        .hero { 
+            height: 100vh; display: flex; flex-direction: column; align-items: center; 
+            justify-content: center; text-align: center; padding: 20px;
+            background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
         }
-        .hero h1 { font-size: 4rem; font-weight: 800; margin-bottom: 20px; }
+        .hero h1 { font-size: clamp(2.5rem, 10vw, 4.5rem); font-weight: 800; margin-bottom: 20px; }
         .hero span { color: var(--primary); }
-        .btn-main {
-            padding: 18px 40px; background: var(--primary); color: white;
-            text-decoration: none; border-radius: 50px; font-weight: 600;
-            display: inline-block; transition: 0.4s; transform: scale(1);
+        .btn { 
+            padding: 20px 40px; background: var(--primary); color: white; border-radius: 50px; 
+            text-decoration: none; font-weight: 800; transition: 0.3s;
         }
-        .btn-main:hover { transform: scale(1.1) rotate(-2deg); background: var(--primary-dark); }
+        .btn:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(118,184,42,0.3); }
 
-        /* Opinie - Kwadratowe karty jak na SS */
-        .reviews-section { padding: 100px 0; background: #0d0d12; color: white; overflow: hidden; }
-        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 50px; }
-        
-        .marquee-track { display: flex; gap: 30px; animation: scroll 40s linear infinite; width: max-content; }
-        
-        .testimonial-card {
-            min-width: 320px; background: var(--card-bg); padding: 35px;
-            border-radius: 24px; border: 1px solid #252533;
-            transition: 0.4s;
+        /* OPINIE - MARQUEE (To Ci działało, więc zostawiam styl) */
+        .reviews { background: #0d0d12; padding: 80px 0; color: white; overflow: hidden; }
+        .marquee { display: flex; gap: 20px; animation: scroll 30s linear infinite; width: max-content; }
+        .card {
+            width: 320px; background: var(--dark-card); padding: 30px; border-radius: 20px;
+            border: 1px solid #252533;
         }
-        .testimonial-card:hover { border-color: var(--primary); transform: translateY(-10px); }
+        .user { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+        .avatar { width: 45px; height: 45px; border-radius: 50%; background: var(--primary); display: flex; align-items: center; justify-content: center; font-weight: 800; }
 
-        .user-info { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
-        .avatar-circle { 
-            width: 50px; height: 50px; background: var(--primary); 
-            border-radius: 50%; display: flex; align-items: center; 
-            justify-content: center; font-weight: bold; font-size: 1.2rem;
+        /* KONTAKT & FORMULARZ */
+        .contact-grid { 
+            max-width: 1100px; margin: 80px auto; padding: 0 20px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px;
         }
-        .user-label { color: var(--primary); font-size: 0.75rem; font-weight: 800; letter-spacing: 1px; }
+        .box { background: #f8faf8; padding: 40px; border-radius: 25px; border: 1px solid #eef2ee; }
+        input, select { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #ddd; }
+        .btn-submit { width: 100%; padding: 15px; background: var(--primary-dark); color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: 700; }
 
-        /* Formularz i Kontakt */
-        .booking-section { padding: 100px 5%; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
-        .form-card { background: #f9fbf9; padding: 40px; border-radius: 30px; border: 1px solid #eef2ee; }
-        
-        input, select, textarea {
-            width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 12px;
-            border: 1px solid #ddd; font-family: inherit;
-        }
-
-        .btn-submit {
-            width: 100%; padding: 15px; background: var(--primary-dark);
-            color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: 700;
-        }
-
-        /* Animacje Keyframes */
+        /* ANIMACJE CSS */
         @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Tryb Wysoki Kontrast */
+        /* TRYBY DOSTĘPNOŚCI */
         .high-contrast { background: #000 !important; color: #fff !important; }
-        .high-contrast .testimonial-card { border: 2px solid yellow; }
-
-        @media (max-width: 768px) {
-            .booking-section { grid-template-columns: 1fr; }
-            .hero h1 { font-size: 2.5rem; }
-        }
+        .high-contrast .box { background: #111; border: 2px solid yellow; }
+        .big-text { font-size: 1.25rem !important; }
     </style>
 </head>
 <body>
 
-    <div class="accessibility-panel">
-        <button class="menu-trigger" onclick="toggleMenu()">
+    <div class="nav-container">
+        <button class="menu-btn" onclick="toggleMenu()">
             <span></span><span></span><span></span>
         </button>
-        <div class="dropdown-content" id="menu">
-            <h4>Ustawienia widoku</h4>
-            <button onclick="document.body.classList.toggle('high-contrast')" style="width:100%; padding:10px; margin-bottom:5px; cursor:pointer;">Wysoki kontrast</button>
-            <hr>
-            <h4>Kontakt</h4>
-            <a href="https://wa.me/48123456789" style="display:block; padding:10px; color:var(--primary-dark); text-decoration:none;"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-            <a href="mailto:ela@ela.pl" style="display:block; padding:10px; color:var(--primary-dark); text-decoration:none;"><i class="fas fa-envelope"></i> E-mail</a>
+        <div class="dropdown" id="dropdown">
+            <h4 style="font-size:0.7rem; color:#999; margin-bottom:10px;">USTAWIENIA</h4>
+            <button onclick="document.body.classList.toggle('high-contrast')">Wysoki Kontrast</button>
+            <button onclick="document.body.classList.toggle('big-text')">Powiększ Tekst</button>
+            <hr style="margin:10px 0; border:0; border-top:1px solid #eee;">
+            <h4 style="font-size:0.7rem; color:#999; margin-bottom:10px;">KONTAKT</h4>
+            <a href="https://wa.me/48123456789"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+            <a href="mailto:ela@thermomix.pl"><i class="fas fa-envelope"></i> E-mail</a>
         </div>
     </div>
 
     <section class="hero">
-        <div data-aos="zoom-in">
-            <h1>Pokazy i sprzedaż <span>Thermomix</span></h1>
-            <p>Najnowocześniejsze gotowanie z Elą.</p><br>
-            <a href="#form" class="btn-main">Umów się na prezentację</a>
+        <h1>Pokazy i sprzedaż<br><span>Thermomix</span></h1>
+        <p>Nowoczesne gotowanie zaczyna się tutaj. Zapraszam!</p>
+        <a href="#form" class="btn">Umów pokaz</a>
+    </section>
+
+    <section class="reviews">
+        <div class="marquee">
+            <div class="card"><div class="user"><div class="avatar">AK</div><div><strong>Anna Kowalska</strong><br><small style="color:var(--primary)">KLIENT</small></div></div><p>"Świetna prezentacja, Ela to profesjonalistka!"</p></div>
+            <div class="card"><div class="user"><div class="avatar" style="background:purple">KN</div><div><strong>Kasia Nowak</strong><br><small style="color:var(--primary)">KLIENT</small></div></div><p>"Polecam każdemu, jedzenie było obłędne."</p></div>
+            <div class="card"><div class="user"><div class="avatar" style="background:orange">MP</div><div><strong>Marek Piątek</strong><br><small style="color:var(--primary)">KLIENT</small></div></div><p>"Szybka realizacja i świetny kontakt."</p></div>
+            <div class="card"><div class="user"><div class="avatar">AK</div><div><strong>Anna Kowalska</strong><br><small style="color:var(--primary)">KLIENT</small></div></div><p>"Świetna prezentacja, Ela to profesjonalistka!"</p></div>
+            <div class="card"><div class="user"><div class="avatar" style="background:purple">KN</div><div><strong>Kasia Nowak</strong><br><small style="color:var(--primary)">KLIENT</small></div></div><p>"Polecam każdemu, jedzenie było obłędne."</p></div>
+            <div class="card"><div class="user"><div class="avatar" style="background:orange">MP</div><div><strong>Marek Piątek</strong><br><small style="color:var(--primary)">KLIENT</small></div></div><p>"Szybka realizacja i świetny kontakt."</p></div>
         </div>
     </section>
 
-    <section class="reviews-section">
-        <h2 class="section-title">Głosy Klientów</h2>
-        <div class="marquee-track">
-            <div class="testimonial-card">
-                <div class="user-info">
-                    <div class="avatar-circle">AK</div>
-                    <div><div class="user-name">Anna Kowalska</div><div class="user-label">KLIENT</div></div>
-                </div>
-                <p>"Najlepszy pokaz na jakim byłam! Polecam każdemu."</p>
-            </div>
-            <div class="testimonial-card">
-                <div class="user-info">
-                    <div class="avatar-circle" style="background:#8a2be2">MP</div>
-                    <div><div class="user-name">Marek Piątek</div><div class="user-label">KLIENT</div></div>
-                </div>
-                <p>"Thermomix od Eli to zmiana życia. Dzięki za wsparcie!"</p>
-            </div>
-            <div class="testimonial-card">
-                <div class="user-info"><div class="avatar-circle">AK</div><div><div class="user-name">Anna Kowalska</div><div class="user-label">KLIENT</div></div></div>
-                <p>"Najlepszy pokaz na jakim byłam! Polecam każdemu."</p>
+    <section class="contact-grid" id="form">
+        <div class="box">
+            <h2>Umów się</h2>
+            <form action="https://formspree.io/f/yourID" method="POST" style="margin-top:20px;">
+                <input type="text" name="name" placeholder="Twoje imię" required>
+                <input type="email" name="email" placeholder="Twój e-mail" required>
+                <select name="type"><option>Pokaz domowy</option><option>Pokaz online</option></select>
+                <button type="submit" class="btn-submit">Wyślij zgłoszenie</button>
+            </form>
+        </div>
+        <div class="info">
+            <h2>Kontakt</h2>
+            <p style="margin:20px 0; color:#555;">Zapraszam do kontaktu bezpośredniego. Odpowiadam błyskawicznie!</p>
+            <div style="font-size: 1.3rem; line-height: 2;">
+                <p><i class="fas fa-phone" style="color:var(--primary)"></i> <strong> +48 123 456 789</strong></p>
+                <p><i class="fas fa-envelope" style="color:var(--primary)"></i> kontakt@ela-tm.pl</p>
+                <p><i class="fab fa-instagram" style="color:var(--primary)"></i> @ela_gotuje_tm</p>
             </div>
         </div>
     </section>
 
-    <section class="booking-section" id="form">
-        <div class="form-card" data-aos="fade-right">
-            <h2>Formularz zgłoszeniowy</h2>
-            <form action="
+    <script>
+        function toggleMenu() {
+            document.getElementById('dropdown').classList.toggle('open');
+        }
+        // Zamknij menu przy kliknięciu obok
+        window.onclick = function(e) {
+            if (!e.target.closest('.nav-container')) {
+                document.getElementById('dropdown').classList.remove('open');
+            }
+        }
+    </script>
+</body>
+</html>
