@@ -1,41 +1,36 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const testimonialContainer = document.getElementById('testimonial-container');
+    // 1. Menu Ustawień
+    const btn = document.getElementById('settingsBtn');
+    const menu = document.getElementById('settingsMenu');
+    btn.onclick = () => menu.classList.toggle('active');
 
-    // 1. Pobieranie opinii z pliku testimonials.json
+    // 2. Obsługa opinii (Kwadratowe karty)
     fetch('testimonials.json')
-        .then(response => response.json())
+        .then(r => r.json())
         .then(data => {
-            let currentIndex = 0;
-
-            function showTestimonial(index) {
-                const t = data[index];
-                testimonialContainer.innerHTML = `
-                    <div class="testimonial-card">
-                        <div class="stars">⭐⭐⭐⭐⭐</div>
-                        <p style="font-style: italic; font-size: 1.2rem;">"${t.text}"</p>
-                        <h4 style="margin-top: 20px;">- ${t.name}</h4>
+            const track = document.getElementById('testimonial-container');
+            // Podwajamy dane dla płynnego zapętlenia
+            const list = [...data, ...data]; 
+            list.forEach(t => {
+                const card = document.createElement('div');
+                card.className = 'testimonial-card';
+                card.innerHTML = `
+                    <div class="user-info">
+                        <img src="https://i.pravatar.cc/150?u=${t.name}" class="avatar">
+                        <div>
+                            <div class="user-name">${t.name}</div>
+                            <div class="user-label">KLIENT</div>
+                        </div>
                     </div>
+                    <p>"${t.text}"</p>
                 `;
-            }
-
-            // Inicjalizacja pierwszej opinii
-            showTestimonial(0);
-
-            // 2. Automatyczny Slider co 5 sekund
-            setInterval(() => {
-                currentIndex = (currentIndex + 1) % data.length;
-                showTestimonial(currentIndex);
-            }, 5000);
-        })
-        .catch(err => console.error("Błąd ładowania opinii:", err));
-
-    // Smooth scroll dla linków nawigacji
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
+                track.appendChild(card);
             });
         });
-    });
+
+    AOS.init({ duration: 1200 });
 });
+
+// Funkcje dostępności
+function toggleContrast() { document.body.classList.toggle('high-contrast'); }
+function changeFontSize(size) { document.body.style.zoom = size; }
