@@ -7,279 +7,223 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #76b82a; --primary-hover: #5d9321; --dark: #0d0d12; --light: #ffffff; --gray: #f8f9fa; }
+        :root { --primary: #76b82a; --dark: #0d0d12; --light: #ffffff; --gray: #f8f9fa; }
         * { margin:0; padding:0; box-sizing:border-box; scroll-behavior: smooth; user-select: none; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--light); color: #333; line-height: 1.6; overflow-x: hidden; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--light); color: #333; line-height: 1.6; transition: 0.3s; }
 
-        /* ANIMACJE WEJŚCIA */
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
+        /* TRYBY DOSTĘPNOŚCI */
+        body.epilepsy { filter: saturate(0.4) contrast(0.9); }
+        body.epilepsy .track { animation: none !important; overflow-x: auto; }
+        body.low-vision { font-size: 1.35rem; filter: contrast(1.6); }
+        body.cognitive { background: #d1d9e0 !important; letter-spacing: 1px; }
+        body.cognitive .scroll-container { opacity: 0.5; filter: sepia(1); }
+        body.adhd { border: 15px solid var(--primary); }
+        body.adhd .track { animation-duration: 150s !important; }
+        body.blind { filter: invert(1); background: #000; }
 
         /* NAWIGACJA */
-        .navbar { 
-            position: sticky; top: 0; background: rgba(255,255,255,0.9); 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 15px 5%; z-index: 1000; border-bottom: 1px solid #eee; backdrop-filter: blur(12px);
-        }
-        .nav-links { display: flex; gap: 30px; list-style: none; }
-        .nav-links a { text-decoration: none; color: #333; font-weight: 700; font-size: 0.9rem; transition: 0.3s; }
-        .nav-links a:hover { color: var(--primary); }
+        .navbar { position: sticky; top: 0; background: rgba(255,255,255,0.95); display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; z-index: 1000; border-bottom: 1px solid #eee; backdrop-filter: blur(10px); }
+        .nav-links { display: flex; gap: 25px; list-style: none; }
+        .nav-links a { text-decoration: none; color: #333; font-weight: 700; font-size: 0.9rem; }
 
-        /* MENU USTAWIEŃ */
-        .menu-btn { background: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 12px; cursor: pointer; font-weight: 800; transition: 0.3s; }
-        .menu-btn:hover { background: var(--primary-hover); transform: scale(1.05); }
+        /* MENU */
+        .menu-btn { background: var(--primary); color: white; border: none; padding: 10px 22px; border-radius: 12px; cursor: pointer; font-weight: 800; }
         .dropdown { 
-            position: absolute; top: 75px; right: 5%; background: white; width: 300px; 
+            position: absolute; top: 75px; right: 5%; background: white; width: 340px; 
             padding: 25px; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.15); 
             display: none; border: 1px solid #eee; z-index: 2000;
         }
         .dropdown.active { display: block; animation: fadeIn 0.3s ease; }
-        .dropdown select { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; background: #f9f9f9; font-weight: 700; cursor: pointer; margin-top: 10px; font-size: 14px; }
+        
+        .acc-option { margin-bottom: 15px; border-bottom: 1px solid #f0f0f0; padding-bottom: 10px; }
+        .acc-btn { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; background: #f9f9f9; font-weight: 700; cursor: pointer; text-align: left; margin-top: 5px; }
+        .acc-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-        /* HERO */
-        .hero { height: 70vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: radial-gradient(circle at top right, #fafffa, #fff); }
-        .hero h1 { font-size: clamp(3rem, 10vw, 5rem); font-weight: 800; line-height: 1.1; margin-bottom: 15px; }
-        .hero span { color: var(--primary); text-shadow: 0 10px 20px rgba(118,184,42,0.2); }
-        .btn-main { padding: 20px 50px; background: var(--primary); color: white; border-radius: 50px; text-decoration: none; font-weight: 800; transition: 0.4s; box-shadow: 0 10px 30px rgba(118,184,42,0.3); }
-        .btn-main:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(118,184,42,0.4); }
+        /* HERO & SEKCJE */
+        .hero { height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .hero h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 800; }
+        .hero span { color: var(--primary); }
+        .btn-main { margin-top: 25px; padding: 18px 45px; background: var(--primary); color: white; border-radius: 50px; text-decoration: none; font-weight: 800; }
 
-        /* O MNIE */
-        .about { padding: 100px 5%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 60px; align-items: center; }
-        .about-img-cont { position: relative; }
-        .about img { width: 100%; border-radius: 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.1); transition: 0.5s; }
-        .about img:hover { transform: rotate(-2deg) scale(1.02); }
+        .about { padding: 80px 5%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 50px; align-items: center; }
+        .about img { width: 100%; border-radius: 30px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
 
-        /* GALERIA & OPINIE */
-        .scroll-section { padding: 60px 0; background: var(--gray); overflow: hidden; }
-        .track { display: flex; gap: 25px; animation: scroll 45s linear infinite; width: max-content; }
-        .img-card { width: 350px; height: 350px; border-radius: 25px; overflow: hidden; border: 6px solid white; transition: 0.4s; flex-shrink: 0; }
-        .img-card:hover { transform: scale(1.05) translateY(-10px); z-index: 10; border-color: var(--primary); }
-        .img-card img { width: 100%; height: 100%; object-fit: cover; }
-
-        .dark-section { background: var(--dark); color: white; padding: 80px 0; }
-        .rev-card { width: 380px; background: #1a1a24; padding: 35px; border-radius: 25px; border: 1px solid #2a2a35; transition: 0.3s; }
-        .rev-card:hover { border-color: var(--primary); background: #22222e; }
-
-        /* FORMULARZ */
-        .booking { padding: 100px 5%; max-width: 900px; margin: 0 auto; }
-        .form-box { background: #fff; padding: 50px; border-radius: 40px; box-shadow: 0 30px 70px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; }
-        input, select, textarea { width: 100%; padding: 18px; margin-bottom: 20px; border-radius: 15px; border: 2px solid #f0f0f0; font-family: inherit; font-weight: 600; transition: 0.3s; }
-        input:focus, textarea:focus { border-color: var(--primary); outline: none; background: #fafffa; }
-        .btn-send { width: 100%; padding: 20px; background: var(--dark); color: white; border: none; border-radius: 15px; font-weight: 800; cursor: pointer; transition: 0.3s; }
-        .btn-send:hover { background: var(--primary); transform: translateY(-3px); }
-
-        /* POWIADOMIENIE */
-        #copyModal {
-            position: fixed; top: 25px; right: 25px; background: white; border-left: 5px solid var(--primary); 
-            padding: 20px 30px; border-radius: 15px; display: none; z-index: 999999;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2); font-weight: 700; animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
+        .scroll-container { padding: 50px 0; background: var(--gray); overflow: hidden; }
+        .dark-bg { background: var(--dark); color: white; }
+        .track { display: flex; gap: 20px; animation: scroll 40s linear infinite; width: max-content; }
+        .card { width: 320px; border-radius: 20px; overflow: hidden; flex-shrink: 0; }
+        .rev-card { background: #1a1a24; padding: 30px; border: 1px solid #222; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-        .high-contrast { filter: contrast(1.25) saturate(1.1); }
+        
+        #copyModal { position: fixed; top: 20px; right: 20px; background: white; border-left: 5px solid var(--primary); padding: 15px 25px; border-radius: 12px; display: none; z-index: 99999; box-shadow: 0 10px 30px rgba(0,0,0,0.2); font-weight: 700; }
     </style>
 </head>
 <body id="b" oncontextmenu="return showBlocked(event)">
 
-    <div id="copyModal"><i class="fas fa-lock" style="color:var(--primary); margin-right:12px;"></i> <span id="modalText">Kopiowanie zablokowane</span></div>
+    <div id="copyModal"><i class="fas fa-shield-alt" style="color:var(--primary); margin-right:10px;"></i> <span id="modalText">Kopiowanie zablokowane</span></div>
 
     <nav class="navbar">
-        <div style="font-weight: 900; font-size: 1.6rem; letter-spacing: -1px;">Ela <span style="color:var(--primary)">TM6</span></div>
+        <div style="font-weight: 900; font-size: 1.5rem;">Ela <span style="color:var(--primary)">TM6</span></div>
         <ul class="nav-links">
             <li><a href="#" data-key="nav-home">Home</a></li>
             <li><a href="#o-mnie" data-key="nav-about">O Mnie</a></li>
-            <li><a href="#galeria" data-key="nav-gallery">Galeria</a></li>
             <li><a href="#booking" data-key="nav-contact">Kontakt</a></li>
         </ul>
         <button class="menu-btn" onclick="toggleMenu()" data-key="btn-settings">MENU</button>
         <div class="dropdown" id="m">
-            <h4 data-key="head-view" style="font-size: 12px; color: #999; margin-bottom: 10px;">DOSTOSOWANIE</h4>
-            <button onclick="document.getElementById('b').classList.toggle('high-contrast')" style="width:100%; padding:12px; border:1px solid #eee; border-radius:10px; background:#f9f9f9; font-weight:700; cursor:pointer; display:flex; justify-content:space-between;">
-                <span data-key="opt-contrast">Tryb Kontrastu</span> <span>🌓</span>
-            </button>
-            <hr style="margin: 20px 0; border:0; border-top: 1px solid #eee;">
-            <h4 data-key="head-lang" style="font-size: 12px; color: #999; margin-bottom: 10px;">JĘZYK STRONY</h4>
-            <select onchange="changeLang(this.value)" id="langSelect">
-                <option value="pl">🇵🇱 Polski</option>
-                <option value="en">🇬🇧 English</option>
-                <option value="de">🇩🇪 Deutsch</option>
-                <option value="ru">🇷🇺 Русский</option>
-                <option value="uk">🇺🇦 Українська</option>
-                <option value="cs">🇨🇿 Čeština</option>
-                <option value="sk">🇸🇰 Slovenčina</option>
-                <option value="lt">🇱🇹 Lietuvių</option>
-                <option value="zh">🇨🇳 中文</option>
-            </select>
+            <h4 data-key="head-acc" style="font-size: 11px; color: #999; margin-bottom: 10px;">UDOGODNIENIA</h4>
+            <div class="acc-option"><h5 data-key="acc-epi-h">Tryb epilepsji</h5><button class="acc-btn" onclick="toggleAcc('epilepsy', this)">OFF/ON</button></div>
+            <div class="acc-option"><h5 data-key="acc-vis-h">Tryb niedowidzenia</h5><button class="acc-btn" onclick="toggleAcc('low-vision', this)">OFF/ON</button></div>
+            <div class="acc-option"><h5 data-key="acc-cog-h">Tryb poznawczy</h5><button class="acc-btn" onclick="toggleAcc('cognitive', this)">OFF/ON</button></div>
+            <div class="acc-option"><h5 data-key="acc-adhd-h">Tryb ADHD</h5><button class="acc-btn" onclick="toggleAcc('adhd', this)">OFF/ON</button></div>
+            
+            <h4 data-key="head-lang" style="font-size: 11px; color: #999; margin: 15px 0 5px;">JĘZYK</h4>
+            <select onchange="changeLang(this.value)" id="langSelect" style="width:100%; padding:10px; border-radius:8px; font-weight:700;"></select>
         </div>
     </nav>
 
     <section class="hero">
-        <h1 data-key="hero-title" class="reveal active">Gotuj z <br><span>Pasją</span></h1>
-        <p data-key="hero-sub" class="reveal active">Twoja kuchnia zasługuje na to, co najlepsze. Poznaj TM6.</p>
-        <div class="reveal active" style="margin-top: 30px;">
-            <a href="#booking" class="btn-main" data-key="hero-btn">Umów darmowy pokaz</a>
-        </div>
+        <h1 data-key="hero-title">Gotuj z <span>Pasją</span></h1>
+        <p data-key="hero-sub">Nowoczesna kuchnia z Ela Thermomix.</p>
+        <a href="#booking" class="btn-main" data-key="hero-btn">Darmowy pokaz</a>
     </section>
 
-    <section class="about reveal" id="o-mnie">
-        <div class="about-img-cont">
-            <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800" alt="Ela">
-        </div>
+    <section class="about" id="o-mnie">
+        <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800" alt="Ela">
         <div class="about-text">
-            <h2 data-key="about-title" style="font-size: 2.5rem; margin-bottom: 20px;">Cześć, jestem <span style="color:var(--primary)">Ela</span></h2>
-            <p data-key="about-p1" style="font-size: 1.1rem; color: #555; margin-bottom: 15px;">Od lat pokazuję, jak Thermomix zmienia życie rodzin, oszczędzając czas i dbając o zdrowie.</p>
-            <p data-key="about-p2" style="font-size: 1.1rem; color: #555;">Dopasuję ofertę idealnie pod Twoje potrzeby i nauczę Cię korzystać z urządzenia w 100%.</p>
+            <h2 data-key="about-title">Cześć, jestem <span>Ela</span></h2>
+            <p data-key="about-p1">Twój osobisty doradca w świecie zdrowego gotowania.</p>
         </div>
     </section>
 
-    <div class="scroll-section" id="galeria">
-        <div class="track" id="galleryTrack">
-            <div class="img-card"><img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?w=500"></div>
-            <div class="img-card"><img src="https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?w=500"></div>
-            <div class="img-card"><img src="https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=500"></div>
-            <div class="img-card"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500"></div>
-            <div class="img-card"><img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=500"></div>
-        </div>
-    </div>
-
-    <div class="dark-section">
+    <div class="scroll-container dark-bg">
         <div class="track" id="reviewTrack"></div>
     </div>
-
-    <section class="booking reveal" id="booking">
-        <div class="form-box">
-            <h2 style="text-align:center; margin-bottom:30px; font-size: 2rem;" data-key="form-title">Zacznij Przygodę</h2>
-            <form action="#" method="POST">
-                <input type="text" id="f-name" placeholder="Imię i Nazwisko" required>
-                <input type="tel" id="f-phone" placeholder="Twój numer telefonu" required>
-                <select id="f-type">
-                    <option value="home" data-key="opt-home">Pokaz stacjonarny</option>
-                    <option value="online" data-key="opt-online">Pokaz Online</option>
-                </select>
-                <textarea id="f-msg" rows="4" placeholder="W czym mogę pomóc?"></textarea>
-                <button type="submit" class="btn-send" data-key="form-btn">WYŚLIJ ZAPYTANIE</button>
-            </form>
-        </div>
-    </section>
 
     <script>
         const langData = {
             pl: {
-                "nav-home": "Start", "nav-about": "O Mnie", "nav-gallery": "Inspiracje", "nav-contact": "Kontakt",
-                "btn-settings": "MENU", "head-view": "DOSTOSOWANIE", "opt-contrast": "Tryb Kontrastu", "head-lang": "JĘZYK STRONY",
-                "hero-title": "Gotuj z Pasją", "hero-sub": "Twoja kuchnia zasługuje na to, co najlepsze. Poznaj TM6.", "hero-btn": "Umów darmowy pokaz",
-                "about-title": "Cześć, jestem Ela", "about-p1": "Od lat pokazuję, jak Thermomix zmienia życie rodzin.", "about-p2": "Dopasuję ofertę idealnie pod Twoje potrzeby.",
-                "form-title": "Zacznij Przygodę", "form-btn": "WYŚLIJ ZAPYTANIE", "modal": "Kopiowanie jest zablokowane!",
-                "f-name": "Imię i Nazwisko", "f-phone": "Numer telefonu", "f-msg": "W czym pomóc?", "opt-home": "Pokaz w domu", "opt-online": "Pokaz online",
-                "revs": [{n:"Anna", t:"Najlepszy pokaz na jakim byłam!"}, {n:"Marek", t:"Pełna profeska, polecam Elę."}]
+                "nav-home": "Home", "nav-about": "O Mnie", "nav-contact": "Kontakt", "btn-settings": "MENU",
+                "head-acc": "UDOGODNIENIA", "head-lang": "JĘZYK", "hero-title": "Gotuj z Pasją", "hero-btn": "Darmowy pokaz",
+                "acc-epi-h": "Tryb dla epileptyków", "acc-vis-h": "Tryb dla niedowidzących", "acc-cog-h": "Tryb poznawczy", "acc-adhd-h": "Tryb ADHD",
+                "modal": "Kopiowanie zablokowane", "about-title": "Cześć, jestem Ela", "hero-sub": "Nowoczesna kuchnia z Ela Thermomix.",
+                "langs": { pl: "Polski", en: "Angielski", de: "Niemiecki", ru: "Rosyjski", uk: "Ukraiński", cs: "Czeski", sk: "Słowacki", lt: "Litewski", zh: "Chiński" },
+                "revs": [{n:"Anna", t:"Najlepszy doradca!"}, {n:"Piotr", t:"Polecam pokazy u Eli."}]
             },
             en: {
-                "nav-home": "Home", "nav-about": "About", "nav-gallery": "Gallery", "nav-contact": "Contact",
-                "btn-settings": "MENU", "head-view": "CUSTOMIZE", "opt-contrast": "Contrast Mode", "head-lang": "LANGUAGE",
-                "hero-title": "Cook with Passion", "hero-sub": "Your kitchen deserves the best. Meet TM6.", "hero-btn": "Book a free demo",
-                "about-title": "Hi, I'm Ela", "about-p1": "I've been showing how Thermomix changes lives for years.", "about-p2": "I will tailor the offer perfectly to your needs.",
-                "form-title": "Start Adventure", "form-btn": "SEND REQUEST", "modal": "Copying is disabled!",
-                "f-name": "Full Name", "f-phone": "Phone Number", "f-msg": "How can I help?", "opt-home": "In-home demo", "opt-online": "Online demo",
-                "revs": [{n:"Ann", t:"Best demo ever!"}, {n:"Mark", t:"Highly recommend Ela's service."}]
+                "nav-home": "Home", "nav-about": "About Me", "nav-contact": "Contact", "btn-settings": "MENU",
+                "head-acc": "ACCESSIBILITY", "head-lang": "LANGUAGE", "hero-title": "Cook with Passion", "hero-btn": "Free demo",
+                "acc-epi-h": "Epilepsy Mode", "acc-vis-h": "Low Vision Mode", "acc-cog-h": "Cognitive Mode", "acc-adhd-h": "ADHD Mode",
+                "modal": "Copying is disabled", "about-title": "Hi, I'm Ela", "hero-sub": "Modern kitchen with Ela Thermomix.",
+                "langs": { pl: "Polish", en: "English", de: "German", ru: "Russian", uk: "Ukrainian", cs: "Czech", sk: "Slovak", lt: "Lithuanian", zh: "Chinese" },
+                "revs": [{n:"Ann", t:"Best advisor ever!"}, {n:"Peter", t:"Highly recommend."}]
             },
             de: {
-                "nav-home": "Start", "nav-about": "Über mich", "nav-gallery": "Galerie", "nav-contact": "Kontakt",
-                "btn-settings": "MENÜ", "head-view": "ANPASSEN", "opt-contrast": "Kontrastmodus", "head-lang": "SPRACHE",
-                "hero-title": "Kochen mit Leidenschaft", "hero-sub": "Ihre Küche verdient das Beste. Erleben Sie den TM6.", "hero-btn": "Kostenlose Vorführung",
-                "about-title": "Hallo, ich bin Ela", "about-p1": "Seit Jahren zeige ich, wie der Thermomix das Leben verändert.", "about-p2": "Ich passe das Angebot perfekt an Ihre Bedürfnisse an.",
-                "form-title": "Abenteuer starten", "form-btn": "ANFRAGE SENDEN", "modal": "Kopieren deaktiviert!",
-                "f-name": "Name", "f-phone": "Telefonnummer", "f-msg": "Wie kann ich helfen?", "opt-home": "Vorführung zu Hause", "opt-online": "Online-Vorführung",
-                "revs": [{n:"Karin", t:"Tolle Präsentation!"}, {n:"Hans", t:"Sehr professionell."}]
+                "nav-home": "Start", "nav-about": "Über mich", "nav-contact": "Kontakt", "btn-settings": "MENÜ",
+                "head-acc": "BARRIEREFREIHEIT", "head-lang": "SPRACHE", "hero-title": "Kochen mit Leidenschaft", "hero-btn": "Kostenlose Vorführung",
+                "acc-epi-h": "Epilepsie-Modus", "acc-vis-h": "Sehbehinderten-Modus", "acc-cog-h": "Kognitiver Modus", "acc-adhd-h": "ADHS-Modus",
+                "modal": "Kopieren deaktiviert", "about-title": "Hallo, ich bin Ela", "hero-sub": "Moderne Küche mit Ela Thermomix.",
+                "langs": { pl: "Polnisch", en: "Englisch", de: "Deutsch", ru: "Russisch", uk: "Ukrainisch", cs: "Tschechisch", sk: "Slowakisch", lt: "Litauisch", zh: "Chinesisch" },
+                "revs": [{n:"Karin", t:"Beste Beratung!"}, {n:"Uwe", t:"Sehr empfehlenswert."}]
             },
             ru: {
-                "nav-home": "Главная", "nav-about": "Обо мне", "nav-gallery": "Галерея", "nav-contact": "Контакт",
-                "hero-title": "Готовьте с любовью", "hero-sub": "Ваша кухня заслуживает лучшего. Познакомьтесь с TM6.", "hero-btn": "Записаться на показ",
-                "modal": "Копирование запрещено!", "form-title": "Начать приключение", "form-btn": "ОТПРАВИТЬ",
-                "f-name": "Имя Фамилия", "f-phone": "Телефон", "f-msg": "Чем я могу помочь?", "opt-home": "Показ дома", "opt-online": "Онлайн показ",
-                "revs": [{n:"Иван", t:"Отличный сервис!"}, {n:"Ольга", t:"Рекомендую Элю!"}]
-            },
-            cs: {
-                "nav-home": "Domů", "nav-about": "O mně", "nav-gallery": "Galerie", "nav-contact": "Kontakt",
-                "hero-title": "Vařte s vášní", "hero-sub": "Vaše kuchyně si zaslouží to nejlepší. Poznejte TM6.", "hero-btn": "Ukázka zdarma",
-                "modal": "Kopírování zakázáno!", "form-title": "Začněte dobrodružství", "form-btn": "ODESLAT",
-                "f-name": "Jméno", "f-phone": "Telefon", "f-msg": "Jak mohu pomoci?", "opt-home": "Domácí ukázka", "opt-online": "Online ukázka",
-                "revs": [{n:"Petr", t:"Skvělá zkušenost!"}, {n:"Jana", t:"Doporučuji!"}]
-            },
-            sk: {
-                "nav-home": "Domov", "nav-about": "O mne", "nav-gallery": "Galéria", "nav-contact": "Kontakt",
-                "hero-title": "Varte s vášňou", "hero-sub": "Vaša kuchyňa si zaslúži to najlepšie. Poznajte TM6.", "hero-btn": "Ukážka zdarma",
-                "modal": "Kopírovanie zakázané!", "form-title": "Začnite dobrodružstvo", "form-btn": "ODOSLAŤ",
-                "f-name": "Meno", "f-phone": "Telefón", "f-msg": "Ako môžem pomôcť?", "opt-home": "Domáca ukázka", "opt-online": "Online ukázka",
-                "revs": [{n:"Laco", t:"Výborné!"}, {n:"Mária", t:"Odporúčam všetkým."}]
-            },
-            lt: {
-                "nav-home": "Pradžia", "nav-about": "Apie mane", "nav-gallery": "Galerija", "nav-contact": "Kontaktai",
-                "hero-title": "Gaminkite su aistra", "hero-sub": "Jūsų virtuvė nusipelnė geriausio. Susipažinkite su TM6.", "hero-btn": "Nemokama demonstracija",
-                "modal": "Kopijuoti draudžiama!", "form-title": "Pradėkite nuotykį", "form-btn": "SIŲSTI",
-                "f-name": "Vardas", "f-phone": "Telefonas", "f-msg": "Kaip galiu padėti?", "opt-home": "Demonstracija namuose", "opt-online": "Internetu",
-                "revs": [{n:"Linas", t:"Labai profesionalu!"}, {n:"Rasa", t:"Rekomenduoju!"}]
+                "nav-home": "Главная", "nav-about": "Обо мне", "nav-contact": "Контакт", "btn-settings": "МЕНЮ",
+                "head-acc": "ДОСТУПНОСТЬ", "head-lang": "ЯЗЫК", "hero-title": "Готовьте с любовью", "hero-btn": "Бесплатный показ",
+                "acc-epi-h": "Режим эпилепсии", "acc-vis-h": "Для слабовидящих", "acc-cog-h": "Когнитивный режим", "acc-adhd-h": "Режим СДВГ",
+                "modal": "Копирование запрещено", "about-title": "Привет, я Эля", "hero-sub": "Современная кухня с Ela Thermomix.",
+                "langs": { pl: "Польский", en: "Английский", de: "Немецкий", ru: "Русский", uk: "Украинский", cs: "Чешский", sk: "Словацкий", lt: "Литовский", zh: "Китайский" },
+                "revs": [{n:"Иван", t:"Лучший советник!"}]
             },
             uk: {
-                "nav-home": "Головна", "nav-about": "Про мене", "nav-gallery": "Галерея", "nav-contact": "Контакти",
-                "hero-title": "Готуйте з пристрастю", "hero-sub": "Сучасне приготування починається тут!", "hero-btn": "Записатися на показ",
-                "modal": "Копіювання заборонено!", "form-title": "Забронювати", "form-btn": "ВІДПРАВИТИ",
-                "f-name": "Ім'я", "f-phone": "Телефон", "f-msg": "Чим допомогти?", "opt-home": "Вдома", "opt-online": "Онлайн",
-                "revs": [{n:"Ганна", t:"Дуже смачно!"}, {n:"Олег", t:"Професійно!"}]
+                "nav-home": "Головна", "nav-about": "Про мене", "nav-contact": "Контакт", "btn-settings": "МЕНЮ",
+                "head-acc": "ДОСТУПНІСТЬ", "head-lang": "МОВА", "hero-title": "Готуйте з пристрастю", "hero-btn": "Безкоштовний показ",
+                "acc-epi-h": "Режим епілепсії", "acc-vis-h": "Для слабозорих", "acc-cog-h": "Когнітивний режим", "acc-adhd-h": "Режим СДУГ",
+                "modal": "Копіювання заборонено", "about-title": "Привіт, я Еля", "hero-sub": "Сучасна кухня з Ela Thermomix.",
+                "langs": { pl: "Польська", en: "Англійська", de: "Німецька", ru: "Російська", uk: "Українська", cs: "Чеська", sk: "Словацька", lt: "Литовська", zh: "Китайська" },
+                "revs": [{n:"Олена", t:"Найкращий показ!"}]
+            },
+            cs: {
+                "nav-home": "Domů", "nav-about": "O mně", "nav-contact": "Kontakt", "btn-settings": "MENU",
+                "head-acc": "PŘÍSTUPNOST", "head-lang": "JAZYK", "hero-title": "Vařte s vášní", "hero-btn": "Ukázka zdarma",
+                "acc-epi-h": "Režim epilepsie", "acc-vis-h": "Režim slabozrakosti", "acc-cog-h": "Kognitivní režim", "acc-adhd-h": "Režim ADHD",
+                "modal": "Kopírování zakázáno", "about-title": "Ahoj, já jsem Ela", "hero-sub": "Moderní kuchyně s Ela Thermomix.",
+                "langs": { pl: "Polština", en: "Angličtina", de: "Němčina", ru: "Ruština", uk: "Ukrajinština", cs: "Čeština", sk: "Slovenština", lt: "Litevština", zh: "Čínština" },
+                "revs": [{n:"Jan", t:"Skvělá ukázka!"}]
+            },
+            sk: {
+                "nav-home": "Domov", "nav-about": "O mne", "nav-contact": "Kontakt", "btn-settings": "MENU",
+                "head-acc": "PRÍSTUPNOSŤ", "head-lang": "JAZYK", "hero-title": "Varte s vášňou", "hero-btn": "Ukážka zdarma",
+                "acc-epi-h": "Režim epilepsie", "acc-vis-h": "Režim slabozrakosti", "acc-cog-h": "Kognitívny režim", "acc-adhd-h": "Režim ADHD",
+                "modal": "Kopírovanie zakázané", "about-title": "Ahoj, ja som Ela", "hero-sub": "Moderná kuchyňa s Ela Thermomix.",
+                "langs": { pl: "Poľština", en: "Angličtina", de: "Nemčina", ru: "Ruština", uk: "Ukrajinčina", cs: "Čeština", sk: "Slovenčina", lt: "Litovčina", zh: "Čínština" },
+                "revs": [{n:"Laco", t:"Výborné!"}]
+            },
+            lt: {
+                "nav-home": "Pradžia", "nav-about": "Apie mane", "nav-contact": "Kontaktai", "btn-settings": "MENIU",
+                "head-acc": "PRIEINAMUMAS", "head-lang": "KALBA", "hero-title": "Gaminkite su aistra", "hero-btn": "Nemokama demo",
+                "acc-epi-h": "Epilepsijos režimas", "acc-vis-h": "Silpnaregių režimas", "acc-cog-h": "Kognityvinis režimas", "acc-adhd-h": "ADHD režimas",
+                "modal": "Kopijuoti draudžiama", "about-title": "Labas, aš Ela", "hero-sub": "Šiuolaikinė virtuvė su Ela Thermomix.",
+                "langs": { pl: "Lenkų", en: "Anglų", de: "Vokiečių", ru: "Rusų", uk: "Ukrainiečių", cs: "Čekų", sk: "Slovakų", lt: "Lietuvių", zh: "Kinų" },
+                "revs": [{n:"Rasa", t:"Nuostabu!"}]
             },
             zh: {
-                "nav-home": "首页", "nav-about": "关于我", "nav-gallery": "相册", "nav-contact": "联系",
-                "hero-title": "激情烹饪", "hero-sub": "您的厨房值得最好的。遇见 TM6。", "hero-btn": "预约演示",
-                "modal": "禁止复制!", "form-title": "开启旅程", "form-btn": "提交",
-                "f-name": "姓名", "f-phone": "电话", "f-msg": "我能帮什么忙？", "opt-home": "上门演示", "opt-online": "在线演示",
-                "revs": [{n:"小明", t:"非常棒的演示！"}, {n:"小红", t:"强烈推荐 Ela。"}]
+                "nav-home": "首页", "nav-about": "关于我", "nav-contact": "联系", "btn-settings": "菜单",
+                "head-acc": "无障碍", "head-lang": "语言", "hero-title": "激情烹饪", "hero-btn": "免费演示",
+                "acc-epi-h": "癫痫模式", "acc-vis-h": "低视力模式", "acc-cog-h": "认知模式", "acc-adhd-h": "多动症模式",
+                "modal": "禁止复制", "about-title": "你好，我是 Ela", "hero-sub": "Ela Thermomix 现代厨房。",
+                "langs": { pl: "波兰语", en: "英语", de: "德语", ru: "俄语", uk: "乌克兰语", cs: "捷克语", sk: "斯洛伐克语", lt: "立陶宛语", zh: "中文" },
+                "revs": [{n:"小王", t:"非常好的演示！"}]
             }
         };
 
         function toggleMenu() { document.getElementById('m').classList.toggle('active'); }
+        function toggleAcc(cls, btn) { document.body.classList.toggle(cls); btn.classList.toggle('active'); }
 
         function renderReviews(lang) {
-            const rt = document.getElementById('reviewTrack');
-            rt.innerHTML = '';
-            const reviews = langData[lang].revs || langData['pl'].revs;
-            [...reviews, ...reviews, ...reviews, ...reviews].forEach(o => {
+            const rt = document.getElementById('reviewTrack'); rt.innerHTML = '';
+            const data = langData[lang] || langData['pl'];
+            [...data.revs, ...data.revs, ...data.revs].forEach(o => {
                 const c = document.createElement('div');
-                c.className = 'rev-card';
-                c.innerHTML = `<div style="display:flex;align-items:center;gap:15px;margin-bottom:15px;"><img src="https://ui-avatars.com/api/?name=${o.n}&background=76b82a&color=fff" style="width:45px;border-radius:50%;"><strong>${o.n}</strong></div><p style="color:#aaa;font-style:italic;">"${o.t}"</p>`;
+                c.className = 'card rev-card';
+                c.innerHTML = `<strong>${o.n}</strong><p style="color:#aaa;margin-top:10px;">"${o.t}"</p>`;
                 rt.appendChild(c);
             });
         }
 
         function changeLang(lang) {
+            const data = langData[lang] || langData['pl'];
             document.querySelectorAll('[data-key]').forEach(el => {
                 const key = el.getAttribute('data-key');
-                if (langData[lang][key]) el.textContent = langData[lang][key];
+                if (data[key]) el.textContent = data[key];
             });
-            document.getElementById('f-name').placeholder = langData[lang]['f-name'];
-            document.getElementById('f-phone').placeholder = langData[lang]['f-phone'];
-            document.getElementById('f-msg').placeholder = langData[lang]['f-msg'];
-            document.getElementById('modalText').textContent = langData[lang]['modal'];
+            document.getElementById('modalText').textContent = data['modal'];
+            updateLangList(lang);
             renderReviews(lang);
+        }
+
+        function updateLangList(currentLang) {
+            const select = document.getElementById('langSelect');
+            const names = langData[currentLang].langs;
+            select.innerHTML = '';
+            Object.keys(names).forEach(key => {
+                const opt = document.createElement('option');
+                opt.value = key; opt.textContent = names[key];
+                opt.selected = (key === currentLang);
+                select.appendChild(opt);
+            });
         }
 
         function showBlocked(e) {
             e.preventDefault();
-            const modal = document.getElementById('copyModal');
-            modal.style.display = 'block';
-            setTimeout(() => { modal.style.display = 'none'; }, 2500);
+            const m = document.getElementById('copyModal');
+            m.style.display = 'block'; setTimeout(() => m.style.display = 'none', 2500);
             return false;
         }
 
-        // ANIMACJA PRZY PRZEWIJANIU
-        window.addEventListener('scroll', () => {
-            document.querySelectorAll('.reveal').forEach(el => {
-                if (el.getBoundingClientRect().top < window.innerHeight - 100) el.classList.add('active');
-            });
-        });
-
-        const gt = document.getElementById('galleryTrack'); gt.innerHTML += gt.innerHTML;
-        renderReviews('pl');
+        // INIT
+        updateLangList('pl'); renderReviews('pl');
     </script>
 </body>
 </html>
