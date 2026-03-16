@@ -14,154 +14,125 @@
             --light: #ffffff; 
             --gray: #f8f9fa;
             --glass: rgba(255, 255, 255, 0.8);
-            --cog-bg: #eef2f5;
-            --cog-text: #444;
         }
         
         * { margin:0; padding:0; box-sizing:border-box; scroll-behavior: smooth; user-select: none; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--light); color: #333; line-height: 1.6; overflow-x: hidden; transition: 0.3s; }
 
-        /* --- ZAAVANSOWANE TRYBY DOSTĘPNOŚCI (JS) --- */
-        body.high-contrast { filter: contrast(1.3) brightness(1.1); }
+        /* --- TRYBY DOSTĘPNOŚCI --- */
+        body.high-contrast { filter: contrast(1.4) brightness(1.1); }
         body.reduced-motion * { animation: none !important; transition: none !important; }
-        body.cognitive { background: var(--cog-bg) !important; color: var(--cog-text) !important; letter-spacing: 1px; }
-        body.cognitive .section-title, body.cognitive .navbar, body.cognitive .dropdown { background: #fff !important; color: #000 !important; }
-        body.cognitive .scroll-container { display: none; } /* Redukcja rozpraszaczy */
         body.text-scale { font-size: 1.25rem; }
-        body.blind { border: 5px solid blue; }
-        body.blind * { outline: 1px solid blue; }
+        body.cognitive { background: #eef2f5 !important; letter-spacing: 0.5px; }
+        body.cognitive .img-card, body.cognitive .hero-glow-cont { display: none; }
 
-        /* ANIMACJE WEJŚCIA */
         .reveal { opacity: 0; transform: translateY(50px); transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-15px); } }
-        @keyframes rotateGlow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        /* NAWIGACJA PREMIUM */
-        .navbar { position: sticky; top: 0; background: var(--glass); display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05); backdrop-filter: blur(15px); transition: 0.3s; }
+        /* NAWIGACJA */
+        .navbar { position: sticky; top: 0; background: var(--glass); display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05); backdrop-filter: blur(15px); }
         .nav-links { display: flex; gap: 30px; list-style: none; }
-        .nav-links a { text-decoration: none; color: #333; font-weight: 700; font-size: 0.9rem; transition: 0.3s; position: relative; }
-        .nav-links a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -5px; left: 0; background: var(--primary); transition: 0.3s; }
-        .nav-links a:hover::after { width: 100%; }
+        .nav-links a { text-decoration: none; color: #333; font-weight: 700; font-size: 0.9rem; transition: 0.3s; }
+        .nav-links a:hover { color: var(--primary); }
 
-        /* MENU PERSONALIZACJI */
-        .menu-btn { background: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 12px; cursor: pointer; font-weight: 800; transition: 0.3s; box-shadow: 0 4px 15px rgba(118,184,42,0.3); }
-        .menu-btn:hover { background: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(118,184,42,0.4); }
+        .menu-btn { background: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 12px; cursor: pointer; font-weight: 800; transition: 0.3s; }
         
-        .dropdown { position: absolute; top: 80px; right: 5%; background: white; width: 320px; padding: 25px; border-radius: 25px; box-shadow: 0 25px 60px rgba(0,0,0,0.2); display: none; border: 1px solid rgba(0,0,0,0.05); z-index: 2000; transform-origin: top right; transition: 0.3s; }
+        /* ROZBUDOWANE MENU DROPDOWN */
+        .dropdown { 
+            position: absolute; top: 80px; right: 5%; background: white; width: 320px; 
+            padding: 25px; border-radius: 25px; box-shadow: 0 25px 60px rgba(0,0,0,0.2); 
+            display: none; border: 1px solid rgba(0,0,0,0.05); z-index: 2000; transform-origin: top right;
+        }
         .dropdown.active { display: block; animation: zoomIn 0.3s ease forwards; }
-        .dropdown hr { margin: 20px 0; border:0; border-top: 1px solid #eee; }
-
-        .acc-option { margin-bottom: 12px; }
-        .acc-option-desc { font-size: 12px; color: #777; margin-top: -3px; margin-bottom: 8px; font-weight: 500;}
-        .acc-btn { width: 100%; padding: 12px; border: 1px solid #f0f0f0; border-radius: 15px; background: #fff; font-weight: 800; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.2s; }
-        .acc-btn:hover { background: #f9f9f9; }
-        .acc-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
-        .acc-btn.active i { color: white !important; }
-
-        /* HERO - LUKSUSOWY ZIELONY PRZEBŁYSK */
-        .hero { height: 85vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: radial-gradient(circle at center, #fff 0%, #fff 100%); position: relative; overflow: hidden; }
         
-        /* Zielony efekt tła */
-        .hero-glow-cont { position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: -1; filter: blur(100px); }
-        .hero-glow-blob { position: absolute; background: radial-gradient(circle, rgba(118,184,42,0.3) 0%, rgba(118,184,42,0) 70%); border-radius: 50%; width: 600px; height: 600px; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; animation: rotateGlow 20s linear infinite; }
+        .menu-group-title { font-size: 11px; color: #aaa; margin-bottom: 15px; letter-spacing: 2px; text-transform: uppercase; font-weight: 800; }
+        .acc-option { width: 100%; padding: 14px; border: 1px solid #f0f0f0; border-radius: 15px; background: #fff; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; transition: 0.2s; font-family: inherit; }
+        .acc-option:hover { background: #f9f9f9; border-color: var(--primary); }
+        .acc-option.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .acc-option i { color: var(--primary); }
+        .acc-option.active i { color: white; }
 
-        .hero h1 { font-size: clamp(3.5rem, 12vw, 6rem); font-weight: 800; line-height: 1; margin-bottom: 20px; letter-spacing: -2px; z-index: 10; }
-        .hero h1 .pasja-glow { background: linear-gradient(135deg, var(--primary), #a2d94c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 15px rgba(118,184,42,0.5)); }
-        .btn-main { padding: 22px 60px; background: var(--primary); color: white; border-radius: 50px; text-decoration: none; font-weight: 800; transition: 0.5s; box-shadow: 0 15px 35px rgba(118,184,42,0.4); animation: float 4s ease-in-out infinite; }
-        .btn-main:hover { transform: scale(1.1) rotate(1deg); box-shadow: 0 20px 45px rgba(118,184,42,0.5); }
+        select { width: 100%; padding: 14px; border-radius: 15px; border: 1px solid #f0f0f0; background: #f9f9f9; font-weight: 700; cursor: pointer; font-family: inherit; }
 
-        /* O MNIE */
-        .about { padding: 120px 5%; max-width: 1300px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 80px; align-items: center; }
-        .about-img-cont { position: relative; perspective: 1000px; }
-        .about img { width: 100%; border-radius: 50px; box-shadow: 0 30px 80px rgba(0,0,0,0.15); transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1); }
-        .about-img-cont:hover img { transform: rotateY(-10deg) rotateX(5deg); }
+        /* HERO & GLOW */
+        .hero { height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; overflow: hidden; }
+        .hero-glow-cont { position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: -1; filter: blur(80px); }
+        .hero-glow-blob { position: absolute; background: radial-gradient(circle, rgba(118,184,42,0.25) 0%, rgba(118,184,42,0) 70%); border-radius: 50%; width: 500px; height: 500px; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; transition: 0.1s; }
+        .hero h1 { font-size: clamp(3.5rem, 10vw, 5.5rem); font-weight: 800; line-height: 1.1; margin-bottom: 20px; }
+        .hero h1 span { color: var(--primary); filter: drop-shadow(0 0 10px rgba(118,184,42,0.3)); }
+        .btn-main { padding: 20px 50px; background: var(--primary); color: white; border-radius: 50px; text-decoration: none; font-weight: 800; transition: 0.4s; box-shadow: 0 10px 30px rgba(118,184,42,0.3); }
 
-        /* GALERIA - SZYBKA KARUZELA */
-        .scroll-section { padding: 80px 0; background: #fff; overflow: hidden; }
-        .track { display: flex; gap: 30px; animation: scroll 40s linear infinite; width: max-content; }
-        .img-card { width: 400px; height: 450px; border-radius: 35px; overflow: hidden; transition: 0.5s; position: relative; flex-shrink: 0; }
-        .img-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.8s; }
-        .img-card:hover img { transform: scale(1.1); filter: brightness(0.8); }
+        /* SEKCJE */
+        .about { padding: 100px 5%; display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 60px; align-items: center; max-width: 1200px; margin: 0 auto; }
+        .about img { width: 100%; border-radius: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
+        
+        .scroll-section { padding: 60px 0; overflow: hidden; }
+        .track { display: flex; gap: 25px; animation: scroll 40s linear infinite; width: max-content; }
+        .img-card { width: 350px; height: 400px; border-radius: 30px; overflow: hidden; border: 4px solid white; flex-shrink: 0; }
+        .img-card img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* OPINIE - DARK MODE PREMIUM */
-        .dark-section { background: var(--dark); color: white; padding: 100px 0; }
-        .rev-card { width: 420px; background: rgba(255,255,255,0.03); padding: 40px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); transition: 0.4s; flex-shrink: 0; }
-        .rev-card:hover { transform: translateY(-15px); background: rgba(255,255,255,0.07); border-color: var(--primary); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+        .dark-section { background: var(--dark); color: white; padding: 80px 0; }
+        .rev-card { width: 380px; background: #1a1a24; padding: 35px; border-radius: 25px; flex-shrink: 0; border: 1px solid #2a2a35; }
 
         /* FORMULARZ */
-        .booking { padding: 120px 5%; background: linear-gradient(180deg, #fff 0%, #f4f9f4 100%); }
-        .form-box { background: #fff; padding: 60px; border-radius: 50px; box-shadow: 0 40px 100px rgba(0,0,0,0.08); border: 1px solid rgba(118,184,42,0.1); max-width: 800px; margin: 0 auto; transition: 0.5s; }
-        input, select, textarea { width: 100%; padding: 20px; margin-bottom: 25px; border-radius: 20px; border: 2px solid #f0f0f0; background: #fafafa; font-weight: 600; transition: 0.3s; }
-        input:focus { border-color: var(--primary); background: #fff; box-shadow: 0 0 20px rgba(118,184,42,0.1); outline: none; }
-        .btn-send { width: 100%; padding: 22px; background: var(--dark); color: white; border: none; border-radius: 20px; font-weight: 800; cursor: pointer; transition: 0.4s; letter-spacing: 1px; }
-        .btn-send:hover { background: var(--primary); transform: translateY(-5px); box-shadow: 0 15px 30px rgba(118,184,42,0.3); }
+        .booking { padding: 100px 5%; max-width: 850px; margin: 0 auto; }
+        .form-box { background: #fff; padding: 50px; border-radius: 40px; box-shadow: 0 30px 70px rgba(0,0,0,0.05); }
+        input, select, textarea { width: 100%; padding: 18px; margin-bottom: 20px; border-radius: 15px; border: 2px solid #f0f0f0; font-family: inherit; font-weight: 600; }
+        .btn-send { width: 100%; padding: 20px; background: var(--dark); color: white; border: none; border-radius: 15px; font-weight: 800; cursor: pointer; transition: 0.3s; }
 
-        /* MODAL ZABEZPIECZENIA */
-        #copyModal { position: fixed; top: 30px; right: 30px; background: white; border-left: 8px solid var(--primary); padding: 25px 40px; border-radius: 20px; display: none; z-index: 999999; box-shadow: 0 20px 50px rgba(0,0,0,0.25); font-weight: 800; animation: slideIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+        /* FOOTER PREMIUM */
+        .footer-premium { background: #09090b; color: white; padding: 80px 5% 40px; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; }
+        .footer-brand h2 { font-size: 1.8rem; margin-bottom: 15px; }
+        .footer-brand p { color: #666; margin-bottom: 20px; font-size: 0.9rem; }
+        .footer-col h4 { font-size: 0.75rem; text-transform: uppercase; color: #444; margin-bottom: 20px; letter-spacing: 1px; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 10px; }
+        .footer-col ul li a { color: #888; text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
+        .footer-col ul li a:hover { color: white; }
+        .footer-bottom { background: #09090b; padding: 25px 5%; border-top: 1px solid #1a1a1a; color: #333; font-size: 0.75rem; text-align: left; }
 
-        @keyframes zoomIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        #copyModal { position: fixed; top: 25px; right: 25px; background: white; border-left: 5px solid var(--primary); padding: 20px 30px; border-radius: 15px; display: none; z-index: 9999; box-shadow: 0 15px 40px rgba(0,0,0,0.2); font-weight: 700; }
+
         @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-        @keyframes slideIn { from { transform: translateX(120%); } to { transform: translateX(0); } }
-        
+        @keyframes zoomIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
     </style>
 </head>
 <body id="b" oncontextmenu="return showBlocked(event)">
 
-    <div id="copyModal"><i class="fas fa-shield-alt" style="color:var(--primary); margin-right:15px;"></i> <span id="modalText">System zabezpieczony</span></div>
+    <div id="copyModal"><i class="fas fa-lock" style="color:var(--primary); margin-right:12px;"></i> <span id="modalText">Kopiowanie zablokowane</span></div>
 
     <nav class="navbar">
-        <div style="font-weight: 900; font-size: 1.8rem; letter-spacing: -1.5px;">Ela <span style="color:var(--primary)">TM6</span></div>
+        <div style="font-weight: 900; font-size: 1.6rem; letter-spacing: -1px;">Ela <span style="color:var(--primary)">TM6</span></div>
         <ul class="nav-links">
             <li><a href="#" data-key="nav-home">Home</a></li>
             <li><a href="#o-mnie" data-key="nav-about">O Mnie</a></li>
-            <li><a href="#galeria" data-key="nav-gallery">Inspiracje</a></li>
+            <li><a href="#galeria" data-key="nav-gallery">Galeria</a></li>
             <li><a href="#booking" data-key="nav-contact">Kontakt</a></li>
         </ul>
-        <button class="menu-btn" onclick="toggleMenu()" data-key="btn-settings">PERSONALIZACJA</button>
+        <button class="menu-btn" onclick="toggleMenu()" data-key="btn-settings">MENU</button>
+        
         <div class="dropdown" id="m">
-            <h4 data-key="head-view" style="font-size: 11px; color: #aaa; margin-bottom: 15px; letter-spacing: 2px;">USTAWIENIA WIDOKU</h4>
+            <h4 class="menu-group-title" data-key="head-view">Personalizacja</h4>
             
-            <div class="acc-option">
-                <button class="acc-btn" onclick="document.getElementById('b').classList.toggle('high-contrast'); this.classList.toggle('active')">
-                    <span data-key="opt-contrast">Tryb Kontrastu</span> <i class="fas fa-adjust" style="color:var(--primary)"></i>
-                </button>
-                <p class="acc-option-desc">Zwiększa kontrast dla lepszej czytelności.</p>
-            </div>
-
-            <div class="acc-option">
-                <button class="acc-btn" onclick="toggleAcc('reduced-motion', this)">
-                    <span data-key="opt-adhd">Redukcja Ruchu (ADHD)</span> <i class="fas fa-eye-slash" style="color:var(--primary)"></i>
-                </button>
-                <p class="acc-option-desc">Zatrzymuje karuzele i ogranicza animacje.</p>
-            </div>
-
-            <div class="acc-option">
-                <button class="acc-btn" onclick="toggleAcc('text-scale', this)">
-                    <span data-key="opt-scale">Skala Tekstu</span> <i class="fas fa-search-plus" style="color:var(--primary)"></i>
-                </button>
-                <p class="acc-option-desc">Zwiększa rozmiar czcionek na całej stronie.</p>
-            </div>
-
-            <div class="acc-option">
-                <button class="acc-btn" onclick="toggleAcc('cognitive', this)">
-                    <span data-key="opt-cog">Tryb Poznawczy</span> <i class="fas fa-brain" style="color:var(--primary)"></i>
-                </button>
-                <p class="acc-option-desc">Upraszcza widok i usuwa rozpraszacze.</p>
-            </div>
+            <button class="acc-option" onclick="toggleAcc('high-contrast', this)">
+                <span data-key="opt-contrast">Wysoki Kontrast</span> <i class="fas fa-adjust"></i>
+            </button>
+            <button class="acc-option" onclick="toggleAcc('reduced-motion', this)">
+                <span data-key="opt-adhd">Redukcja Ruchu (ADHD)</span> <i class="fas fa-eye-slash"></i>
+            </button>
+            <button class="acc-option" onclick="toggleAcc('text-scale', this)">
+                <span data-key="opt-scale">Powiększenie Tekstu</span> <i class="fas fa-search-plus"></i>
+            </button>
+            <button class="acc-option" onclick="toggleAcc('cognitive', this)">
+                <span data-key="opt-cog">Tryb Poznawczy</span> <i class="fas fa-brain"></i>
+            </button>
 
             <hr>
-            <h4 data-key="head-lang" style="font-size: 11px; color: #aaa; margin-bottom: 15px; letter-spacing: 2px;">WYBÓR JĘZYKA</h4>
+            <h4 class="menu-group-title" data-key="head-lang">Język</h4>
             <select onchange="changeLang(this.value)" id="langSelect">
                 <option value="pl">🇵🇱 Polski</option>
                 <option value="en">🇬🇧 English</option>
                 <option value="de">🇩🇪 Deutsch</option>
-                <option value="ru">🇷🇺 Русский</option>
-                <option value="uk">🇺🇦 Українська</option>
-                <option value="cs">🇨🇿 Čeština</option>
-                <option value="sk">🇸🇰 Slovenčina</option>
-                <option value="lt">🇱🇹 Lietuvių</option>
                 <option value="zh">🇨🇳 中文</option>
             </select>
         </div>
@@ -169,57 +140,81 @@
 
     <section class="hero">
         <div class="hero-glow-cont"><div class="hero-glow-blob" id="mouseGlow"></div></div>
-        <h1 data-key="hero-title" class="reveal active">Gotuj z <br><span class="pasja-glow">Pasją</span></h1>
-        <p data-key="hero-sub" class="reveal active" style="font-size: 1.4rem; color: #666; max-width: 600px;">Twoja kuchnia zasługuje na to, co najlepsze. Poznaj moc TM6.</p>
-        <div class="reveal active" style="margin-top: 45px; z-index: 10;">
+        <h1 data-key="hero-title" class="reveal active">Gotuj z <br><span>Pasją</span></h1>
+        <p data-key="hero-sub" class="reveal active">Najlepszy doradca Thermomix w Twoim regionie.</p>
+        <div class="reveal active" style="margin-top: 35px;">
             <a href="#booking" class="btn-main" data-key="hero-btn">Umów darmowy pokaz</a>
         </div>
     </section>
 
     <section class="about reveal" id="o-mnie">
-        <div class="about-img-cont">
-            <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800" alt="Ela">
-        </div>
+        <div><img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800" alt="Ela"></div>
         <div class="about-text">
-            <h2 data-key="about-title" style="font-size: 3.5rem; margin-bottom: 30px; letter-spacing: -2px;">Poznaj <span style="color:var(--primary)">Elę</span></h2>
-            <p data-key="about-p1" style="font-size: 1.25rem; color: #444; margin-bottom: 20px; font-weight: 500;">Jako ekspertka Thermomix, zamieniam codzienne gotowanie w kulinarną przygodę.</p>
-            <p data-key="about-p2" style="font-size: 1.1rem; color: #777; line-height: 1.8;">Z moją pomocą nie tylko kupisz urządzenie, ale staniesz się mistrzem swojej kuchni. Oferuję pełne wsparcie posprzedażowe i naukę trików, których nie ma w instrukcji.</p>
+            <h2 data-key="about-title" style="font-size: 3rem; margin-bottom: 20px;">Cześć, jestem <span style="color:var(--primary)">Ela</span></h2>
+            <p data-key="about-p1" style="font-size: 1.2rem; color: #555; margin-bottom: 20px;">Pomagam rodzinom odkryć radość z gotowania dzięki TM6.</p>
+            <p data-key="about-p2" style="color: #777;">Zapewniam pełną opiekę, od zakupu po wspólne gotowanie online.</p>
         </div>
     </section>
 
     <div class="scroll-section" id="galeria">
         <div class="track" id="galleryTrack">
-            <div class="img-card"><img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?w=600"></div>
-            <div class="img-card"><img src="https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?w=600"></div>
-            <div class="img-card"><img src="https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=600"></div>
-            <div class="img-card"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600"></div>
-            <div class="img-card"><img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=600"></div>
+            <div class="img-card"><img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?w=500"></div>
+            <div class="img-card"><img src="https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?w=500"></div>
+            <div class="img-card"><img src="https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=500"></div>
+            <div class="img-card"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500"></div>
         </div>
     </div>
 
-    <div class="dark-section">
-        <div class="track" id="reviewTrack"></div>
-    </div>
+    <div class="dark-section"><div class="track" id="reviewTrack"></div></div>
 
     <section class="booking reveal" id="booking">
         <div class="form-box">
-            <h2 style="text-align:center; margin-bottom:40px; font-size: 2.5rem; letter-spacing: -1px;" data-key="form-title">Umów Prezentację</h2>
+            <h2 style="text-align:center; margin-bottom:35px; font-size: 2.2rem;" data-key="form-title">Umów Prezentację</h2>
             <form action="https://formspree.io/f/pizzaigas1@gmail.com" method="POST">
-                <input type="text" name="name" id="f-name" placeholder="Imię i Nazwisko" required>
-                <input type="tel" name="phone" id="f-phone" placeholder="Twój numer telefonu" required>
-                <select name="type" id="f-type">
-                    <option value="home" data-key="opt-home">Pokaz stacjonarny w Twoim domu</option>
-                    <option value="online" data-key="opt-online">Pokaz interaktywny Online</option>
+                <input type="text" name="name" placeholder="Imię i Nazwisko" required>
+                <input type="tel" name="phone" placeholder="Numer telefonu" required>
+                <select name="type">
+                    <option value="home">Pokaz w domu</option>
+                    <option value="online">Pokaz online</option>
                 </select>
-                <textarea name="message" id="f-msg" rows="5" placeholder="W czym mogę Ci pomóc?"></textarea>
-                <button type="submit" class="btn-send" data-key="form-btn">WYŚLIJ ZGŁOSZENIE DO ELI</button>
+                <textarea name="message" rows="4" placeholder="Twoja wiadomość..."></textarea>
+                <button type="submit" class="btn-send" data-key="form-btn">WYŚLIJ ZAPYTANIE</button>
             </form>
         </div>
     </section>
 
-    <footer style="padding: 60px 5%; text-align: center; color: #777; background: #fff; font-size: 0.9rem;">
-        &copy; 2026 Ela Thermomix. Design by <span style="color:var(--dark); font-weight:800; letter-spacing: -0.5px;">Igor król 120</span> | Made for Premium Sales.
+    <footer class="footer-premium">
+        <div class="footer-brand">
+            <h2>Ela <span style="color:var(--primary)">TM6</span></h2>
+            <p>Twoja kuchnia, Twoje zasady, mój Thermomix.</p>
+            <a href="mailto:pizzaigas1@gmail.com" style="color:white; font-weight:800; text-decoration:none;">pizzaigas1@gmail.com <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="footer-col">
+            <h4>Menu</h4>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#o-mnie">O mnie</a></li>
+                <li><a href="#galeria">Inspiracje</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Sociale</h4>
+            <ul>
+                <li><a href="#">Instagram</a></li>
+                <li><a href="#">TikTok</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Wsparcie</h4>
+            <ul>
+                <li><a href="#">Kontakt</a></li>
+                <li><a href="#">Pomoc</a></li>
+            </ul>
+        </div>
     </footer>
+    <div class="footer-bottom">
+        &copy; 2026 Ela Thermomix | Design by <b>Igor król 120</b>
+    </div>
 
     <script>
         const langData = {
@@ -293,22 +288,9 @@
                 "revs": [{n:"小明", t:"非常棒的演示！"}, {n:"小红", t:"强烈推荐 Ela。"}]
             }
         };
-
+        
         function toggleMenu() { document.getElementById('m').classList.toggle('active'); }
         function toggleAcc(cls, btn) { document.body.classList.toggle(cls); btn.classList.toggle('active'); }
-
-        function renderReviews(lang) {
-            const rt = document.getElementById('reviewTrack');
-            rt.innerHTML = '';
-            const data = langData[lang] || langData['pl'];
-            const reviews = data.revs || langData['pl'].revs;
-            [...reviews, ...reviews, ...reviews, ...reviews].forEach(o => {
-                const c = document.createElement('div');
-                c.className = 'rev-card';
-                c.innerHTML = `<div style="display:flex;align-items:center;gap:20px;margin-bottom:20px;"><img src="https://ui-avatars.com/api/?name=${o.n}&background=76b82a&color=fff&size=128" style="width:60px;border-radius:50%; box-shadow: 0 5px 15px rgba(118,184,42,0.3);"><strong>${o.n}</strong></div><p style="color:#ccc;font-size:1.05rem;line-height:1.6;">"${o.t}"</p>`;
-                rt.appendChild(c);
-            });
-        }
 
         function changeLang(lang) {
             const data = langData[lang] || langData['pl'];
@@ -316,46 +298,34 @@
                 const key = el.getAttribute('data-key');
                 if (data[key]) el.textContent = data[key];
             });
-            document.getElementById('f-name').placeholder = data['f-name'] || "Full Name";
-            document.getElementById('f-phone').placeholder = data['f-phone'] || "Phone";
-            document.getElementById('f-msg').placeholder = data['f-msg'] || "Message?";
-            document.getElementById('modalText').textContent = data['modal'] || "Protected";
             renderReviews(lang);
         }
 
-        function showBlocked(e) {
-            e.preventDefault();
-            const modal = document.getElementById('copyModal');
-            modal.style.display = 'block';
-            setTimeout(() => { modal.style.display = 'none'; }, 2500);
-            return false;
+        function renderReviews(lang) {
+            const rt = document.getElementById('reviewTrack'); rt.innerHTML = '';
+            const data = langData[lang] || langData['pl'];
+            [...data.revs, ...data.revs, ...data.revs].forEach(o => {
+                const c = document.createElement('div'); c.className = 'rev-card';
+                c.innerHTML = `<strong>${o.n}</strong><p style="color:#aaa; font-style:italic; margin-top:10px;">"${o.t}"</p>`;
+                rt.appendChild(c);
+            });
         }
 
-        // --- INTERAKTYWNY PRZEBŁYSK MYSZY (PREMIUM) ---
         const glowBlob = document.getElementById('mouseGlow');
         document.addEventListener('mousemove', (e) => {
-            const hero = document.querySelector('.hero');
-            if (e.target.closest('.hero')) {
-                const rect = hero.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                glowBlob.style.left = `${x}px`;
-                glowBlob.style.top = `${y}px`;
-                glowBlob.style.opacity = '1';
-            } else { glowBlob.style.opacity = '0'; }
+            const rect = document.querySelector('.hero').getBoundingClientRect();
+            glowBlob.style.left = `${e.clientX - rect.left}px`;
+            glowBlob.style.top = `${e.clientY - rect.top}px`;
         });
 
-        // SCROLL REVEAL
+        function showBlocked(e) { e.preventDefault(); const m = document.getElementById('copyModal'); m.style.display='block'; setTimeout(()=>m.style.display='none', 2000); return false; }
+
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('active');
-            });
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
         }, { threshold: 0.1 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // GALLERY TRACK DUPLICATION
-        const gt = document.getElementById('galleryTrack'); gt.innerHTML += gt.innerHTML; 
-
+        const gt = document.getElementById('galleryTrack'); gt.innerHTML += gt.innerHTML;
         renderReviews('pl');
     </script>
 </body>
