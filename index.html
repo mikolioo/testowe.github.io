@@ -1,82 +1,109 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ela - Doradca Thermomix</title>
-<link rel="stylesheet" href="styles.css">
-<script defer src="script.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ela - Autoryzowany Doradca Thermomix | Pokazy i Sprzedaż</title>
+    <meta name="description" content="Umów się na pokaz Thermomix u Eli. Nowoczesne gotowanie, prezentacje online i domowe. Sprawdź ofertę!">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
 
-<header>
-<div class="container">
-<h1>Ela | Doradca Thermomix</h1>
-<nav>
-<a href="#about">O mnie</a>
-<a href="#gallery">Galeria</a>
-<a href="#opinie">Opinie</a>
-<a href="#kontakt">Kontakt</a>
-</nav>
-</div>
-</header>
+    <a href="https://wa.me/48123456789" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
-<section class="hero">
-<div class="hero-content">
-<h2>Pokazy i sprzedaż Thermomix</h2>
-<p>Zobacz jak Thermomix może zmienić Twoje gotowanie.</p>
-<a class="btn" href="#kontakt">Umów prezentację</a>
-</div>
-</section>
+    <nav class="navbar">
+        <div class="logo">Ela<span>Thermomix</span></div>
+        <ul class="nav-links">
+            <li><a href="#hero">Start</a></li>
+            <li><a href="#about">O mnie</a></li>
+            <li><a href="#gallery">Galeria</a></li>
+            <li><a href="#contact">Kontakt</a></li>
+        </ul>
+    </nav>
 
-<section id="about" class="section">
-<h2>O mnie</h2>
-<p>
-Nazywam się Ela i jestem doradcą Thermomix. Organizuję prezentacje,
-pokazuję funkcje urządzenia oraz pomagam rozpocząć przygodę z gotowaniem
-z Thermomix.
-</p>
-</section>
+    <section id="hero" class="hero">
+        <div class="hero-content" data-aos="fade-up">
+            <h1>Pokazy i sprzedaż Thermomix</h1>
+            <p>Odkryj nową erę gotowania w Twojej kuchni z moją pomocą.</p>
+            <a href="#booking" class="btn-primary">Umów prezentację</a>
+        </div>
+    </section>
 
-<section id="gallery" class="section">
-<h2>Galeria</h2>
-<div class="gallery">
-<img src="images/1.jpg">
-<img src="images/2.jpg">
-<img src="images/3.jpg">
-</div>
-</section>
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-card" data-aos="fade-right">
+                <div class="about-img">
+                    <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=600" alt="Ela Doradca Thermomix">
+                </div>
+                <div class="about-text">
+                    <h2>Cześć, jestem Ela!</h2>
+                    <p>Moją misją jest ułatwianie życia w kuchni. Jako doradca Thermomix, pomagam dobrać najlepsze rozwiązania dla Twojej rodziny. Razem wyczarujemy dania, o których Ci się nie śniło!</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<section id="opinie" class="section">
-<h2>Opinie klientów</h2>
+    <section id="gallery" class="gallery">
+        <h2 class="section-title">Magia Gotowania</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item" data-aos="zoom-in"><img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=500" alt="Gotowanie 1"></div>
+            <div class="gallery-item" data-aos="zoom-in" data-aos-delay="100"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=500" alt="Gotowanie 2"></div>
+            <div class="gallery-item" data-aos="zoom-in" data-aos-delay="200"><img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=500" alt="Gotowanie 3"></div>
+            <div class="gallery-item" data-aos="zoom-in" data-aos-delay="300"><img src="https://images.unsplash.com/photo-1493770348161-369560ae357d?auto=format&fit=crop&w=500" alt="Gotowanie 4"></div>
+        </div>
+    </section>
 
-<div class="slider">
-<div class="slides" id="slides"></div>
-</div>
+    <section class="testimonials">
+        <h2 class="section-title">Co mówią klienci?</h2>
+        <div id="testimonial-container" class="testimonial-slider">
+            </div>
+    </section>
 
-</section>
+    <section id="booking" class="booking">
+        <div class="container">
+            <h2 class="section-title">Zarezerwuj Termin</h2>
+            <form action="https://formspree.io/f/xvzwwdzv"" method="POST" class="modern-form">
+                <input type="text" name="name" placeholder="Twoje Imię" required>
+                <input type="email" name="email" placeholder="Twój Email" required>
+                <input type="text" name="city" placeholder="Miasto" required>
+                <select name="type">
+                    <option value="home">Pokaz w domu</option>
+                    <option value="online">Pokaz Online</option>
+                </select>
+                <textarea name="message" placeholder="Twoja wiadomość"></textarea>
+                <button type="submit" class="btn-submit">Wyślij zgłoszenie</button>
+            </form>
+        </div>
+    </section>
 
-<section id="kontakt" class="section contact">
-<h2>Kontakt</h2>
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="contact-info">
+                <h3>Kontakt</h3>
+                <p><i class="fas fa-envelope"></i> kontakt@ela-thermomix.pl</p>
+                <p><i class="fas fa-phone"></i> +48 123 456 789</p>
+            </div>
+            <div class="map">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d156388.3543851083!2d20.921111053641042!3d52.2328550352485!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471ecc6690654e83%3A0x10137517675e032!2sWarszawa!5e0!3m2!1spl!2spl!4v1700000000000" width="300" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+        <div class="social-footer">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <p>&copy; 2026 Ela Thermomix. Wszelkie prawa zastrzeżone.</p>
+        </div>
+    </footer>
 
-<div class="contact-box">
-<p>Email: kontakt@ela-thermomix.pl</p>
-<p>Telefon: 000 000 000</p>
-
-<form action="https://formspree.io/f/xvzwwdzv" method="POST">
-<input type="text" name="name" placeholder="Twoje imię" required>
-<input type="email" name="email" placeholder="Email" required>
-<textarea name="message" placeholder="Wiadomość" required></textarea>
-<button type="submit">Wyślij</button>
-</form>
-</div>
-
-</section>
-
-<footer>
-<p>© 2026 Ela Thermomix</p>
-</footer>
-
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="script.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
 </body>
 </html>
