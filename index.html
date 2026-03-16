@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #76b82a; --dark: #111; --light: #ffffff; --gray: #f8f9fa; }
-        * { margin:0; padding:0; box-sizing:border-box; scroll-behavior: smooth; user-select: none; } /* user-select: none blokuje zaznaczanie tekstu */
+        * { margin:0; padding:0; box-sizing:border-box; scroll-behavior: smooth; user-select: none; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--light); color: #333; line-height: 1.6; }
 
         /* PASEK NAWIGACJI */
@@ -29,7 +29,7 @@
             display: none; border: 1px solid #eee; 
         }
         .dropdown.active { display: block; }
-        .dropdown button { width: 100%; padding: 12px; margin-bottom: 8px; border-radius: 8px; border: 1px solid #eee; background: #f9f9f9; text-align: left; cursor: pointer; font-weight: 700; display: flex; justify-content: space-between; }
+        .dropdown button { width: 100%; padding: 12px; margin-bottom: 8px; border-radius: 8px; border: 1px solid #eee; background: #f9f9f9; text-align: left; cursor: pointer; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
 
         /* HERO */
         .hero { height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
@@ -58,10 +58,10 @@
         /* FORMULARZ */
         .booking { padding: 80px 5%; max-width: 850px; margin: 0 auto; }
         .form-box { background: var(--gray); padding: 50px; border-radius: 30px; border: 1px solid #eee; }
-        input, select, textarea { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 12px; border: 1px solid #ddd; }
+        input, select, textarea { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 12px; border: 1px solid #ddd; font-family: inherit; }
         .btn-send { width: 100%; padding: 18px; background: #222; color: white; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; }
 
-        /* MODAL BLOKADY (Styl jak na ss) */
+        /* MODAL BLOKADY */
         #copyModal {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             background: white; border: 2px solid var(--primary); padding: 20px 40px;
@@ -69,7 +69,6 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.2);
             text-align: center; font-weight: 700; color: #000;
         }
-        #copyModal i { color: #ff4d4d; margin-right: 15px; }
 
         @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         .high-contrast { filter: contrast(1.2); }
@@ -77,50 +76,50 @@
 </head>
 <body id="b" oncontextmenu="return showBlocked(event)">
 
-    <div id="copyModal"><i class="fas fa-shield-alt"></i> Prawy przycisk myszy jest zablokowany</div>
+    <div id="copyModal"><i class="fas fa-shield-alt" style="color:#ff4d4d; margin-right:10px;"></i> <span id="modalText">Prawy przycisk myszy jest zablokowany</span></div>
 
     <nav class="navbar">
         <div style="font-weight: 900; font-size: 1.4rem;">Ela <span style="color:var(--primary)">TM6</span></div>
         <ul class="nav-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#o-mnie">O Mnie</a></li>
-            <li><a href="#galeria">Galeria</a></li>
-            <li><a href="#booking">Kontakt</a></li>
+            <li><a href="#" data-key="nav-home">Home</a></li>
+            <li><a href="#o-mnie" data-key="nav-about">O Mnie</a></li>
+            <li><a href="#galeria" data-key="nav-gallery">Galeria</a></li>
+            <li><a href="#booking" data-key="nav-contact">Kontakt</a></li>
         </ul>
-        <button class="menu-btn" onclick="toggleMenu()">USTAWIENIA</button>
+        <button class="menu-btn" onclick="toggleMenu()" data-key="btn-settings">USTAWIENIA</button>
         <div class="dropdown" id="m">
-            <h4>WIDOK</h4>
-            <button onclick="document.getElementById('b').classList.toggle('high-contrast')">Kontrast <span>OFF/ON</span></button>
+            <h4 data-key="head-view">WIDOK</h4>
+            <button onclick="document.getElementById('b').classList.toggle('high-contrast')"><span data-key="opt-contrast">Kontrast</span> <span>OFF/ON</span></button>
             <hr style="margin: 10px 0; border: 0; border-top: 1px solid #eee;">
-            <h4>JĘZYK</h4>
-            <button>Polski <i class="fas fa-chevron-down"></i></button>
+            <h4 data-key="head-lang">JĘZYK</h4>
+            <button onclick="changeLang('pl')">Polski <img src="https://flagcdn.com/w20/pl.png" alt="PL"></button>
+            <button onclick="changeLang('en')">English <img src="https://flagcdn.com/w20/gb.png" alt="EN"></button>
         </div>
     </nav>
 
     <section class="hero">
-        <h1>Gotuj z <span>Pasją</span></h1>
-        <p>Nowoczesne gotowanie zaczyna się tutaj. Zapraszam!</p>
-        <a href="#booking" class="btn-main">Umów pokaz</a>
+        <h1 data-key="hero-title">Gotuj z <span>Pasją</span></h1>
+        <p data-key="hero-sub">Nowoczesne gotowanie zaczyna się tutaj. Zapraszam!</p>
+        <a href="#booking" class="btn-main" data-key="hero-btn">Umów pokaz</a>
     </section>
 
     <section class="about" id="o-mnie">
-        <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800" alt="Ela w kuchni">
+        <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800" alt="Ela">
         <div class="about-text">
-            <h2>Cześć, jestem <span>Ela</span></h2>
-            <p>Jako Twój doradca Thermomix, pomagam wprowadzić zdrowie i czas do Twojego domu. Thermomix to nie tylko urządzenie, to styl życia.</p>
-            <p>Moje wieloletnie doświadczenie pozwala mi idealnie dopasować prezentację do Twoich potrzeb kulinarnych.</p>
+            <h2 data-key="about-title">Cześć, jestem <span>Ela</span></h2>
+            <p data-key="about-p1">Jako Twój doradca Thermomix, pomagam wprowadzić zdrowie i czas do Twojego domu. Thermomix to nie tylko urządzenie, to styl życia.</p>
+            <p data-key="about-p2">Moje wieloletnie doświadczenie pozwala mi idealnie dopasować prezentację do Twoich potrzeb kulinarnych.</p>
         </div>
     </section>
 
     <div class="gallery-box" id="galeria">
-        <h2 style="text-align: center; margin-bottom: 40px;">Magia Thermomixa</h2>
+        <h2 style="text-align: center; margin-bottom: 40px;" data-key="gallery-title">Magia Thermomixa</h2>
         <div class="track" id="galleryTrack">
             <div class="img-card"><img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?w=500"></div>
             <div class="img-card"><img src="https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?w=500"></div>
             <div class="img-card"><img src="https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=500"></div>
             <div class="img-card"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500"></div>
             <div class="img-card"><img src="https://images.unsplash.com/photo-1493770348161-369560ae357d?w=500"></div>
-            <div class="img-card"><img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=500"></div>
         </div>
     </div>
 
@@ -130,24 +129,56 @@
 
     <section class="booking" id="booking">
         <div class="form-box">
-            <h2 style="text-align:center; margin-bottom:30px;">Zarezerwuj Pokaz</h2>
+            <h2 style="text-align:center; margin-bottom:30px;" data-key="form-title">Zarezerwuj Pokaz</h2>
             <form action="https://formspree.io/f/yourID" method="POST">
-                <input type="text" name="name" placeholder="Imię i Nazwisko" required>
-                <input type="tel" name="phone" placeholder="Telefon" required>
-                <select name="type">
-                    <option>Pokaz w Twoim domu</option>
-                    <option>Pokaz Online</option>
+                <input type="text" name="name" id="f-name" placeholder="Imię i Nazwisko" required>
+                <input type="tel" name="phone" id="f-phone" placeholder="Telefon" required>
+                <select name="type" id="f-type">
+                    <option value="home" data-key="opt-home">Pokaz w Twoim domu</option>
+                    <option value="online" data-key="opt-online">Pokaz Online</option>
                 </select>
-                <textarea name="msg" rows="4" placeholder="Twoja wiadomość..."></textarea>
-                <button type="submit" class="btn-send">WYŚLIJ ZGŁOSZENIE</button>
+                <textarea name="msg" id="f-msg" rows="4" placeholder="Twoja wiadomość..."></textarea>
+                <button type="submit" class="btn-send" data-key="form-btn">WYŚLIJ ZGŁOSZENIE</button>
             </form>
         </div>
     </section>
 
     <script>
+        const langData = {
+            pl: {
+                "nav-home": "Home", "nav-about": "O Mnie", "nav-gallery": "Galeria", "nav-contact": "Kontakt",
+                "btn-settings": "USTAWIENIA", "head-view": "WIDOK", "opt-contrast": "Kontrast", "head-lang": "JĘZYK",
+                "hero-title": "Gotuj z Pasją", "hero-sub": "Nowoczesne gotowanie zaczyna się tutaj. Zapraszam!", "hero-btn": "Umów pokaz",
+                "about-title": "Cześć, jestem Ela", "about-p1": "Jako Twój doradca Thermomix, pomagam wprowadzić zdrowie i czas do Twojego domu.", "about-p2": "Moje doświadczenie pozwala mi dopasować prezentację do Ciebie.",
+                "gallery-title": "Magia Thermomixa", "form-title": "Zarezerwuj Pokaz", "form-btn": "WYŚLIJ ZGŁOSZENIE",
+                "modal": "Prawy przycisk myszy jest zablokowany", "f-name": "Imię i Nazwisko", "f-phone": "Telefon", "f-msg": "Twoja wiadomość...",
+                "opt-home": "Pokaz w domu", "opt-online": "Pokaz online"
+            },
+            en: {
+                "nav-home": "Home", "nav-about": "About Me", "nav-gallery": "Gallery", "nav-contact": "Contact",
+                "btn-settings": "SETTINGS", "head-view": "VIEW", "opt-contrast": "Contrast", "head-lang": "LANGUAGE",
+                "hero-title": "Cook with Passion", "hero-sub": "Modern cooking starts here. Welcome!", "hero-btn": "Book a demo",
+                "about-title": "Hi, I'm Ela", "about-p1": "As your Thermomix advisor, I help bring health and time to your home.", "about-p2": "My experience allows me to tailor the presentation for you.",
+                "gallery-title": "Thermomix Magic", "form-title": "Book a Demo", "form-btn": "SEND REQUEST",
+                "modal": "Right-click is disabled", "f-name": "Full Name", "f-phone": "Phone Number", "f-msg": "Your message...",
+                "opt-home": "At-home demo", "opt-online": "Online demo"
+            }
+        };
+
         function toggleMenu() { document.getElementById('m').classList.toggle('active'); }
 
-        // Blokada prawego przycisku + Modal
+        function changeLang(lang) {
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (langData[lang][key]) el.textContent = langData[lang][key];
+            });
+            document.getElementById('f-name').placeholder = langData[lang]['f-name'];
+            document.getElementById('f-phone').placeholder = langData[lang]['f-phone'];
+            document.getElementById('f-msg').placeholder = langData[lang]['f-msg'];
+            document.getElementById('modalText').textContent = langData[lang]['modal'];
+            toggleMenu();
+        }
+
         function showBlocked(e) {
             e.preventDefault();
             const modal = document.getElementById('copyModal');
@@ -156,20 +187,12 @@
             return false;
         }
 
-        // Klonowanie galerii
-        const gt = document.getElementById('galleryTrack');
-        gt.innerHTML += gt.innerHTML;
-
-        // Opinie
-        const ops = [
-            { n: "Anna K.", t: "Pokaz u Eli to była czysta przyjemność!" },
-            { n: "Marek P.", t: "Pełen profesjonalizm i pyszne jedzenie." },
-            { n: "Kasia N.", t: "Dzięki Eli gotowanie stało się prostsze." }
-        ];
+        // Klonowanie galerii i opinie
+        const gt = document.getElementById('galleryTrack'); gt.innerHTML += gt.innerHTML;
+        const ops = [{n:"Anna K.", t:"Pokaz u Eli to była przyjemność!"}, {n:"Marek P.", t:"Pełen profesjonalizm."}, {n:"Kasia N.", t:"Gotowanie stało się prostsze."}];
         const rt = document.getElementById('reviewTrack');
         [...ops, ...ops, ...ops].forEach(o => {
-            const c = document.createElement('div');
-            c.className = 'rev-card';
+            const c = document.createElement('div'); c.className = 'rev-card';
             c.innerHTML = `<div class="user"><img src="https://ui-avatars.com/api/?name=${o.n}&background=76b82a&color=fff"><strong>${o.n}</strong></div><p>"${o.t}"</p>`;
             rt.appendChild(c);
         });
