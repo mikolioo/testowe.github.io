@@ -3,70 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ela Thermomix | Nowoczesne Gotowanie</title>
+    <title>Ela Thermomix | Nowoczesny Doradca</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="dark-theme"> <div class="settings-wrapper">
-        <button class="settings-toggle" id="settingsBtn">
-            <i class="fas fa-bars"></i>
+<body>
+
+    <div class="accessibility-panel">
+        <button class="menu-trigger" id="menuBtn">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
         </button>
-        <div class="settings-menu" id="settingsMenu">
-            <h3>Dostosuj widok</h3>
-            <button onclick="toggleContrast()">Wysoki kontrast</button>
-            <button onclick="changeFontSize(1.2)">Większa czcionka</button>
-            <button onclick="changeFontSize(1)">Normalna czcionka</button>
-            <hr>
-            <h3>Kontakt</h3>
-            <a href="https://wa.me/48123456789"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-            <a href="mailto:kontakt@ela.pl"><i class="fas fa-envelope"></i> Email</a>
+        <div class="dropdown-content" id="menuContent">
+            <div class="acc-section">
+                <h4>Widok</h4>
+                <button onclick="setAccessibility('contrast')">Wysoki Kontrast</button>
+                <button onclick="setAccessibility('font')">Powiększ tekst</button>
+            </div>
+            <div class="acc-section">
+                <h4>Szybki Kontakt</h4>
+                <a href="https://wa.me/48123456789" class="wa-link"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                <a href="mailto:ela@thermomix.pl"><i class="fas fa-envelope"></i> Napisz e-mail</a>
+            </div>
         </div>
     </div>
 
-    <nav class="navbar">
-        <div class="logo">Ela<span>TM</span></div>
+    <nav class="glass-nav">
+        <div class="logo">Ela<span>.</span></div>
     </nav>
 
     <section id="hero" class="hero">
-        <div class="hero-content" data-aos="zoom-out-up">
-            <h1>Pokazy i sprzedaż Thermomix</h1>
-            <a href="#booking" class="btn-primary">Umów prezentację</a>
+        <div class="hero-bg-shapes">
+            <div class="shape s1"></div>
+            <div class="shape s2"></div>
+        </div>
+        <div class="hero-content" data-aos="fade-right">
+            <h1 class="reveal-text">Pokazy i sprzedaż <span>Thermomix</span></h1>
+            <p data-aos="fade-up" data-aos-delay="300">Gotowanie przyszłości w Twoim zasięgu.</p>
+            <div class="hero-btns" data-aos="fade-up" data-aos-delay="500">
+                <a href="#booking" class="btn-main">Zarezerwuj pokaz</a>
+            </div>
         </div>
     </section>
 
-    <section class="testimonials-section">
-        <h2 class="section-title">Opinie Klientów</h2>
-        <div class="testimonial-wrapper">
-            <div id="testimonial-container" class="testimonial-track">
+    <section class="reviews-section">
+        <h2 class="section-title" data-aos="fade-down">Głosy Klientów</h2>
+        <div class="marquee-container">
+            <div id="testimonial-track" class="marquee-track">
                 </div>
         </div>
     </section>
 
-    <section id="booking" class="booking">
-        <div class="container">
-            <div class="booking-grid">
-                <div class="form-side" data-aos="fade-up">
-                    <h2 class="section-title">Umów wizytę</h2>
-                    <form action="https://formspree.io/f/yourID" method="POST" class="modern-form">
+    <section id="booking" class="booking-section">
+        <div class="container grid-2">
+            <div class="card-glass booking-card" data-aos="flip-left">
+                <h2>Zapisz się</h2>
+                <form id="contact-form" action="https://formspree.io/f/yourID" method="POST">
+                    <div class="input-group">
                         <input type="text" name="name" placeholder="Imię" required>
-                        <input type="email" name="email" placeholder="Email" required>
-                        <select name="type">
-                            <option value="home">W domu</option>
-                            <option value="online">Online</option>
-                        </select>
-                        <button type="submit" class="btn-submit">Wyślij zgłoszenie</button>
-                    </form>
-                </div>
-                
-                <div class="contact-side" data-aos="fade-up" data-aos-delay="200">
-                    <h3>Dane kontaktowe</h3>
-                    <div class="contact-card">
-                        <p><i class="fas fa-phone"></i> +48 123 456 789</p>
-                        <p><i class="fas fa-envelope"></i> ela.thermomix@biuro.pl</p>
-                        <p><i class="fab fa-instagram"></i> @ela_gotuje</p>
                     </div>
+                    <div class="input-group">
+                        <input type="email" name="email" placeholder="E-mail" required>
+                    </div>
+                    <select name="type">
+                        <option value="stacjonarnie">Pokaz stacjonarny</option>
+                        <option value="online">Pokaz online</option>
+                    </select>
+                    <button type="submit" class="btn-submit">Wyślij zgłoszenie</button>
+                </form>
+            </div>
+
+            <div class="contact-details" data-aos="fade-left">
+                <h3>Bądźmy w kontakcie</h3>
+                <div class="contact-box">
+                    <div class="contact-item"><i class="fas fa-phone"></i> +48 123 456 789</div>
+                    <div class="contact-item"><i class="fas fa-envelope"></i> kontakt@ela-tm.pl</div>
+                    <div class="contact-item"><i class="fab fa-instagram"></i> @ela_doradca</div>
                 </div>
             </div>
         </div>
