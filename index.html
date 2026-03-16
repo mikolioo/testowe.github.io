@@ -3,185 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ela Thermomix | Profesjonalny Doradca</title>
+    <title>Ela Thermomix | Autoryzowany Doradca</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
-
-    <style>
-        :root { 
-            --primary: #76b82a; 
-            --accent: #8a2be2;
-            --bg: #0d0d12; 
-            --card: #16161e;
-        }
-
-        * { margin:0; padding:0; box-sizing:border-box; scroll-behavior: smooth; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: #fff; line-height: 1.6; }
-
-        /* MENU HAMBURGER - NAPRAWIONE */
-        .nav-fixed { position: fixed; top: 20px; right: 20px; z-index: 10000; }
-        .menu-btn { 
-            background: var(--primary); border: none; width: 55px; height: 55px; 
-            border-radius: 15px; cursor: pointer; color: white; font-size: 1.5rem;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .dropdown { 
-            position: absolute; top: 70px; right: 0; background: #1c1c26; width: 280px; 
-            padding: 20px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); 
-            display: none; border: 1px solid #333; 
-        }
-        .dropdown.active { display: block; }
-        .dropdown button, .dropdown a { 
-            width: 100%; padding: 12px; margin-bottom: 8px; border-radius: 10px; border: 1px solid #333; 
-            background: #252533; color: white; text-align: left; text-decoration: none; display: flex; align-items: center; cursor: pointer; font-weight: 600; 
-        }
-        .dropdown i { margin-right: 12px; color: var(--primary); }
-
-        /* SEKCJE */
-        section { padding: 100px 5%; max-width: 1200px; margin: 0 auto; }
-        .hero { height: 90vh; text-align: center; display: flex; flex-direction: column; justify-content: center; }
-        .hero h1 { font-size: clamp(3rem, 10vw, 5rem); font-weight: 800; line-height: 1; margin-bottom: 20px; }
-        .hero span { color: var(--primary); }
-
-        /* O MNIE - DUŻO TEKSTU */
-        .about-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 60px; align-items: center; }
-        .about-img { width: 100%; border-radius: 30px; border: 2px solid var(--accent); }
-        .about-content h2 { font-size: 3rem; color: var(--primary); margin-bottom: 25px; }
-        .about-content p { color: #ccc; margin-bottom: 15px; font-size: 1.1rem; }
-
-        /* GALERIA */
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 50px; }
-        .gallery-card { height: 400px; border-radius: 20px; overflow: hidden; border: 1px solid #222; background: #111; }
-        .gallery-card img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* OPINIE - MARQUEE */
-        .reviews-container { background: #08080c; padding: 100px 0; overflow: hidden; }
-        .marquee { display: flex; gap: 30px; animation: scroll 40s linear infinite; width: max-content; }
-        .review-card { width: 400px; background: var(--card); padding: 40px; border-radius: 25px; border: 1px solid #252533; }
-        .user-info { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
-        .user-info img { width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--accent); }
-
-        /* FORMULARZ */
-        .form-box { background: var(--card); padding: 60px; border-radius: 40px; border: 1px solid #222; }
-        .form-box input, .form-box select, .form-box textarea { 
-            width: 100%; padding: 18px; margin-bottom: 20px; border-radius: 15px; 
-            border: 1px solid #333; background: #0d0d12; color: white; font-size: 1rem;
-        }
-        .btn-send { width: 100%; padding: 20px; background: var(--primary); color: white; border: none; border-radius: 15px; font-weight: 800; cursor: pointer; font-size: 1.2rem; }
-
-        @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-        
-        /* DOSTĘPNOŚĆ */
-        .high-contrast { filter: contrast(1.5) grayscale(0.5); }
-        .big-font { font-size: 1.2rem; }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body id="body">
+<body id="mainBody">
 
-    <div class="nav-fixed">
-        <button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
-        <div class="dropdown" id="menu">
-            <h4>DOSTĘPNOŚĆ</h4>
-            <button onclick="document.getElementById('body').classList.toggle('high-contrast')"><i class="fas fa-adjust"></i> Kontrast</button>
-            <button onclick="document.getElementById('body').classList.toggle('big-font')"><i class="fas fa-text-size"></i> Większy tekst</button>
-            <hr style="border:0; border-top:1px solid #333; margin:10px 0;">
-            <h4>KONTAKT</h4>
-            <a href="https://wa.me/48123456789"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-            <a href="mailto:ela@kontakt.pl"><i class="fas fa-envelope"></i> E-mail</a>
+    <div class="nav-container">
+        <button id="menuBtn" class="menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div id="menuContent" class="dropdown-menu">
+            <h4>USTAWIENIA WIDOKU</h4>
+            <button onclick="setAccessibility('contrast')"><i class="fas fa-adjust"></i> Wysoki Kontrast</button>
+            <button onclick="setAccessibility('font')"><i class="fas fa-text-height"></i> Powiększ Tekst</button>
+            <hr>
+            <h4>SZYBKI KONTAKT</h4>
+            <a href="https://wa.me/48123456789" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+            <a href="mailto:ela@thermomix.pl"><i class="fas fa-envelope"></i> Napisz E-mail</a>
         </div>
     </div>
 
     <section class="hero">
         <h1>Pokazy i sprzedaż<br><span>Thermomix</span></h1>
-        <p style="font-size: 1.5rem; color: #888;">Poznaj smak nowoczesności w Twojej kuchni.</p>
-        <div style="margin-top: 40px;">
-            <a href="#form" class="btn-send" style="text-decoration: none; padding: 20px 50px;">Zarezerwuj pokaz</a>
+        <p>Twój osobisty przewodnik po świecie inteligentnego gotowania.</p>
+        <a href="#booking" class="btn-primary">Zarezerwuj pokaz teraz</a>
+    </section>
+
+    <section class="about" id="o-mnie">
+        <div class="container grid-2">
+            <div class="img-box">
+                <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=1000&auto=format&fit=crop" alt="Ela Thermomix" class="main-photo">
+            </div>
+            <div class="text-box">
+                <h2>Cześć, jestem <span>Ela</span></h2>
+                <p>Jako doradca Thermomix, moją misją jest sprawić, by gotowanie w Twoim domu stało się prostsze, szybsze i przede wszystkim zdrowsze. Posiadam wieloletnie doświadczenie w pracy z klientami i wiem, jak dopasować urządzenie do Twojego stylu życia.</p>
+                <p>Wybierając pokaz u mnie, zyskujesz nie tylko prezentację funkcji TM6, ale także stałą opiekę po zakupie, dostęp do moich autorskich przepisów oraz trików, które zaoszczędzą Twój czas i pieniądze.</p>
+            </div>
         </div>
     </section>
 
-    <section class="about-grid">
-        <div id="about-img-container">
+    <section class="gallery">
+        <h2 class="section-title">Magia Gotowania</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?q=80&w=800&auto=format&fit=crop" alt="Thermomix w akcji">
             </div>
-        <div class="about-content">
-            <h2>Pasja do gotowania</h2>
-            <p>Jako autoryzowany doradca Thermomix, moją misją jest pokazanie Ci, jak technologia może ułatwić codzienne życie. Gotowanie nie musi być przykrym obowiązkiem – może stać się pasją, która łączy rodzinę przy wspólnym stole.</p>
-            <p>Od lat pomagam klientom w wyborze najlepszych rozwiązań do ich kuchni. Moje pokazy to nie tylko sucha prezentacja funkcji urządzenia, to wspólne gotowanie, testowanie smaków i nauka trików, które sprawią, że Twoje dania będą smakować jak z najlepszej restauracji.</p>
-            <p>Zapewniam pełną opiekę po zakupie: od instalacji, przez naukę obsługi, aż po wsparcie w doborze przepisów na każdą okazję.</p>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?q=80&w=800&auto=format&fit=crop" alt="Pyszne danie">
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1466637574441-749b8f19452f?q=80&w=800&auto=format&fit=crop" alt="Warzywa">
+            </div>
         </div>
     </section>
 
-    <section id="gallery">
-        <h2 style="font-size: 3rem; text-align: center;">Galeria Smaku</h2>
-        <div class="gallery-grid" id="gallery-container">
-            </div>
-    </section>
-
-    <div class="reviews-container">
-        <div class="marquee" id="review-track">
-            </div>
-    </div>
-
-    <section id="form">
-        <div class="form-box">
-            <h2 style="font-size: 2.5rem; margin-bottom: 30px;">Umów się na spotkanie</h2>
-            <form action="https://formspree.io/f/yourID" method="POST">
-                <input type="text" name="name" placeholder="Imię i Nazwisko" required>
-                <div style="display: flex; gap: 20px;">
-                    <input type="email" name="email" placeholder="E-mail" required>
-                    <input type="tel" name="phone" placeholder="Telefon" required>
+    <section class="reviews">
+        <div class="marquee-wrapper">
+            <div id="testimonial-track" class="testimonial-track">
                 </div>
-                <select name="service">
-                    <option>Pokaz stacjonarny</option>
-                    <option>Pokaz online</option>
-                    <option>Zakup urządzenia</option>
-                </select>
-                <textarea name="msg" rows="5" placeholder="Twoja wiadomość (preferowana data, miejscowość...)"></textarea>
-                <button type="submit" class="btn-send">WYŚLIJ ZGŁOSZENIE</button>
-            </form>
         </div>
     </section>
 
-    <script>
-        function toggleMenu() { document.getElementById('menu').classList.toggle('active'); }
+    <section id="booking" class="booking-section">
+        <div class="container grid-2">
+            <div class="form-card">
+                <h2>Umów się na bezpłatny pokaz</h2>
+                <form action="https://formspree.io/f/yourID" method="POST">
+                    <input type="text" name="name" placeholder="Twoje Imię i Nazwisko" required>
+                    <div class="input-row">
+                        <input type="email" name="email" placeholder="Adres E-mail" required>
+                        <input type="tel" name="phone" placeholder="Numer Telefonu" required>
+                    </div>
+                    <select name="service">
+                        <option value="pokaz_domowy">Pokaz Stacjonarny (w Twoim domu)</option>
+                        <option value="pokaz_online">Pokaz Online (wideo)</option>
+                        <option value="pytanie">Pytanie o ofertę / Zakup</option>
+                    </select>
+                    <textarea name="message" rows="4" placeholder="Twoja miejscowość i preferowany termin..."></textarea>
+                    <button type="submit" class="btn-submit">WYŚLIJ ZGŁOSZENIE</button>
+                </form>
+            </div>
+            <div class="contact-details">
+                <h3>Kontakt bezpośredni</h3>
+                <p>Nie chcesz czekać? Zadzwoń lub napisz do mnie bezpośrednio!</p>
+                <ul class="contact-list">
+                    <li><i class="fas fa-phone"></i> +48 123 456 789</li>
+                    <li><i class="fab fa-instagram"></i> @ela_thermomix_pasja</li>
+                    <li><i class="fab fa-facebook"></i> Ela Doradca Thermomix</li>
+                </ul>
+            </div>
+        </div>
+    </section>
 
-        // --- KONFIGURACJA ZDJĘĆ (WKLEJ SWOJE LINKI TUTAJ) ---
-        const imageAbout = "https://via.placeholder.com/600x800/16161e/76b82a?text=ZDJĘCIE+ELI";
-        const galleryLinks = [
-            "https://via.placeholder.com/400x600/16161e/ffffff?text=FOTO+1",
-            "https://via.placeholder.com/400x600/16161e/ffffff?text=FOTO+2",
-            "https://via.placeholder.com/400x600/16161e/ffffff?text=FOTO+3"
-        ];
-
-        // Wstawianie zdjęcia O Mnie
-        document.getElementById('about-img-container').innerHTML = `<img src="${imageAbout}" class="about-img" alt="Ela">`;
-
-        // Wstawianie Galerii
-        const gContainer = document.getElementById('gallery-container');
-        galleryLinks.forEach(link => {
-            gContainer.innerHTML += `<div class="gallery-card"><img src="${link}"></div>`;
-        });
-
-        // --- POBIERANIE OPINII Z PLIKU testimonials.json ---
-        fetch('testimonials.json')
-            .then(response => response.json())
-            .then(data => {
-                const track = document.getElementById('review-track');
-                const combined = [...data, ...data, ...data]; // Pętla dla marquee
-                combined.forEach(item => {
-                    const card = document.createElement('div');
-                    card.className = 'review-card';
-                    card.innerHTML = `
-                        <div class="user-info">
-                            <img src="https://ui-avatars.com/api/?name=${item.name}&background=8a2be2&color=fff">
-                            <div><strong>${item.name}</strong><br><small style="color:var(--accent)">KLIENT</small></div>
-                        </div>
-                        <p style="color: #888; font-style: italic;">"${item.text}"</p>
-                    `;
-                    track.appendChild(card);
-                });
-            })
-            .catch(err => console.error("Błąd wczytywania opinii:", err));
-    </script>
+    <script src="script.js"></script>
+</body>
+</html>
 </body>
 </html>
