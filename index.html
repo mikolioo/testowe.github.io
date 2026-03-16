@@ -3,150 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ela Thermomix | Nowoczesny Doradca</title>
-    
+    <title>Ela Thermomix | Autoryzowany Doradca</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
-
     <style>
-        :root {
-            --primary: #76b82a;
-            --primary-dark: #2d5a27;
-            --dark-card: #16161e;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #fff; color: #1a1a1a; line-height: 1.6; }
-
-        /* MENU / 3 KRESKI */
-        .nav-container { position: fixed; top: 20px; right: 20px; z-index: 10000; }
-        .menu-btn {
-            background: var(--primary); border: none; width: 50px; height: 50px; 
-            border-radius: 12px; cursor: pointer; display: flex; flex-direction: column;
-            align-items: center; justify-content: center; gap: 5px;
-        }
-        .menu-btn span { width: 25px; height: 3px; background: white; border-radius: 2px; }
+        :root { --primary: #76b82a; --dark: #16161e; }
+        * { margin:0; padding:0; box-sizing:border-box; scroll-behavior: smooth; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #fff; color: #1a1a1a; }
         
-        .dropdown {
-            position: absolute; top: 60px; right: 0; background: white; width: 250px;
-            padding: 20px; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            display: none; border: 1px solid #eee;
-        }
-        .dropdown.open { display: block; animation: fadeIn 0.3s ease; }
-        .dropdown button, .dropdown a {
-            width: 100%; padding: 12px; margin-bottom: 8px; border-radius: 8px; border: 1px solid #f0f0f0;
-            background: #f9f9f9; cursor: pointer; text-align: left; text-decoration: none; 
-            color: #333; display: block; font-weight: 600; font-family: inherit;
-        }
+        /* MENU DOSTĘPNOŚCI */
+        .nav-fixed { position: fixed; top: 20px; right: 20px; z-index: 10000; }
+        .hamburger { background: var(--primary); border: none; width: 55px; height: 55px; border-radius: 15px; cursor: pointer; color: white; font-size: 1.8rem; }
+        .menu-dropdown { position: absolute; top: 70px; right: 0; background: white; width: 260px; padding: 20px; border-radius: 20px; box-shadow: 0 15px 50px rgba(0,0,0,0.1); display: none; border: 1px solid #eee; }
+        .menu-dropdown.active { display: block; animation: fadeIn 0.3s ease; }
+        .menu-dropdown button, .menu-dropdown a { width: 100%; padding: 12px; margin-bottom: 8px; border-radius: 10px; border: 1px solid #f0f0f0; background: #f9f9f9; cursor: pointer; text-align: left; text-decoration: none; color: #333; display: flex; align-items: center; font-weight: 700; }
+        .menu-dropdown i { margin-right: 12px; color: var(--primary); }
 
-        /* HERO - Bez zewnętrznych animacji blokujących widok */
-        .hero { 
-            height: 100vh; display: flex; flex-direction: column; align-items: center; 
-            justify-content: center; text-align: center; padding: 20px;
-            background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
-        }
-        .hero h1 { font-size: clamp(2.5rem, 10vw, 4.5rem); font-weight: 800; margin-bottom: 20px; }
+        /* HERO */
+        .hero { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: radial-gradient(circle, #fafffa 0%, #fff 100%); padding: 20px; }
+        .hero h1 { font-size: clamp(2.5rem, 10vw, 4.5rem); font-weight: 800; }
         .hero span { color: var(--primary); }
-        .btn { 
-            padding: 20px 40px; background: var(--primary); color: white; border-radius: 50px; 
-            text-decoration: none; font-weight: 800; transition: 0.3s;
-        }
-        .btn:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(118,184,42,0.3); }
+        .btn-main { padding: 20px 40px; background: var(--primary); color: white; border-radius: 50px; text-decoration: none; font-weight: 800; margin-top: 20px; display: inline-block; }
 
-        /* OPINIE - MARQUEE (To Ci działało, więc zostawiam styl) */
+        /* O MNIE */
+        .about { padding: 80px 5%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; align-items: center; }
+        .about img { width: 100%; border-radius: 25px; box-shadow: 15px 15px 0 var(--primary); }
+
+        /* GALERIA (LINKI) */
+        .gallery { padding: 60px 5%; background: #fcfdfc; text-align: center; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; margin-top: 30px; }
+        .gallery-item { height: 250px; border-radius: 15px; overflow: hidden; background: #eee; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* OPINIE MARQUEE */
         .reviews { background: #0d0d12; padding: 80px 0; color: white; overflow: hidden; }
-        .marquee { display: flex; gap: 20px; animation: scroll 30s linear infinite; width: max-content; }
-        .card {
-            width: 320px; background: var(--dark-card); padding: 30px; border-radius: 20px;
-            border: 1px solid #252533;
-        }
-        .user { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
-        .avatar { width: 45px; height: 45px; border-radius: 50%; background: var(--primary); display: flex; align-items: center; justify-content: center; font-weight: 800; }
+        .marquee { display: flex; gap: 20px; animation: scroll 40s linear infinite; width: max-content; }
+        .card { width: 320px; background: var(--dark); padding: 30px; border-radius: 20px; border: 1px solid #252533; }
+        .avatar { width: 45px; height: 45px; border-radius: 50%; background: var(--primary); display: flex; align-items: center; justify-content: center; font-weight: 800; margin-bottom: 15px; }
 
-        /* KONTAKT & FORMULARZ */
-        .contact-grid { 
-            max-width: 1100px; margin: 80px auto; padding: 0 20px;
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px;
-        }
+        /* KONTAKT */
+        .contact { padding: 80px 5%; max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
         .box { background: #f8faf8; padding: 40px; border-radius: 25px; border: 1px solid #eef2ee; }
-        input, select { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #ddd; }
-        .btn-submit { width: 100%; padding: 15px; background: var(--primary-dark); color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: 700; }
+        input, select { width: 100%; padding: 15px; margin-bottom: 10px; border-radius: 10px; border: 1px solid #ddd; }
+        .btn-send { width: 100%; padding: 15px; background: #222; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: 800; }
 
-        /* ANIMACJE CSS */
         @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* TRYBY DOSTĘPNOŚCI */
+        /* MODES */
         .high-contrast { background: #000 !important; color: #fff !important; }
-        .high-contrast .box { background: #111; border: 2px solid yellow; }
         .big-text { font-size: 1.25rem !important; }
     </style>
 </head>
 <body>
 
-    <div class="nav-container">
-        <button class="menu-btn" onclick="toggleMenu()">
-            <span></span><span></span><span></span>
-        </button>
-        <div class="dropdown" id="dropdown">
-            <h4 style="font-size:0.7rem; color:#999; margin-bottom:10px;">USTAWIENIA</h4>
+    <div class="nav-fixed">
+        <button class="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+        <div class="menu-dropdown" id="menu">
+            <h4>WIDOK</h4>
             <button onclick="document.body.classList.toggle('high-contrast')">Wysoki Kontrast</button>
             <button onclick="document.body.classList.toggle('big-text')">Powiększ Tekst</button>
             <hr style="margin:10px 0; border:0; border-top:1px solid #eee;">
-            <h4 style="font-size:0.7rem; color:#999; margin-bottom:10px;">KONTAKT</h4>
-            <a href="https://wa.me/48123456789"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-            <a href="mailto:ela@thermomix.pl"><i class="fas fa-envelope"></i> E-mail</a>
+            <h4>KONTAKT</h4>
+            <a href="TU_LINK_DO_WHATSAPP">WhatsApp</a>
+            <a href="mailto:ela@kontakt.pl">E-mail</a>
         </div>
     </div>
 
     <section class="hero">
         <h1>Pokazy i sprzedaż<br><span>Thermomix</span></h1>
-        <p>Nowoczesne gotowanie zaczyna się tutaj. Zapraszam!</p>
-        <a href="#form" class="btn">Umów pokaz</a>
+        <p>Nowoczesne gotowanie z Elą.</p>
+        <a href="#form" class="btn-main">Umów się</a>
+    </section>
+
+    <section class="about">
+        <img src="TU_LINK_DO_TWOJEGO_ZDJECIA" alt="Ela" onerror="this.src='https://via.placeholder.com/500x500?text=Zdjecie+Eli'">
+        <div>
+            <h2>Cześć, jestem Ela</h2>
+            <p>Pomagam odkrywać potencjał Thermomixa. Moje pokazy to praktyczna wiedza i pyszne jedzenie.</p>
+        </div>
+    </section>
+
+    <section class="gallery">
+        <h2>Galeria</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item"><img src="LINK_ZDJECIE_1" alt="1"></div>
+            <div class="gallery-item"><img src="LINK_ZDJECIE_2" alt="2"></div>
+            <div class="gallery-item"><img src="LINK_ZDJECIE_3" alt="3"></div>
+            <div class="gallery-item"><img src="LINK_ZDJECIE_4" alt="4"></div>
+        </div>
     </section>
 
     <section class="reviews">
-        <div class="marquee">
-            <div class="card"><div class="user"><div class="avatar">AK</div><div><strong>Anna Kowalska</strong><br><small style="color:var(--primary)">KLIENT</small></div></div><p>"Świetna prezentacja, Ela to profesjonalistka!"</p></div>
-            <div class="card"><div class="user"><div class="avatar" style="background:purple">KN</div><div><strong>Kasia Nowak</strong><br><small style="color:var(--primary)">KLIENT</small></div></div><p>"Polecam każdemu, jedzenie było obłędne."</p></div>
-            <div class="card"><div class="user"><div class="avatar" style="background:orange">MP</div><div><strong>Marek Piątek</strong><br><small style="color:var(--primary)">KLIENT</small></div></div><p>"Szybka realizacja i świetny kontakt."</p></div>
-            <div class="card"><div class="user"><div class="avatar">AK</div><div><strong>Anna Kowalska</strong><br><small style="color:var(--primary)">KLIENT</small></div></div><p>"Świetna prezentacja, Ela to profesjonalistka!"</p></div>
-            <div class="card"><div class="user"><div class="avatar" style="background:purple">KN</div><div><strong>Kasia Nowak</strong><br><small style="color:var(--primary)">KLIENT</small></div></div><p>"Polecam każdemu, jedzenie było obłędne."</p></div>
-            <div class="card"><div class="user"><div class="avatar" style="background:orange">MP</div><div><strong>Marek Piątek</strong><br><small style="color:var(--primary)">KLIENT</small></div></div><p>"Szybka realizacja i świetny kontakt."</p></div>
-        </div>
+        <div class="marquee" id="track"></div>
     </section>
 
-    <section class="contact-grid" id="form">
+    <section class="contact" id="form">
         <div class="box">
-            <h2>Umów się</h2>
-            <form action="https://formspree.io/f/yourID" method="POST" style="margin-top:20px;">
-                <input type="text" name="name" placeholder="Twoje imię" required>
-                <input type="email" name="email" placeholder="Twój e-mail" required>
-                <select name="type"><option>Pokaz domowy</option><option>Pokaz online</option></select>
-                <button type="submit" class="btn-submit">Wyślij zgłoszenie</button>
+            <h2>Zapisz się</h2>
+            <form action="https://formspree.io/f/yourID" method="POST">
+                <input type="text" name="name" placeholder="Imię" required>
+                <input type="email" name="email" placeholder="E-mail" required>
+                <button type="submit" class="btn-send">Wyślij</button>
             </form>
         </div>
-        <div class="info">
-            <h2>Kontakt</h2>
-            <p style="margin:20px 0; color:#555;">Zapraszam do kontaktu bezpośredniego. Odpowiadam błyskawicznie!</p>
-            <div style="font-size: 1.3rem; line-height: 2;">
-                <p><i class="fas fa-phone" style="color:var(--primary)"></i> <strong> +48 123 456 789</strong></p>
-                <p><i class="fas fa-envelope" style="color:var(--primary)"></i> kontakt@ela-tm.pl</p>
-                <p><i class="fab fa-instagram" style="color:var(--primary)"></i> @ela_gotuje_tm</p>
-            </div>
+        <div>
+            <h2>Kontakt bezpośredni</h2>
+            <p>Tel: +48 123 456 789</p>
+            <p>E-mail: kontakt@ela.pl</p>
+            <p>Instagram: @ela_tm</p>
         </div>
     </section>
 
     <script>
-        function toggleMenu() {
-            document.getElementById('dropdown').classList.toggle('open');
-        }
-        // Zamknij menu przy kliknięciu obok
-        window.onclick = function(e) {
-            if (!e.target.closest('.nav-container')) {
-                document.getElementById('dropdown').classList.remove('open');
-            }
-        }
+        function toggleMenu() { document.getElementById('menu').classList.toggle('active'); }
+        
+        // Opinie na sztywno
+        const reviews = [
+            { n: "xNothing", t: "Dobrze wykonany skrypt" },
+            { n: "Milos18", t: "Polecam plugin na /duel" },
+            { n: "Aspas", t: "Kurs renderów Polecam" }
+        ];
+        const track = document.getElementById('track');
+        [...reviews, ...reviews, ...reviews].forEach(r => {
+            const c = document.createElement('div');
+            c.className = 'card';
+            c.innerHTML = `<div class="avatar">${r.n[0]}</div><strong>${r.n}</strong><p style="color:#ccc; font-style:italic; margin-top:10px;">"${r.t}"</p>`;
+            track.appendChild(c);
+        });
     </script>
 </body>
 </html>
