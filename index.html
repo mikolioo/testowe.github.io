@@ -19,8 +19,7 @@
         }
         .nav-links { display: flex; gap: 30px; list-style: none; }
         .nav-links a { text-decoration: none; color: #333; font-weight: 700; font-size: 0.9rem; position: relative; }
-        .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--primary); transition: 0.3s; }
-        .nav-links a:hover::after { width: 100%; }
+        .nav-links a:hover { color: var(--primary); }
 
         /* MENU USTAWIEŃ */
         .menu-btn { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; font-weight: 800; }
@@ -32,16 +31,22 @@
         .dropdown.active { display: block; }
         .dropdown button { width: 100%; padding: 12px; margin-bottom: 8px; border-radius: 8px; border: 1px solid #eee; background: #f9f9f9; text-align: left; cursor: pointer; font-weight: 700; display: flex; justify-content: space-between; }
 
-        /* SEKCJE */
-        .hero { height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: radial-gradient(circle at center, #fafffa 0%, #ffffff 100%); }
-        .hero h1 { font-size: clamp(3rem, 8vw, 5rem); font-weight: 800; color: #222; }
+        /* HERO */
+        .hero { height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: radial-gradient(circle at center, #fafffa 0%, #ffffff 100%); }
+        .hero h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 800; color: #222; }
         .hero span { color: var(--primary); }
-        .btn-main { margin-top: 30px; padding: 20px 50px; background: var(--primary); color: white; border-radius: 50px; text-decoration: none; font-weight: 800; box-shadow: 0 10px 25px rgba(118,184,42,0.3); }
+        .btn-main { margin-top: 25px; padding: 18px 45px; background: var(--primary); color: white; border-radius: 50px; text-decoration: none; font-weight: 800; box-shadow: 0 10px 25px rgba(118,184,42,0.2); }
+
+        /* O MNIE (PRZYWRÓCONE) */
+        .about { padding: 80px 5%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 50px; align-items: center; }
+        .about img { width: 100%; border-radius: 30px; border: 8px solid white; box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
+        .about-text h2 { font-size: 2.5rem; margin-bottom: 20px; color: #222; }
+        .about-text span { color: var(--primary); }
 
         /* GALERIA ANIMOWANA (MARQUEE) */
         .gallery-box { padding: 60px 0; background: var(--gray); overflow: hidden; }
         .track { display: flex; gap: 20px; animation: scroll 40s linear infinite; width: max-content; }
-        .img-card { width: 300px; height: 300px; border-radius: 20px; overflow: hidden; border: 5px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .img-card { width: 320px; height: 320px; border-radius: 20px; overflow: hidden; border: 4px solid white; }
         .img-card img { width: 100%; height: 100%; object-fit: cover; }
 
         /* OPINIE (CZARNE TŁO) */
@@ -51,8 +56,8 @@
         .user img { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--primary); }
 
         /* FORMULARZ */
-        .booking { padding: 80px 5%; max-width: 800px; margin: 0 auto; }
-        .form-box { background: var(--gray); padding: 50px; border-radius: 30px; }
+        .booking { padding: 80px 5%; max-width: 850px; margin: 0 auto; }
+        .form-box { background: var(--gray); padding: 50px; border-radius: 30px; border: 1px solid #eee; }
         input, select, textarea { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 12px; border: 1px solid #ddd; font-family: inherit; }
         .btn-send { width: 100%; padding: 18px; background: #222; color: white; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; }
 
@@ -63,12 +68,12 @@
 <body id="b">
 
     <nav class="navbar">
-        <div style="font-weight: 900; font-size: 1.5rem;">Ela <span style="color:var(--primary)">TM6</span></div>
+        <div style="font-weight: 900; font-size: 1.4rem;">Ela <span style="color:var(--primary)">TM6</span></div>
         <ul class="nav-links">
-            <li><a href="#">Strona Główna</a></li>
+            <li><a href="#">Home</a></li>
             <li><a href="#o-mnie">O Mnie</a></li>
             <li><a href="#galeria">Galeria</a></li>
-            <li><a href="#booking">Opinie</a></li>
+            <li><a href="#booking">Kontakt</a></li>
         </ul>
         <button class="menu-btn" onclick="toggleMenu()">USTAWIENIA</button>
         <div class="dropdown" id="m">
@@ -82,19 +87,28 @@
 
     <section class="hero">
         <h1>Gotuj z <span>Pasją</span></h1>
-        <p>Twój autoryzowany doradca Thermomix – Ela.</p>
-        <a href="#booking" class="btn-main">Umów bezpłatny pokaz</a>
+        <p>Nowoczesne gotowanie zaczyna się tutaj. Zapraszam!</p>
+        <a href="#booking" class="btn-main">Umów pokaz</a>
+    </section>
+
+    <section class="about" id="o-mnie">
+        <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800" alt="Ela w kuchni">
+        <div class="about-text">
+            <h2>Cześć, jestem <span>Ela</span></h2>
+            <p>Jako Twój doradca Thermomix, pomagam wprowadzić zdrowie i czas do Twojego domu. Posiadam wieloletnie doświadczenie i dopasuję urządzenie do Twojego stylu życia.</p>
+            <p>Wybierając pokaz u mnie, zyskujesz nie tylko sprzęt, ale stałą opiekę i masę inspiracji każdego dnia.</p>
+        </div>
     </section>
 
     <div class="gallery-box" id="galeria">
-        <h2 style="text-align: center; margin-bottom: 30px;">Nasze Kulinarne Podróże</h2>
+        <h2 style="text-align: center; margin-bottom: 40px;">Magia Thermomixa</h2>
         <div class="track" id="galleryTrack">
-            <div class="img-card"><img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=500"></div>
-            <div class="img-card"><img src="https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?w=500"></div>
             <div class="img-card"><img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?w=500"></div>
+            <div class="img-card"><img src="https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?w=500"></div>
             <div class="img-card"><img src="https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=500"></div>
             <div class="img-card"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500"></div>
             <div class="img-card"><img src="https://images.unsplash.com/photo-1493770348161-369560ae357d?w=500"></div>
+            <div class="img-card"><img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=500"></div>
         </div>
     </div>
 
@@ -104,13 +118,13 @@
 
     <section class="booking" id="booking">
         <div class="form-box">
-            <h2 style="text-align:center; margin-bottom:20px;">Zarezerwuj Termin</h2>
+            <h2 style="text-align:center; margin-bottom:30px;">Zarezerwuj Pokaz</h2>
             <form action="https://formspree.io/f/yourID" method="POST">
                 <input type="text" name="name" placeholder="Imię i Nazwisko" required>
                 <input type="tel" name="phone" placeholder="Telefon" required>
                 <select name="type">
-                    <option>Pokaz w domu</option>
-                    <option>Pokaz online</option>
+                    <option>Pokaz w Twoim domu</option>
+                    <option>Pokaz Online</option>
                 </select>
                 <textarea name="msg" rows="4" placeholder="Twoja wiadomość..."></textarea>
                 <button type="submit" class="btn-send">WYŚLIJ ZGŁOSZENIE</button>
@@ -121,15 +135,15 @@
     <script>
         function toggleMenu() { document.getElementById('m').classList.toggle('active'); }
 
-        // Klonowanie galerii
+        // Klonowanie galerii dla pętli
         const gt = document.getElementById('galleryTrack');
         gt.innerHTML += gt.innerHTML;
 
         // Opinie
         const ops = [
-            { n: "xNothing", t: "Świetny doradca, polecam!" },
+            { n: "xNothing", t: "Dobrze wykonany skrypt, polecam!" },
             { n: "Milos18", t: "Wszystko sprawnie i pysznie." },
-            { n: "Anna", t: "Thermomix to był strzał w dziesiątkę!" }
+            { n: "Anna K.", t: "Thermomix zmienił moje podejście do kuchni!" }
         ];
         const rt = document.getElementById('reviewTrack');
         [...ops, ...ops, ...ops].forEach(o => {
