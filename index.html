@@ -29,43 +29,44 @@
             display: none; border: 1px solid #eee; 
         }
         .dropdown.active { display: block; }
-        .dropdown button { width: 100%; padding: 12px; margin-bottom: 8px; border-radius: 8px; border: 1px solid #eee; background: #f9f9f9; text-align: left; cursor: pointer; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
-        .dropdown img { width: 20px; height: 15px; object-fit: cover; border-radius: 2px; }
+        
+        /* STYLIZACJA WYBORU JĘZYKA W MENU */
+        .lang-select-wrapper { margin-top: 10px; }
+        .dropdown select { 
+            width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ddd; 
+            background: #f9f9f9; font-weight: 700; font-family: inherit; cursor: pointer;
+            outline: none; color: #333;
+        }
+        .dropdown button { width: 100%; padding: 12px; margin-bottom: 8px; border-radius: 8px; border: 1px solid #eee; background: #f9f9f9; text-align: left; cursor: pointer; font-weight: 700; display: flex; justify-content: space-between; }
 
-        /* HERO */
+        /* HERO i SEKCJE */
         .hero { height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
         .hero h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 800; }
         .hero span { color: var(--primary); }
         .btn-main { margin-top: 25px; padding: 18px 45px; background: var(--primary); color: white; border-radius: 50px; text-decoration: none; font-weight: 800; }
 
-        /* O MNIE */
         .about { padding: 80px 5%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 50px; align-items: center; }
         .about img { width: 100%; border-radius: 30px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
-        .about-text h2 { font-size: 2.5rem; margin-bottom: 20px; }
 
-        /* GALERIA ANIMOWANA */
         .gallery-box { padding: 60px 0; background: var(--gray); overflow: hidden; }
         .track { display: flex; gap: 20px; animation: scroll 40s linear infinite; width: max-content; }
         .img-card { width: 320px; height: 320px; border-radius: 20px; overflow: hidden; border: 4px solid white; }
         .img-card img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* OPINIE */
         .reviews { padding: 80px 0; background: #0d0d12; color: white; overflow: hidden; }
         .rev-card { width: 350px; background: #16161e; padding: 30px; border-radius: 20px; border: 1px solid #222; }
 
-        /* FORMULARZ */
         .booking { padding: 80px 5%; max-width: 850px; margin: 0 auto; }
         .form-box { background: var(--gray); padding: 50px; border-radius: 30px; border: 1px solid #eee; }
         input, select, textarea { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 12px; border: 1px solid #ddd; font-family: inherit; }
         .btn-send { width: 100%; padding: 18px; background: #222; color: white; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; }
 
-        /* POWIADOMIENIE W PRAWYM GÓRNYM ROGU (Zgodnie z życzeniem) */
+        /* POWIADOMIENIE PRAWY GÓRNY RÓG */
         #copyModal {
             position: fixed; top: 20px; right: 20px;
             background: white; border: 2px solid var(--primary); padding: 15px 25px;
             border-radius: 12px; display: none; z-index: 999999;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            font-weight: 700; color: #000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15); font-weight: 700; color: #000;
             animation: slideIn 0.3s ease-out;
         }
 
@@ -91,11 +92,15 @@
             <h4 data-key="head-view">WIDOK</h4>
             <button onclick="document.getElementById('b').classList.toggle('high-contrast')"><span data-key="opt-contrast">Kontrast</span> <span>OFF/ON</span></button>
             <hr style="margin: 10px 0; border: 0; border-top: 1px solid #eee;">
-            <h4 data-key="head-lang">JĘZYK</h4>
-            <button onclick="changeLang('pl')">Polski <img src="https://flagcdn.com/w20/pl.png"></button>
-            <button onclick="changeLang('en')">English <img src="https://flagcdn.com/w20/gb.png"></button>
-            <button onclick="changeLang('uk')">Українська <img src="https://flagcdn.com/w20/ua.png"></button>
-            <button onclick="changeLang('zh')">中文 <img src="https://flagcdn.com/w20/cn.png"></button>
+            <h4 data-key="head-lang">WYBIERZ JĘZYK</h4>
+            <div class="lang-select-wrapper">
+                <select onchange="changeLang(this.value)">
+                    <option value="pl">Polski (PL)</option>
+                    <option value="en">English (EN)</option>
+                    <option value="uk">Українська (UA)</option>
+                    <option value="zh">中文 (CN)</option>
+                </select>
+            </div>
         </div>
     </nav>
 
@@ -109,7 +114,7 @@
         <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800" alt="Ela">
         <div class="about-text">
             <h2 data-key="about-title">Cześć, jestem <span>Ela</span></h2>
-            <p data-key="about-p1">Jako Twój doradca Thermomix, pomagam wprowadzić zdrowie i czas do Twojego domu. Thermomix to nie tylko urządzenie, to styl życia.</p>
+            <p data-key="about-p1">Jako Twój doradca Thermomix, pomagam wprowadzić zdrowie i czas do Twojego domu.</p>
             <p data-key="about-p2">Moje wieloletnie doświadczenie pozwala mi idealnie dopasować prezentację do Twoich potrzeb kulinarnych.</p>
         </div>
     </section>
@@ -149,7 +154,7 @@
         const langData = {
             pl: {
                 "nav-home": "Home", "nav-about": "O Mnie", "nav-gallery": "Galeria", "nav-contact": "Kontakt",
-                "btn-settings": "USTAWIENIA", "head-view": "WIDOK", "opt-contrast": "Kontrast", "head-lang": "JĘZYK",
+                "btn-settings": "USTAWIENIA", "head-view": "WIDOK", "opt-contrast": "Kontrast", "head-lang": "WYBIERZ JĘZYK",
                 "hero-title": "Gotuj z Pasją", "hero-sub": "Nowoczesne gotowanie zaczyna się tutaj. Zapraszam!", "hero-btn": "Umów pokaz",
                 "about-title": "Cześć, jestem Ela", "about-p1": "Jako Twój doradca Thermomix, pomagam wprowadzić zdrowie i czas do Twojego domu.", "about-p2": "Moje doświadczenie pozwala mi dopasować prezentację do Ciebie.",
                 "gallery-title": "Magia Thermomixa", "form-title": "Zarezerwuj Pokaz", "form-btn": "WYŚLIJ ZGŁOSZENIE",
@@ -158,7 +163,7 @@
             },
             en: {
                 "nav-home": "Home", "nav-about": "About Me", "nav-gallery": "Gallery", "nav-contact": "Contact",
-                "btn-settings": "SETTINGS", "head-view": "VIEW", "opt-contrast": "Contrast", "head-lang": "LANGUAGE",
+                "btn-settings": "SETTINGS", "head-view": "VIEW", "opt-contrast": "Contrast", "head-lang": "SELECT LANGUAGE",
                 "hero-title": "Cook with Passion", "hero-sub": "Modern cooking starts here. Welcome!", "hero-btn": "Book a demo",
                 "about-title": "Hi, I'm Ela", "about-p1": "As your advisor, I bring health and time to your home.", "about-p2": "My experience helps me tailor the presentation for you.",
                 "gallery-title": "Thermomix Magic", "form-title": "Book a Demo", "form-btn": "SEND REQUEST",
@@ -167,7 +172,7 @@
             },
             uk: {
                 "nav-home": "Головна", "nav-about": "Про мене", "nav-gallery": "Галерея", "nav-contact": "Контакти",
-                "btn-settings": "НАЛАШТУВАННЯ", "head-view": "ВИГЛЯД", "opt-contrast": "Контраст", "head-lang": "МОВА",
+                "btn-settings": "НАЛАШТУВАННЯ", "head-view": "ВИГЛЯД", "opt-contrast": "Контраст", "head-lang": "ВИБЕРІТЬ МОВУ",
                 "hero-title": "Готуйте з пристрастю", "hero-sub": "Сучасне приготування починається тут!", "hero-btn": "Записатися на показ",
                 "about-title": "Привіт, я Еля", "about-p1": "Як ваш консультант, я допоможу принести здоров'я у ваш дім.", "about-p2": "Мій досвід дозволяє підібрати презентацію саме для вас.",
                 "gallery-title": "Магія Thermomix", "form-title": "Забронювати показ", "form-btn": "ВІДПРАВИТИ ЗАЯВКУ",
@@ -176,7 +181,7 @@
             },
             zh: {
                 "nav-home": "首页", "nav-about": "关于我", "nav-gallery": "相册", "nav-contact": "联系我们",
-                "btn-settings": "设置", "head-view": "视图", "opt-contrast": "对比度", "head-lang": "语言",
+                "btn-settings": "设置", "head-view": "视图", "opt-contrast": "对比度", "head-lang": "选择语言",
                 "hero-title": "用激情烹饪", "hero-sub": "现代烹饪从这里开始。欢迎！", "hero-btn": "预约演示",
                 "about-title": "你好，我是 Ela", "about-p1": "作为您的美善品顾问，我为您的家庭带来健康和时间。", "about-p2": "我的经验可以为您的需求量身定制演示。",
                 "gallery-title": "美善品的魔力", "form-title": "预约演示", "form-btn": "提交申请",
@@ -196,7 +201,6 @@
             document.getElementById('f-phone').placeholder = langData[lang]['f-phone'];
             document.getElementById('f-msg').placeholder = langData[lang]['f-msg'];
             document.getElementById('modalText').textContent = langData[lang]['modal'];
-            toggleMenu();
         }
 
         function showBlocked(e) {
