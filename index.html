@@ -7,130 +7,136 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #76b82a; --accent: #8a2be2; --bg: #0d0d12; --card: #16161e; }
+        :root { --primary: #76b82a; --dark: #111; --light: #ffffff; --gray: #f8f9fa; }
         * { margin:0; padding:0; box-sizing:border-box; scroll-behavior: smooth; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: #fff; line-height: 1.6; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--light); color: #333; line-height: 1.6; }
 
-        /* MENU */
-        .nav-fixed { position: fixed; top: 20px; right: 20px; z-index: 10000; }
-        .hamburger { background: var(--primary); border: none; width: 50px; height: 50px; border-radius: 12px; cursor: pointer; color: white; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; }
-        .dropdown { position: absolute; top: 60px; right: 0; background: #1c1c26; width: 260px; padding: 20px; border-radius: 15px; display: none; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        /* PASEK NAWIGACJI (Styl DevHex) */
+        .navbar { 
+            position: sticky; top: 0; background: rgba(255,255,255,0.95); 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 15px 5%; z-index: 1000; border-bottom: 1px solid #eee; backdrop-filter: blur(10px);
+        }
+        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .nav-links a { text-decoration: none; color: #333; font-weight: 700; font-size: 0.9rem; position: relative; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--primary); transition: 0.3s; }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* MENU USTAWIEŃ */
+        .menu-btn { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; font-weight: 800; }
+        .dropdown { 
+            position: absolute; top: 70px; right: 5%; background: white; width: 280px; 
+            padding: 20px; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); 
+            display: none; border: 1px solid #eee; 
+        }
         .dropdown.active { display: block; }
-        .dropdown button, .dropdown a { width: 100%; padding: 12px; margin-bottom: 8px; border-radius: 10px; border: 1px solid #333; background: #252533; color: white; text-align: left; text-decoration: none; display: flex; align-items: center; cursor: pointer; font-weight: 700; }
-        .dropdown i { margin-right: 10px; color: var(--primary); }
+        .dropdown button { width: 100%; padding: 12px; margin-bottom: 8px; border-radius: 8px; border: 1px solid #eee; background: #f9f9f9; text-align: left; cursor: pointer; font-weight: 700; display: flex; justify-content: space-between; }
 
-        /* HERO */
-        .hero { height: 70vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; }
-        .hero h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 800; }
+        /* SEKCJE */
+        .hero { height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: radial-gradient(circle at center, #fafffa 0%, #ffffff 100%); }
+        .hero h1 { font-size: clamp(3rem, 8vw, 5rem); font-weight: 800; color: #222; }
         .hero span { color: var(--primary); }
-        .btn-main { margin-top: 30px; padding: 18px 45px; background: var(--primary); color: white; border-radius: 50px; text-decoration: none; font-weight: 800; }
+        .btn-main { margin-top: 30px; padding: 20px 50px; background: var(--primary); color: white; border-radius: 50px; text-decoration: none; font-weight: 800; box-shadow: 0 10px 25px rgba(118,184,42,0.3); }
 
-        /* O MNIE */
-        .about { padding: 80px 5%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 50px; align-items: center; }
-        .about img { width: 100%; border-radius: 20px; border: 1px solid #333; }
-        .about-text h2 { font-size: 2.8rem; margin-bottom: 20px; color: var(--primary); }
+        /* GALERIA ANIMOWANA (MARQUEE) */
+        .gallery-box { padding: 60px 0; background: var(--gray); overflow: hidden; }
+        .track { display: flex; gap: 20px; animation: scroll 40s linear infinite; width: max-content; }
+        .img-card { width: 300px; height: 300px; border-radius: 20px; overflow: hidden; border: 5px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .img-card img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* GALERIA - NOWA SEKCJA */
-        .gallery { padding: 60px 5%; max-width: 1200px; margin: 0 auto; }
-        .gallery-h2 { text-align: center; font-size: 2.5rem; margin-bottom: 40px; }
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .gallery-item { height: 350px; border-radius: 20px; overflow: hidden; border: 1px solid #222; }
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.4s; }
-        .gallery-item:hover img { transform: scale(1.05); }
-
-        /* OPINIE MARQUEE */
-        .reviews { padding: 60px 0; background: #08080c; overflow: hidden; border-top: 1px solid #111; }
-        .marquee { display: flex; gap: 25px; animation: scroll 40s linear infinite; width: max-content; }
-        .rev-card { width: 350px; background: var(--card); padding: 30px; border-radius: 20px; border: 1px solid #252533; }
-        .user-box { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
-        .user-box img { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--accent); }
+        /* OPINIE (CZARNE TŁO) */
+        .reviews { padding: 80px 0; background: #0d0d12; color: white; overflow: hidden; }
+        .rev-card { width: 350px; background: #16161e; padding: 30px; border-radius: 20px; border: 1px solid #222; }
+        .user { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+        .user img { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--primary); }
 
         /* FORMULARZ */
-        .booking { padding: 80px 5%; max-width: 1000px; margin: 0 auto; }
-        .form-box { background: var(--card); padding: 40px; border-radius: 30px; border: 1px solid #222; }
-        input, select, textarea { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 12px; border: 1px solid #333; background: #0d0d12; color: white; font-family: inherit; }
-        .btn-submit { width: 100%; padding: 18px; background: var(--primary); color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: 800; }
+        .booking { padding: 80px 5%; max-width: 800px; margin: 0 auto; }
+        .form-box { background: var(--gray); padding: 50px; border-radius: 30px; }
+        input, select, textarea { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 12px; border: 1px solid #ddd; font-family: inherit; }
+        .btn-send { width: 100%; padding: 18px; background: #222; color: white; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; }
 
         @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-        .high-contrast { filter: contrast(1.2) brightness(1.1); }
-        .big-text { font-size: 1.2rem; }
+        .high-contrast { filter: contrast(1.2); }
     </style>
 </head>
-<body id="pb">
+<body id="b">
 
-    <div class="nav-fixed">
-        <button class="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
-        <div class="dropdown" id="mm">
+    <nav class="navbar">
+        <div style="font-weight: 900; font-size: 1.5rem;">Ela <span style="color:var(--primary)">TM6</span></div>
+        <ul class="nav-links">
+            <li><a href="#">Strona Główna</a></li>
+            <li><a href="#o-mnie">O Mnie</a></li>
+            <li><a href="#galeria">Galeria</a></li>
+            <li><a href="#booking">Opinie</a></li>
+        </ul>
+        <button class="menu-btn" onclick="toggleMenu()">USTAWIENIA</button>
+        <div class="dropdown" id="m">
             <h4>WIDOK</h4>
-            <button onclick="document.getElementById('pb').classList.toggle('high-contrast')">Kontrast</button>
-            <button onclick="document.getElementById('pb').classList.toggle('big-text')">Powiększ tekst</button>
-            <hr style="border:0; border-top:1px solid #333; margin:10px 0;">
-            <a href="https://wa.me/48123456789">WhatsApp</a>
-            <a href="mailto:ela@kontakt.pl">E-mail</a>
+            <button onclick="document.getElementById('b').classList.toggle('high-contrast')">Kontrast <span>OFF/ON</span></button>
+            <hr style="margin: 10px 0; border: 0; border-top: 1px solid #eee;">
+            <h4>JĘZYK</h4>
+            <button>Polski <i class="fas fa-chevron-down"></i></button>
         </div>
-    </div>
+    </nav>
 
     <section class="hero">
-        <h1>Pokazy i sprzedaż <span>Thermomix</span></h1>
-        <p style="color: #888; margin-top: 15px;">Twoja kuchnia zasługuje na najlepszego doradcę.</p>
-        <a href="#form" class="btn-main">Zarezerwuj pokaz</a>
+        <h1>Gotuj z <span>Pasją</span></h1>
+        <p>Twój autoryzowany doradca Thermomix – Ela.</p>
+        <a href="#booking" class="btn-main">Umów bezpłatny pokaz</a>
     </section>
 
-    <section class="about">
-        <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=1000" alt="Ela">
-        <div class="about-text">
-            <h2>Cześć, jestem <span>Ela</span></h2>
-            <p>Pomagam wprowadzić nową jakość do Twojej kuchni. Thermomix to nie tylko urządzenie, to oszczędność czasu i zdrowie dla Twojej rodziny.</p>
+    <div class="gallery-box" id="galeria">
+        <h2 style="text-align: center; margin-bottom: 30px;">Nasze Kulinarne Podróże</h2>
+        <div class="track" id="galleryTrack">
+            <div class="img-card"><img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=500"></div>
+            <div class="img-card"><img src="https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?w=500"></div>
+            <div class="img-card"><img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?w=500"></div>
+            <div class="img-card"><img src="https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=500"></div>
+            <div class="img-card"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500"></div>
+            <div class="img-card"><img src="https://images.unsplash.com/photo-1493770348161-369560ae357d?w=500"></div>
         </div>
-    </section>
-
-    <section class="gallery">
-        <h2 class="gallery-h2">Magia w kuchni</h2>
-        <div class="gallery-grid">
-            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?q=80&w=800"></div>
-            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?q=80&w=800"></div>
-            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1466637574441-749b8f19452f?q=80&w=800"></div>
-        </div>
-    </section>
-
-    <div class="reviews">
-        <div class="marquee" id="tr"></div>
     </div>
 
-    <section class="booking" id="form">
+    <div class="reviews">
+        <div class="track" id="reviewTrack"></div>
+    </div>
+
+    <section class="booking" id="booking">
         <div class="form-box">
-            <h2 style="text-align:center; margin-bottom:20px;">Umów termin</h2>
+            <h2 style="text-align:center; margin-bottom:20px;">Zarezerwuj Termin</h2>
             <form action="https://formspree.io/f/yourID" method="POST">
                 <input type="text" name="name" placeholder="Imię i Nazwisko" required>
-                <input type="email" name="email" placeholder="E-mail" required>
                 <input type="tel" name="phone" placeholder="Telefon" required>
+                <select name="type">
+                    <option>Pokaz w domu</option>
+                    <option>Pokaz online</option>
+                </select>
                 <textarea name="msg" rows="4" placeholder="Twoja wiadomość..."></textarea>
-                <button type="submit" class="btn-submit">WYŚLIJ ZGŁOSZENIE</button>
+                <button type="submit" class="btn-send">WYŚLIJ ZGŁOSZENIE</button>
             </form>
         </div>
     </section>
 
     <script>
-        function toggleMenu() { document.getElementById('mm').classList.toggle('active'); }
+        function toggleMenu() { document.getElementById('m').classList.toggle('active'); }
 
+        // Klonowanie galerii
+        const gt = document.getElementById('galleryTrack');
+        gt.innerHTML += gt.innerHTML;
+
+        // Opinie
         const ops = [
-            { n: "xNothing", t: "Dobrze wykonany skrypt!", c: "76b82a" },
-            { n: "Milos18", t: "Polecam pokazy u Eli.", c: "8a2be2" },
-            { n: "Aspas", t: "Najlepszy doradca!", c: "ff5722" }
+            { n: "xNothing", t: "Świetny doradca, polecam!" },
+            { n: "Milos18", t: "Wszystko sprawnie i pysznie." },
+            { n: "Anna", t: "Thermomix to był strzał w dziesiątkę!" }
         ];
-
-        const tr = document.getElementById('tr');
+        const rt = document.getElementById('reviewTrack');
         [...ops, ...ops, ...ops].forEach(o => {
             const c = document.createElement('div');
             c.className = 'rev-card';
-            c.innerHTML = `
-                <div class="user-box">
-                    <img src="https://ui-avatars.com/api/?name=${o.n}&background=${o.c}&color=fff">
-                    <div><strong>${o.n}</strong><br><small>Klient</small></div>
-                </div>
-                <p style="color:#888; font-style:italic;">"${o.t}"</p>
-            `;
-            tr.appendChild(c);
+            c.innerHTML = `<div class="user"><img src="https://ui-avatars.com/api/?name=${o.n}&background=76b82a&color=fff"><strong>${o.n}</strong></div><p>"${o.t}"</p>`;
+            rt.appendChild(c);
         });
     </script>
 </body>
