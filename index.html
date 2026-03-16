@@ -11,14 +11,14 @@
         * { margin:0; padding:0; box-sizing:border-box; scroll-behavior: smooth; user-select: none; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--light); color: #333; line-height: 1.6; }
 
-        /* PASEK NAWIGACJI */
+        /* NAWIGACJA */
         .navbar { 
             position: sticky; top: 0; background: rgba(255,255,255,0.95); 
             display: flex; justify-content: space-between; align-items: center; 
             padding: 15px 5%; z-index: 1000; border-bottom: 1px solid #eee; backdrop-filter: blur(10px);
         }
         .nav-links { display: flex; gap: 30px; list-style: none; }
-        .nav-links a { text-decoration: none; color: #333; font-weight: 700; font-size: 0.9rem; transition: 0.3s; }
+        .nav-links a { text-decoration: none; color: #333; font-weight: 700; font-size: 0.9rem; }
         .nav-links a:hover { color: var(--primary); }
 
         /* MENU USTAWIEŃ */
@@ -29,45 +29,41 @@
             display: none; border: 1px solid #eee; 
         }
         .dropdown.active { display: block; }
-        
-        /* STYLIZACJA WYBORU JĘZYKA W MENU */
-        .lang-select-wrapper { margin-top: 10px; }
-        .dropdown select { 
-            width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ddd; 
-            background: #f9f9f9; font-weight: 700; font-family: inherit; cursor: pointer;
-            outline: none; color: #333;
-        }
-        .dropdown button { width: 100%; padding: 12px; margin-bottom: 8px; border-radius: 8px; border: 1px solid #eee; background: #f9f9f9; text-align: left; cursor: pointer; font-weight: 700; display: flex; justify-content: space-between; }
+        .dropdown select { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ddd; background: #f9f9f9; font-weight: 700; cursor: pointer; margin-top: 10px; }
 
-        /* HERO i SEKCJE */
-        .hero { height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        .hero h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 800; }
+        /* HERO */
+        .hero { height: 50vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .hero h1 { font-size: clamp(2.5rem, 8vw, 4rem); font-weight: 800; }
         .hero span { color: var(--primary); }
         .btn-main { margin-top: 25px; padding: 18px 45px; background: var(--primary); color: white; border-radius: 50px; text-decoration: none; font-weight: 800; }
 
-        .about { padding: 80px 5%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 50px; align-items: center; }
-        .about img { width: 100%; border-radius: 30px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
+        /* O MNIE */
+        .about { padding: 60px 5%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; align-items: center; }
+        .about img { width: 100%; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
 
-        .gallery-box { padding: 60px 0; background: var(--gray); overflow: hidden; }
+        /* GALERIA I OPINIE ANIMOWANE */
+        .scroll-container { padding: 40px 0; background: var(--gray); overflow: hidden; position: relative; }
+        .dark-bg { background: #0d0d12; color: white; }
+        
         .track { display: flex; gap: 20px; animation: scroll 40s linear infinite; width: max-content; }
-        .img-card { width: 320px; height: 320px; border-radius: 20px; overflow: hidden; border: 4px solid white; }
+        .img-card { width: 300px; height: 300px; border-radius: 20px; overflow: hidden; border: 4px solid white; }
         .img-card img { width: 100%; height: 100%; object-fit: cover; }
 
-        .reviews { padding: 80px 0; background: #0d0d12; color: white; overflow: hidden; }
         .rev-card { width: 350px; background: #16161e; padding: 30px; border-radius: 20px; border: 1px solid #222; }
+        .user-info { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+        .user-info img { width: 45px; border-radius: 50%; border: 2px solid var(--primary); }
 
-        .booking { padding: 80px 5%; max-width: 850px; margin: 0 auto; }
-        .form-box { background: var(--gray); padding: 50px; border-radius: 30px; border: 1px solid #eee; }
+        /* FORMULARZ */
+        .booking { padding: 60px 5%; max-width: 800px; margin: 0 auto; }
+        .form-box { background: var(--gray); padding: 40px; border-radius: 30px; border: 1px solid #eee; }
         input, select, textarea { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 12px; border: 1px solid #ddd; font-family: inherit; }
         .btn-send { width: 100%; padding: 18px; background: #222; color: white; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; }
 
         /* POWIADOMIENIE PRAWY GÓRNY RÓG */
         #copyModal {
-            position: fixed; top: 20px; right: 20px;
-            background: white; border: 2px solid var(--primary); padding: 15px 25px;
-            border-radius: 12px; display: none; z-index: 999999;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15); font-weight: 700; color: #000;
-            animation: slideIn 0.3s ease-out;
+            position: fixed; top: 20px; right: 20px; background: white; border: 2px solid var(--primary); 
+            padding: 15px 25px; border-radius: 12px; display: none; z-index: 999999;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15); font-weight: 700; animation: slideIn 0.3s ease-out;
         }
 
         @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
@@ -93,14 +89,12 @@
             <button onclick="document.getElementById('b').classList.toggle('high-contrast')"><span data-key="opt-contrast">Kontrast</span> <span>OFF/ON</span></button>
             <hr style="margin: 10px 0; border: 0; border-top: 1px solid #eee;">
             <h4 data-key="head-lang">WYBIERZ JĘZYK</h4>
-            <div class="lang-select-wrapper">
-                <select onchange="changeLang(this.value)">
-                    <option value="pl">Polski (PL)</option>
-                    <option value="en">English (EN)</option>
-                    <option value="uk">Українська (UA)</option>
-                    <option value="zh">中文 (CN)</option>
-                </select>
-            </div>
+            <select onchange="changeLang(this.value)">
+                <option value="pl">Polski (PL)</option>
+                <option value="en">English (EN)</option>
+                <option value="uk">Українська (UA)</option>
+                <option value="zh">中文 (CN)</option>
+            </select>
         </div>
     </nav>
 
@@ -115,28 +109,27 @@
         <div class="about-text">
             <h2 data-key="about-title">Cześć, jestem <span>Ela</span></h2>
             <p data-key="about-p1">Jako Twój doradca Thermomix, pomagam wprowadzić zdrowie i czas do Twojego domu.</p>
-            <p data-key="about-p2">Moje wieloletnie doświadczenie pozwala mi idealnie dopasować prezentację do Twoich potrzeb kulinarnych.</p>
+            <p data-key="about-p2">Moje wieloletnie doświadczenie pozwala mi idealnie dopasować prezentację do Twoich potrzeb.</p>
         </div>
     </section>
 
-    <div class="gallery-box" id="galeria">
-        <h2 style="text-align: center; margin-bottom: 40px;" data-key="gallery-title">Magia Thermomixa</h2>
+    <div class="scroll-container" id="galeria">
         <div class="track" id="galleryTrack">
             <div class="img-card"><img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?w=500"></div>
             <div class="img-card"><img src="https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?w=500"></div>
             <div class="img-card"><img src="https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=500"></div>
             <div class="img-card"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500"></div>
-            <div class="img-card"><img src="https://images.unsplash.com/photo-1493770348161-369560ae357d?w=500"></div>
         </div>
     </div>
 
-    <div class="reviews">
-        <div class="track" id="reviewTrack"></div>
+    <div class="scroll-container dark-bg">
+        <div class="track" id="reviewTrack">
+            </div>
     </div>
 
     <section class="booking" id="booking">
         <div class="form-box">
-            <h2 style="text-align:center; margin-bottom:30px;" data-key="form-title">Zarezerwuj Pokaz</h2>
+            <h2 style="text-align:center; margin-bottom:25px;" data-key="form-title">Zarezerwuj Pokaz</h2>
             <form action="https://formspree.io/f/yourID" method="POST">
                 <input type="text" id="f-name" placeholder="Imię i Nazwisko" required>
                 <input type="tel" id="f-phone" placeholder="Telefon" required>
@@ -157,40 +150,59 @@
                 "btn-settings": "USTAWIENIA", "head-view": "WIDOK", "opt-contrast": "Kontrast", "head-lang": "WYBIERZ JĘZYK",
                 "hero-title": "Gotuj z Pasją", "hero-sub": "Nowoczesne gotowanie zaczyna się tutaj. Zapraszam!", "hero-btn": "Umów pokaz",
                 "about-title": "Cześć, jestem Ela", "about-p1": "Jako Twój doradca Thermomix, pomagam wprowadzić zdrowie i czas do Twojego domu.", "about-p2": "Moje doświadczenie pozwala mi dopasować prezentację do Ciebie.",
-                "gallery-title": "Magia Thermomixa", "form-title": "Zarezerwuj Pokaz", "form-btn": "WYŚLIJ ZGŁOSZENIE",
-                "modal": "Prawy przycisk myszy jest zablokowany", "f-name": "Imię i Nazwisko", "f-phone": "Telefon", "f-msg": "Twoja wiadomość...",
-                "opt-home": "Pokaz w domu", "opt-online": "Pokaz online"
+                "form-title": "Zarezerwuj Pokaz", "form-btn": "WYŚLIJ ZGŁOSZENIE", "modal": "Prawy przycisk myszy jest zablokowany",
+                "f-name": "Imię i Nazwisko", "f-phone": "Telefon", "f-msg": "Twoja wiadomość...", "opt-home": "Pokaz w domu", "opt-online": "Pokaz online",
+                "revs": [{n:"Anna K.", t:"Pokaz u Eli to była przyjemność!"}, {n:"Marek P.", t:"Pełen profesjonalizm."}, {n:"Kasia N.", t:"Gotowanie stało się prostsze."}]
             },
             en: {
                 "nav-home": "Home", "nav-about": "About Me", "nav-gallery": "Gallery", "nav-contact": "Contact",
                 "btn-settings": "SETTINGS", "head-view": "VIEW", "opt-contrast": "Contrast", "head-lang": "SELECT LANGUAGE",
                 "hero-title": "Cook with Passion", "hero-sub": "Modern cooking starts here. Welcome!", "hero-btn": "Book a demo",
                 "about-title": "Hi, I'm Ela", "about-p1": "As your advisor, I bring health and time to your home.", "about-p2": "My experience helps me tailor the presentation for you.",
-                "gallery-title": "Thermomix Magic", "form-title": "Book a Demo", "form-btn": "SEND REQUEST",
-                "modal": "Right-click is disabled", "f-name": "Full Name", "f-phone": "Phone Number", "f-msg": "Your message...",
-                "opt-home": "At-home demo", "opt-online": "Online demo"
+                "form-title": "Book a Demo", "form-btn": "SEND REQUEST", "modal": "Right-click is disabled",
+                "f-name": "Full Name", "f-phone": "Phone Number", "f-msg": "Your message...", "opt-home": "At-home demo", "opt-online": "Online demo",
+                "revs": [{n:"Anna K.", t:"The demo with Ela was a pleasure!"}, {n:"Mark P.", t:"Total professionalism."}, {n:"Kate N.", t:"Cooking is so much easier now."}]
             },
             uk: {
                 "nav-home": "Головна", "nav-about": "Про мене", "nav-gallery": "Галерея", "nav-contact": "Контакти",
                 "btn-settings": "НАЛАШТУВАННЯ", "head-view": "ВИГЛЯД", "opt-contrast": "Контраст", "head-lang": "ВИБЕРІТЬ МОВУ",
                 "hero-title": "Готуйте з пристрастю", "hero-sub": "Сучасне приготування починається тут!", "hero-btn": "Записатися на показ",
-                "about-title": "Привіт, я Еля", "about-p1": "Як ваш консультант, я допоможу принести здоров'я у ваш дім.", "about-p2": "Мій досвід дозволяє підібрати презентацію саме для вас.",
-                "gallery-title": "Магія Thermomix", "form-title": "Забронювати показ", "form-btn": "ВІДПРАВИТИ ЗАЯВКУ",
-                "modal": "Права кнопка миші заблокована", "f-name": "Ім'я та прізвище", "f-phone": "Телефон", "f-msg": "Ваше повідомлення...",
-                "opt-home": "Показ вдома", "opt-online": "Онлайн показ"
+                "about-title": "Привіт, я Еля", "about-p1": "Я допоможу принести здоров'я у ваш дім.", "about-p2": "Мій досвід дозволяє підібрати презентацію саме для вас.",
+                "form-title": "Забронювати показ", "form-btn": "ВІДПРАВИТИ ЗАЯВКУ", "modal": "Права кнопка миші заблокована",
+                "f-name": "Ім'я та прізвище", "f-phone": "Телефон", "f-msg": "Ваше повідомлення...", "opt-home": "Показ вдома", "opt-online": "Онлайн показ",
+                "revs": [{n:"Ганна К.", t:"Показ у Елі був справжнім задоволенням!"}, {n:"Марко П.", t:"Повний професіоналізм."}, {n:"Катя Н.", t:"Готувати стало набагато простіше."}]
             },
             zh: {
                 "nav-home": "首页", "nav-about": "关于我", "nav-gallery": "相册", "nav-contact": "联系我们",
                 "btn-settings": "设置", "head-view": "视图", "opt-contrast": "对比度", "head-lang": "选择语言",
                 "hero-title": "用激情烹饪", "hero-sub": "现代烹饪从这里开始。欢迎！", "hero-btn": "预约演示",
-                "about-title": "你好，我是 Ela", "about-p1": "作为您的美善品顾问，我为您的家庭带来健康和时间。", "about-p2": "我的经验可以为您的需求量身定制演示。",
-                "gallery-title": "美善品的魔力", "form-title": "预约演示", "form-btn": "提交申请",
-                "modal": "右键点击已禁用", "f-name": "姓名", "f-phone": "电话号码", "f-msg": "您的留言...",
-                "opt-home": "上门演示", "opt-online": "在线演示"
+                "about-title": "你好，我是 Ela", "about-p1": "作为顾问，我为您的家庭带来健康。", "about-p2": "我的经验可以为您的需求量身定制演示。",
+                "form-title": "预约演示", "form-btn": "提交申请", "modal": "右键点击已禁用",
+                "f-name": "姓名", "f-phone": "电话号码", "f-msg": "您的留言...", "opt-home": "上门演示", "opt-online": "在线演示",
+                "revs": [{n:"安娜", t:"与 Ela 的演示非常愉快！"}, {n:"马克", t:"非常专业。"}, {n:"凯特", t:"现在做饭容易多了。"}]
             }
         };
 
         function toggleMenu() { document.getElementById('m').classList.toggle('active'); }
+
+        function renderReviews(lang) {
+            const rt = document.getElementById('reviewTrack');
+            rt.innerHTML = ''; // Czyścimy stare
+            const reviews = langData[lang].revs;
+            // Powielamy dla pętli
+            [...reviews, ...reviews, ...reviews, ...reviews].forEach(o => {
+                const c = document.createElement('div');
+                c.className = 'rev-card';
+                c.innerHTML = `
+                    <div class="user-info">
+                        <img src="https://ui-avatars.com/api/?name=${o.n}&background=76b82a&color=fff">
+                        <strong>${o.n}</strong>
+                    </div>
+                    <p style="color:#aaa;">"${o.t}"</p>
+                `;
+                rt.appendChild(c);
+            });
+        }
 
         function changeLang(lang) {
             document.querySelectorAll('[data-key]').forEach(el => {
@@ -201,6 +213,7 @@
             document.getElementById('f-phone').placeholder = langData[lang]['f-phone'];
             document.getElementById('f-msg').placeholder = langData[lang]['f-msg'];
             document.getElementById('modalText').textContent = langData[lang]['modal'];
+            renderReviews(lang); // Przeładowujemy opinie w nowym języku
         }
 
         function showBlocked(e) {
@@ -211,13 +224,9 @@
             return false;
         }
 
+        // Inicjalizacja
         const gt = document.getElementById('galleryTrack'); gt.innerHTML += gt.innerHTML;
-        const rt = document.getElementById('reviewTrack');
-        [{n:"Anna K.", t:"Świetny pokaz!"}, {n:"Milos", t:"Polecam!"}].forEach(o => {
-            const c = document.createElement('div'); c.className = 'rev-card';
-            c.innerHTML = `<div style="display:flex;align-items:center;gap:10px;"><img src="https://ui-avatars.com/api/?name=${o.n}&background=76b82a&color=fff" style="width:40px;border-radius:50%;"><strong>${o.n}</strong></div><p style="margin-top:10px;color:#aaa;">"${o.t}"</p>`;
-            rt.appendChild(c);
-        });
+        renderReviews('pl');
     </script>
 </body>
 </html>
