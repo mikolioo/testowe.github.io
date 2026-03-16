@@ -11,22 +11,20 @@
         * { margin:0; padding:0; box-sizing:border-box; scroll-behavior: smooth; user-select: none; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--light); color: #333; line-height: 1.6; transition: 0.3s; }
 
-        /* TRYBY DOSTĘPNOŚCI */
+        /* MODES */
         body.epilepsy { filter: saturate(0.3) contrast(0.9); }
         body.epilepsy .track { animation: none !important; overflow-x: auto; }
         body.low-vision { font-size: 1.4rem; filter: contrast(1.7); }
         body.cognitive { background: #d1d9e0 !important; letter-spacing: 1.2px; }
         body.adhd { border: 20px solid var(--primary); }
-        body.adhd .track { animation-duration: 180s !important; }
         body.blind { filter: invert(1); background: #000; }
 
-        /* NAWIGACJA */
+        /* NAVBAR */
         .navbar { position: sticky; top: 0; background: rgba(255,255,255,0.95); display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; z-index: 1000; border-bottom: 1px solid #eee; backdrop-filter: blur(10px); }
         .nav-links { display: flex; gap: 20px; list-style: none; }
-        .nav-links a { text-decoration: none; color: #333; font-weight: 700; font-size: 0.85rem; transition: 0.3s; }
-        .nav-links a:hover { color: var(--primary); }
+        .nav-links a { text-decoration: none; color: #333; font-weight: 700; font-size: 0.85rem; }
 
-        /* MENU */
+        /* DROPDOWN MENU */
         .menu-btn { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 12px; cursor: pointer; font-weight: 800; }
         .dropdown { 
             position: absolute; top: 75px; right: 5%; background: white; width: 340px; 
@@ -34,137 +32,142 @@
             display: none; border: 1px solid #eee; z-index: 2000;
         }
         .dropdown.active { display: block; animation: fadeIn 0.3s ease; }
-        
         .acc-option { margin-bottom: 12px; border-bottom: 1px solid #f0f0f0; padding-bottom: 8px; }
-        .acc-btn { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 8px; background: #f9f9f9; font-weight: 700; cursor: pointer; text-align: left; margin-top: 5px; }
-        .acc-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .acc-btn { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 8px; background: #f9f9f9; font-weight: 700; cursor: pointer; margin-top: 5px; }
+        .acc-btn.active { background: var(--primary); color: white; }
 
         /* HERO */
-        .hero { height: 50vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        .hero h1 { font-size: clamp(2rem, 7vw, 4rem); font-weight: 800; }
+        .hero { height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 5%; }
+        .hero h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 800; line-height: 1.1; }
         .hero span { color: var(--primary); }
-        .btn-main { margin-top: 20px; padding: 15px 40px; background: var(--primary); color: white; border-radius: 50px; text-decoration: none; font-weight: 800; transition: 0.3s; }
-        .btn-main:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(118, 184, 42, 0.3); }
+        .btn-main { margin-top: 30px; padding: 18px 45px; background: var(--primary); color: white; border-radius: 50px; text-decoration: none; font-weight: 800; box-shadow: 0 10px 20px rgba(118,184,42,0.3); }
 
-        /* SEKCJE */
-        .section-title { text-align: center; font-size: 2.2rem; margin: 50px 0 30px; font-weight: 800; }
-        .about { padding: 60px 5%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; align-items: center; }
-        .about img { width: 100%; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-
-        /* GALERIA & TRACKS */
+        /* GALLERY & REVIEWS */
+        .section-title { text-align: center; font-size: 2.2rem; margin: 60px 0 30px; font-weight: 800; }
         .scroll-container { padding: 40px 0; background: var(--gray); overflow: hidden; }
         .dark-bg { background: var(--dark); color: white; }
         .track { display: flex; gap: 20px; animation: scroll 40s linear infinite; width: max-content; }
-        
-        .img-card { width: 300px; height: 300px; border-radius: 20px; overflow: hidden; border: 6px solid white; flex-shrink: 0; }
+        .img-card { width: 300px; height: 300px; border-radius: 25px; overflow: hidden; border: 8px solid white; flex-shrink: 0; }
         .img-card img { width: 100%; height: 100%; object-fit: cover; }
-        .rev-card { width: 300px; background: #1a1a24; border: 1px solid #222; border-radius: 20px; padding: 25px; flex-shrink: 0; }
+        .rev-card { width: 320px; background: #1a1a24; border: 1px solid #333; border-radius: 25px; padding: 30px; flex-shrink: 0; }
 
-        /* KONTAKT */
-        .contact { padding: 80px 5%; max-width: 800px; margin: 0 auto; text-align: center; }
-        .contact-form { display: grid; gap: 15px; margin-top: 30px; }
-        .contact-form input, .contact-form textarea { padding: 15px; border: 1px solid #ddd; border-radius: 12px; font-family: inherit; font-size: 1rem; }
-        .contact-form button { background: var(--primary); color: white; border: none; padding: 15px; border-radius: 12px; font-weight: 800; cursor: pointer; }
+        /* CONTACT FULL */
+        .contact { padding: 100px 5%; max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 50px; }
+        .contact-info { text-align: left; }
+        .contact-info h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 20px; }
+        .info-item { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; font-size: 1.1rem; }
+        .info-item i { color: var(--primary); font-size: 1.5rem; }
+        .contact-form { background: white; padding: 40px; border-radius: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); display: grid; gap: 15px; }
+        .contact-form input, .contact-form textarea { padding: 15px; border: 1px solid #eee; border-radius: 12px; background: #fdfdfd; font-family: inherit; }
+        .contact-form button { background: var(--primary); color: white; border: none; padding: 18px; border-radius: 12px; font-weight: 800; cursor: pointer; transition: 0.3s; }
 
-        footer { background: var(--dark); color: #777; padding: 40px 5%; text-align: center; border-top: 1px solid #222; }
+        footer { background: var(--dark); color: #555; padding: 60px 5%; text-align: center; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         
         #copyModal { position: fixed; top: 20px; right: 20px; background: white; border-left: 5px solid var(--primary); padding: 15px 25px; border-radius: 12px; display: none; z-index: 99999; box-shadow: 0 10px 30px rgba(0,0,0,0.2); font-weight: 700; }
     </style>
 </head>
 <body id="b" oncontextmenu="return showBlocked(event)">
 
-    <div id="copyModal"><i class="fas fa-shield-alt" style="color:var(--primary); margin-right:10px;"></i> <span id="modalText">Zablokowane</span></div>
+    <div id="copyModal"><i class="fas fa-lock"></i> <span id="modalText">Zablokowane</span></div>
 
     <nav class="navbar">
-        <div style="font-weight: 900; font-size: 1.4rem;">Ela <span style="color:var(--primary)">TM6</span></div>
+        <div style="font-weight: 900; font-size: 1.5rem;">Ela <span style="color:var(--primary)">TM6</span></div>
         <ul class="nav-links">
             <li><a href="#" data-key="nav-home">Home</a></li>
-            <li><a href="#o-mnie" data-key="nav-about">O Mnie</a></li>
             <li><a href="#galeria" data-key="nav-gallery">Galeria</a></li>
             <li><a href="#kontakt" data-key="nav-contact">Kontakt</a></li>
         </ul>
-        <button class="menu-btn" onclick="toggleMenu()" data-key="btn-settings">MENU</button>
+        <button class="menu-btn" onclick="toggleMenu()" data-key="btn-settings">USTAWIENIA</button>
         <div class="dropdown" id="m">
-            <h4 data-key="head-acc" style="font-size: 11px; color: #999; margin-bottom: 10px;">DOSTĘPNOŚĆ</h4>
-            <div class="acc-option"><h5 data-key="acc-epi-h">Epilepsja</h5><button class="acc-btn" onclick="toggleAcc('epilepsy', this)">OFF/ON</button></div>
-            <div class="acc-option"><h5 data-key="acc-vis-h">Niedowidzenie</h5><button class="acc-btn" onclick="toggleAcc('low-vision', this)">OFF/ON</button></div>
-            <div class="acc-option"><h5 data-key="acc-cog-h">Poznawczy</h5><button class="acc-btn" onclick="toggleAcc('cognitive', this)">OFF/ON</button></div>
-            <div class="acc-option"><h5 data-key="acc-adhd-h">ADHD</h5><button class="acc-btn" onclick="toggleAcc('adhd', this)">OFF/ON</button></div>
-            
-            <h4 data-key="head-lang" style="font-size: 11px; color: #999; margin: 15px 0 5px;">JĘZYK</h4>
-            <select onchange="changeLang(this.value)" id="langSelect" style="width:100%; padding:10px; border-radius:8px; font-weight:700;"></select>
+            <h4 data-key="head-acc">DOSTĘPNOŚĆ</h4>
+            <div class="acc-option"><button class="acc-btn" onclick="toggleAcc('epilepsy', this)" data-key="acc-epi">Tryb Epilepsja</button></div>
+            <div class="acc-option"><button class="acc-btn" onclick="toggleAcc('low-vision', this)" data-key="acc-vis">Dla Niedowidzących</button></div>
+            <div class="acc-option"><button class="acc-btn" onclick="toggleAcc('cognitive', this)" data-key="acc-cog">Tryb Poznawczy</button></div>
+            <h4 data-key="head-lang" style="margin-top:20px;">ZMIEŃ JĘZYK</h4>
+            <select onchange="changeLang(this.value)" id="langSelect" style="width:100%; padding:12px; border-radius:10px; font-weight:700; margin-top:10px;"></select>
         </div>
     </nav>
 
     <section class="hero">
-        <h1 data-key="hero-title">Gotuj z <span>Pasją</span></h1>
-        <p data-key="hero-sub">Ela Thermomix - Twój doradca.</p>
-        <a href="#kontakt" class="btn-main" data-key="hero-btn">Pokaz</a>
+        <h1 data-key="hero-title">Gotuj z <span>Pasją</span>, jedz zdrowo.</h1>
+        <p data-key="hero-sub" style="font-size: 1.2rem; color: #666; margin-top: 15px;">Ela Thermomix – Twój osobisty przewodnik po świecie kulinariów.</p>
+        <a href="#kontakt" class="btn-main" data-key="hero-btn">Umów darmowy pokaz</a>
     </section>
 
-    <section class="about" id="o-mnie">
-        <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800" alt="Ela">
-        <div class="about-text">
-            <h2 data-key="about-title">Cześć, jestem <span>Ela</span></h2>
-            <p data-key="about-p1">Doradzam jak gotować zdrowo i szybko w każdym domu.</p>
-        </div>
-    </section>
-
-    <div class="section-title" id="galeria" data-key="nav-gallery">Galeria</div>
+    <div class="section-title" id="galeria" data-key="nav-gallery">Galeria Potraw</div>
     <div class="scroll-container">
         <div class="track">
             <div class="img-card"><img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?w=500"></div>
             <div class="img-card"><img src="https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?w=500"></div>
             <div class="img-card"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500"></div>
+            <div class="img-card"><img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=500"></div>
             <div class="img-card"><img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?w=500"></div>
             <div class="img-card"><img src="https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?w=500"></div>
-            <div class="img-card"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500"></div>
         </div>
     </div>
 
+    <div class="section-title" data-key="nav-rev">Co mówią klienci</div>
     <div class="scroll-container dark-bg">
         <div class="track" id="reviewTrack"></div>
     </div>
 
     <section class="contact" id="kontakt">
-        <h2 class="section-title" data-key="nav-contact">Kontakt</h2>
+        <div class="contact-info">
+            <h2 data-key="nav-contact">Kontakt</h2>
+            <p data-key="contact-desc" style="margin-bottom:30px;">Masz pytania? Chcesz zobaczyć Thermomix w akcji? Napisz do mnie!</p>
+            <div class="info-item"><i class="fas fa-phone"></i> <span>+48 123 456 789</span></div>
+            <div class="info-item"><i class="fas fa-envelope"></i> <span>ela@thermomix-doradca.pl</span></div>
+            <div class="info-item"><i class="fas fa-map-marker-alt"></i> <span data-key="contact-loc">Cała Polska / Dojazd do klienta</span></div>
+        </div>
         <form class="contact-form">
-            <input type="text" placeholder="Imię" data-key="form-name">
-            <input type="email" placeholder="E-mail" data-key="form-email">
-            <textarea rows="5" placeholder="Wiadomość" data-key="form-msg"></textarea>
-            <button type="submit" data-key="form-btn">Wyślij</button>
+            <input type="text" placeholder="Imię i nazwisko" data-key="f-name">
+            <input type="email" placeholder="Twój adres e-mail" data-key="f-mail">
+            <textarea rows="4" placeholder="W czym mogę pomóc?" data-key="f-msg"></textarea>
+            <button type="submit" data-key="f-btn">Wyślij zgłoszenie</button>
         </form>
     </section>
 
     <footer>
-        <p>&copy; 2026 Ela Thermomix. Made for Pan Igor król 120.</p>
+        <p>&copy; 2026 Ela Thermomix. Projekt dla: Pan Igor król 120.</p>
     </footer>
 
     <script>
         const langData = {
             pl: {
-                "nav-home": "Home", "nav-about": "O Mnie", "nav-contact": "Kontakt", "nav-gallery": "Galeria", "btn-settings": "MENU",
-                "head-acc": "DOSTĘPNOŚĆ", "head-lang": "JĘZYK", "hero-title": "Gotuj z Pasją", "hero-btn": "Umów pokaz",
-                "acc-epi-h": "Tryb dla epileptyków", "acc-vis-h": "Tryb dla niedowidzących", "acc-cog-h": "Tryb poznawczy", "acc-adhd-h": "Tryb ADHD",
-                "form-name": "Imię", "form-email": "E-mail", "form-msg": "Wiadomość", "form-btn": "Wyślij",
-                "modal": "Kopiowanie zablokowane", "about-title": "Cześć, jestem Ela", "hero-sub": "Ela Thermomix - Twój doradca.",
+                "nav-home": "Home", "nav-gallery": "Galeria", "nav-contact": "Kontakt", "nav-rev": "Opinie", "btn-settings": "USTAWIENIA",
+                "head-acc": "DOSTĘPNOŚĆ", "head-lang": "ZMIEŃ JĘZYK", "hero-title": "Gotuj z Pasją", "hero-btn": "Umów pokaz",
+                "acc-epi": "Tryb Epilepsja", "acc-vis": "Niedowidzenie", "acc-cog": "Poznawczy",
+                "f-name": "Imię i nazwisko", "f-mail": "Twój e-mail", "f-msg": "Wiadomość", "f-btn": "Wyślij zgłoszenie",
+                "contact-desc": "Masz pytania? Chcesz zobaczyć urządzenie? Napisz!", "contact-loc": "Dojazd do klienta",
+                "modal": "Kopiowanie zablokowane!", "hero-sub": "Ela Thermomix – Twój osobisty przewodnik.",
                 "langs": { pl: "Polski", en: "Angielski", de: "Niemiecki", ru: "Rosyjski", uk: "Ukraiński", cs: "Czeski", sk: "Słowacki", lt: "Litewski", zh: "Chiński", es: "Hiszpański", fr: "Francuski", it: "Włoski", nl: "Holenderski", sv: "Szwedzki" },
-                "revs": [{n:"Anna", t:"Super!"}, {n:"Marek", t:"Polecam!"}]
+                "revs": [{n:"Anna K.", t:"Najlepsza decyzja! Pani Ela wszystko wyjaśniła."}, {n:"Marek P.", t:"Polecam pokaz, pyszne jedzenie i pełna wiedza."}]
             },
             en: {
-                "nav-home": "Home", "nav-about": "About", "nav-contact": "Contact", "nav-gallery": "Gallery", "btn-settings": "MENU",
+                "nav-home": "Home", "nav-gallery": "Gallery", "nav-contact": "Contact", "nav-rev": "Reviews", "btn-settings": "SETTINGS",
                 "head-acc": "ACCESSIBILITY", "head-lang": "LANGUAGE", "hero-title": "Cook with Passion", "hero-btn": "Book demo",
-                "acc-epi-h": "Epilepsy Mode", "acc-vis-h": "Low Vision", "acc-cog-h": "Cognitive", "acc-adhd-h": "ADHD Mode",
-                "form-name": "Name", "form-email": "Email", "form-msg": "Message", "form-btn": "Send",
-                "modal": "Copy disabled", "about-title": "Hi, I'm Ela", "hero-sub": "Your Thermomix advisor.",
+                "acc-epi": "Epilepsy Mode", "acc-vis": "Low Vision", "acc-cog": "Cognitive",
+                "f-name": "Full Name", "f-mail": "Your Email", "f-msg": "Message", "f-btn": "Send message",
+                "contact-desc": "Questions? Want a demo? Write to me!", "contact-loc": "Home visits available",
+                "modal": "Copying locked!", "hero-sub": "Ela Thermomix – Your personal guide.",
                 "langs": { pl: "Polish", en: "English", de: "German", ru: "Russian", uk: "Ukrainian", cs: "Czech", sk: "Slovak", lt: "Lithuanian", zh: "Chinese", es: "Spanish", fr: "French", it: "Italian", nl: "Dutch", sv: "Swedish" },
-                "revs": [{n:"Ann", t:"Great!"}, {n:"Mark", t:"Recommended!"}]
+                "revs": [{n:"John D.", t:"Amazing machine and even better advisor!"}]
             },
-            ru: { "nav-home": "Главная", "nav-about": "Обо мне", "nav-contact": "Контакт", "nav-gallery": "Галерея", "btn-settings": "МЕНЮ", "head-acc": "ДОСТУП", "head-lang": "ЯЗЫК", "hero-title": "Готовьте", "hero-btn": "Показ", "acc-epi-h": "Эпилепсия", "acc-vis-h": "Зрение", "acc-cog-h": "Когнитивный", "acc-adhd-h": "СДВГ", "form-name": "Имя", "form-email": "Email", "form-msg": "Сообщение", "form-btn": "Отправить", "modal": "Блок", "about-title": "Эля", "hero-sub": "Советник.", "langs": { pl: "Польский", en: "Английский", de: "Немецкий", ru: "Русский", uk: "Украинский", cs: "Чешский", sk: "Словацкий", lt: "Литовский", zh: "Китайский", es: "Испанский", fr: "Французский", it: "Итальянский", nl: "Голландский", sv: "Шведский" }, "revs": [{n:"Игорь", t:"Круто!"}] }
-            // (Pozostałe języki działają analogicznie w systemie)
+            de: { "nav-home": "Start", "nav-gallery": "Galerie", "nav-contact": "Kontakt", "nav-rev": "Bewertungen", "btn-settings": "EINSTELLUNGEN", "head-acc": "ZUGANG", "head-lang": "SPRACHE", "hero-title": "Kochen", "hero-btn": "Termin", "f-btn": "Senden", "contact-loc": "Hausbesuche", "langs": { pl: "Polnisch", en: "Englisch", de: "Deutsch", ru: "Russisch", uk: "Ukrainisch", cs: "Tschechisch", sk: "Slowakisch", lt: "Litauisch", zh: "Chinesisch", es: "Spanisch", fr: "Französisch", it: "Italienisch", nl: "Niederländisch", sv: "Schwedisch" }, "revs": [{n:"Hans", t:"Sehr gut!"}] },
+            ru: { "nav-home": "Главная", "nav-gallery": "Галерея", "nav-contact": "Контакт", "nav-rev": "Отзывы", "btn-settings": "НАСТРОЙКИ", "head-acc": "ДОСТУП", "head-lang": "ЯЗЫК", "hero-title": "Готовьте", "hero-btn": "Запись", "f-btn": "Отправить", "contact-loc": "Выезд на дом", "langs": { pl: "Польский", en: "Английский", de: "Немецкий", ru: "Русский", uk: "Украинский", cs: "Чешский", sk: "Словацкий", lt: "Литовский", zh: "Китайский", es: "Испанский", fr: "Французский", it: "Итальянский", nl: "Голландский", sv: "Шведский" }, "revs": [{n:"Игорь", t:"Круто!"}] },
+            uk: { "nav-home": "Головна", "nav-gallery": "Галерея", "nav-contact": "Контакт", "nav-rev": "Відгуки", "btn-settings": "НАЛАШТУВАННЯ", "head-acc": "ДОСТУП", "head-lang": "МОВА", "hero-title": "Готуйте", "hero-btn": "Запис", "f-btn": "Надіслати", "contact-loc": "Виїзд додому", "langs": { pl: "Польська", en: "Англійська", de: "Німецька", ru: "Російська", uk: "Українська", cs: "Чеська", sk: "Словацька", lt: "Литовська", zh: "Китайська", es: "Іспанська", fr: "Французька", it: "Італійська", nl: "Голландська", sv: "Шведська" }, "revs": [{n:"Олег", t:"Супер!"}] },
+            es: { "nav-contact": "Contacto", "hero-title": "Cocina", "hero-btn": "Reserva", "f-btn": "Enviar", "langs": { es: "Español", pl: "Polaco", en: "Inglés", de: "Alemán", ru: "Ruso", uk: "Ucraniano", cs: "Checo", sk: "Eslovaco", lt: "Lituano", zh: "Chino", fr: "Francés", it: "Italiano", nl: "Holandés", sv: "Sueco" }, "revs": [{n:"Maria", t:"Excelente!"}] },
+            fr: { "nav-contact": "Contact", "hero-title": "Cuisinez", "hero-btn": "Démo", "f-btn": "Envoyer", "langs": { fr: "Français", pl: "Polonais", en: "Anglais", de: "Allemand", ru: "Russe", uk: "Ukrainien", cs: "Tchèque", sk: "Slovaque", lt: "Lituanien", zh: "Chinois", es: "Espagnol", it: "Italien", nl: "Néerlandais", sv: "Suédois" }, "revs": [{n:"Jean", t:"Génial!"}] },
+            it: { "nav-contact": "Contatti", "hero-title": "Cucina", "hero-btn": "Prenota", "f-btn": "Invia", "langs": { it: "Italiano", pl: "Polacco", en: "Inglese", de: "Tedesco", ru: "Russo", uk: "Ucraino", cs: "Ceco", sk: "Slovacco", lt: "Lituano", zh: "Cinese", es: "Spagnolo", fr: "Francese", nl: "Olandese", sv: "Svedese" }, "revs": [{n:"Luca", t:"Ottimo!"}] },
+            nl: { "nav-contact": "Contact", "hero-title": "Koken", "hero-btn": "Demo", "f-btn": "Verzenden", "langs": { nl: "Nederlands", pl: "Pools", en: "Engels", de: "Duits", ru: "Russisch", uk: "Oekraïens", cs: "Tsjechisch", sk: "Slowaaks", lt: "Litouws", zh: "Chinees", es: "Spaans", fr: "Frans", it: "Italiaans", sv: "Zweeds" }, "revs": [{n:"Jan", t:"Geweldig!"}] },
+            sv: { "nav-contact": "Kontakt", "hero-title": "Laga mat", "hero-btn": "Boka", "f-btn": "Skicka", "langs": { sv: "Svenska", pl: "Polska", en: "Engelska", de: "Tyska", ru: "Ryska", uk: "Ukrainska", cs: "Tjeckiska", sk: "Slovakiska", lt: "Litauiska", zh: "Kinesiska", es: "Spanska", fr: "Franska", it: "Italienska", nl: "Nederländska" }, "revs": [{n:"Sven", t:"Kanon!"}] },
+            cs: { "nav-contact": "Kontakt", "hero-btn": "Ukázka", "f-btn": "Odeslat", "langs": { cs: "Čeština", pl: "Polština", en: "Angličtina", de: "Němčina", ru: "Ruština", uk: "Ukrajinština", sk: "Slovenština", lt: "Litevština", zh: "Čínština", es: "Španělština", fr: "Francouzština", it: "Italština", nl: "Nizozemština", sv: "Švédština" }, "revs": [{n:"Petr", t:"Doporučuji!"}] },
+            sk: { "nav-contact": "Kontakt", "hero-btn": "Ukážka", "f-btn": "Odoslať", "langs": { sk: "Slovenština", pl: "Poľština", en: "Angličtina", de: "Nemčina", ru: "Ruština", uk: "Ukrajinčina", cs: "Čeština", lt: "Litovčina", zh: "Čínština", es: "Španielčina", fr: "Francúzština", it: "Taliančina", nl: "Holandčina", sv: "Švédština" }, "revs": [{n:"Jano", t:"Super!"}] },
+            lt: { "nav-contact": "Kontaktai", "hero-btn": "Demo", "f-btn": "Siųsti", "langs": { lt: "Lietuvių", pl: "Lenkų", en: "Anglų", de: "Vokiečių", ru: "Rusų", uk: "Ukrainiečių", cs: "Čekų", sk: "Slovakų", zh: "Kinų", es: "Ispanų", fr: "Prancūzų", it: "Italų", nl: "Olandų", sv: "Švedų" }, "revs": [{n:"Tomas", t:"Gerai!"}] },
+            zh: { "nav-contact": "联系", "hero-btn": "演示", "f-btn": "发送", "langs": { zh: "中文", pl: "波兰语", en: "英语", de: "德语", ru: "俄语", uk: "乌克兰语", cs: "捷克语", sk: "斯洛伐克语", lt: "立陶宛语", es: "西班牙语", fr: "法语", it: "意大利语", nl: "荷兰语", sv: "瑞典语" }, "revs": [{n:"小王", t:"很好!"}] }
         };
 
         function toggleMenu() { document.getElementById('m').classList.toggle('active'); }
@@ -172,11 +175,12 @@
 
         function renderReviews(lang) {
             const rt = document.getElementById('reviewTrack'); rt.innerHTML = '';
-            const data = langData[lang] || langData['pl'];
-            [...data.revs, ...data.revs, ...data.revs, ...data.revs].forEach(o => {
+            let revs = langData[lang]?.revs || langData['pl'].revs;
+            if (revs.length < 4) revs = [...revs, ...langData['pl'].revs];
+            [...revs, ...revs, ...revs].forEach(o => {
                 const c = document.createElement('div');
                 c.className = 'rev-card';
-                c.innerHTML = `<strong>${o.n}</strong><p style="color:#aaa;margin-top:10px;">"${o.t}"</p>`;
+                c.innerHTML = `<strong>${o.n}</strong><p style="color:#aaa;margin-top:15px;">"${o.t}"</p>`;
                 rt.appendChild(c);
             });
         }
@@ -186,19 +190,16 @@
             document.querySelectorAll('[data-key]').forEach(el => {
                 const key = el.getAttribute('data-key');
                 if (data[key]) {
-                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = data[key];
+                    if (['INPUT', 'TEXTAREA'].includes(el.tagName)) el.placeholder = data[key];
                     else el.textContent = data[key];
                 }
             });
-            document.getElementById('modalText').textContent = data['modal'];
-            updateLangList(lang);
-            renderReviews(lang);
+            updateLangList(lang); renderReviews(lang);
         }
 
         function updateLangList(currentLang) {
             const select = document.getElementById('langSelect');
-            const data = langData[currentLang] || langData['pl'];
-            const names = data.langs;
+            const names = (langData[currentLang] || langData['pl']).langs;
             select.innerHTML = '';
             Object.keys(names).forEach(key => {
                 const opt = document.createElement('option');
@@ -218,4 +219,5 @@
         updateLangList('pl'); renderReviews('pl');
     </script>
 </body>
+</html>
 </html>
