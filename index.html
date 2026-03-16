@@ -7,70 +7,72 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
-        /* NAPRAWA CSS - CIEMNY MOTYW JAK NA SCREENACH */
         :root { --primary: #76b82a; --accent: #8a2be2; --bg: #0d0d12; --card: #16161e; }
         * { margin:0; padding:0; box-sizing:border-box; scroll-behavior: smooth; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: #fff; overflow-x: hidden; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: #fff; line-height: 1.6; }
 
-        /* MENU HAMBURGER - NAPRAWA WIDOKU */
+        /* MENU */
         .nav-fixed { position: fixed; top: 20px; right: 20px; z-index: 10000; }
         .hamburger { background: var(--primary); border: none; width: 50px; height: 50px; border-radius: 12px; cursor: pointer; color: white; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; }
         .dropdown { position: absolute; top: 60px; right: 0; background: #1c1c26; width: 260px; padding: 20px; border-radius: 15px; display: none; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .dropdown.active { display: block; }
-        .dropdown button, .dropdown a { width: 100%; padding: 12px; margin-bottom: 8px; border-radius: 10px; border: 1px solid #333; background: #252533; color: white; text-align: left; text-decoration: none; display: flex; align-items: center; cursor: pointer; font-size: 0.9rem; font-weight: 700; }
+        .dropdown button, .dropdown a { width: 100%; padding: 12px; margin-bottom: 8px; border-radius: 10px; border: 1px solid #333; background: #252533; color: white; text-align: left; text-decoration: none; display: flex; align-items: center; cursor: pointer; font-weight: 700; }
         .dropdown i { margin-right: 10px; color: var(--primary); }
 
         /* HERO */
-        .hero { height: 80vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: radial-gradient(circle at center, #1a1a2e 0%, #0d0d12 100%); }
-        .hero h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 800; line-height: 1.1; }
+        .hero { height: 70vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; }
+        .hero h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 800; }
         .hero span { color: var(--primary); }
-        .btn-main { margin-top: 30px; padding: 18px 45px; background: var(--primary); color: white; border-radius: 50px; text-decoration: none; font-weight: 800; box-shadow: 0 10px 25px rgba(118,184,42,0.3); }
+        .btn-main { margin-top: 30px; padding: 18px 45px; background: var(--primary); color: white; border-radius: 50px; text-decoration: none; font-weight: 800; }
 
-        /* O MNIE - STYL ZE SCREENA 9f2015.jpg */
+        /* O MNIE */
         .about { padding: 80px 5%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 50px; align-items: center; }
-        .about img { width: 100%; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-        .about-text h2 { font-size: 2.5rem; margin-bottom: 20px; }
-        .about-text span { color: var(--primary); }
-        .about-text p { color: #b5b5b5; line-height: 1.7; margin-bottom: 15px; }
+        .about img { width: 100%; border-radius: 20px; border: 1px solid #333; }
+        .about-text h2 { font-size: 2.8rem; margin-bottom: 20px; color: var(--primary); }
 
-        /* OPINIE - STYL ZE SCREENA image_a9e6f6.jpg */
-        .reviews { padding: 60px 0; background: #08080c; overflow: hidden; }
-        .marquee { display: flex; gap: 25px; animation: scroll 30s linear infinite; width: max-content; }
+        /* GALERIA - NOWA SEKCJA */
+        .gallery { padding: 60px 5%; max-width: 1200px; margin: 0 auto; }
+        .gallery-h2 { text-align: center; font-size: 2.5rem; margin-bottom: 40px; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .gallery-item { height: 350px; border-radius: 20px; overflow: hidden; border: 1px solid #222; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.4s; }
+        .gallery-item:hover img { transform: scale(1.05); }
+
+        /* OPINIE MARQUEE */
+        .reviews { padding: 60px 0; background: #08080c; overflow: hidden; border-top: 1px solid #111; }
+        .marquee { display: flex; gap: 25px; animation: scroll 40s linear infinite; width: max-content; }
         .rev-card { width: 350px; background: var(--card); padding: 30px; border-radius: 20px; border: 1px solid #252533; }
         .user-box { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
         .user-box img { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--accent); }
-        .user-box strong { font-size: 1.1rem; }
-        .user-box small { color: var(--accent); font-weight: 800; font-size: 0.7rem; letter-spacing: 1px; }
 
         /* FORMULARZ */
-        .booking { padding: 80px 5%; max-width: 900px; margin: 0 auto; }
+        .booking { padding: 80px 5%; max-width: 1000px; margin: 0 auto; }
         .form-box { background: var(--card); padding: 40px; border-radius: 30px; border: 1px solid #222; }
-        .form-box input, .form-box select, .form-box textarea { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 12px; border: 1px solid #333; background: #0d0d12; color: white; font-family: inherit; }
-        .btn-submit { width: 100%; padding: 18px; background: var(--primary); color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: 800; font-size: 1.1rem; }
+        input, select, textarea { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 12px; border: 1px solid #333; background: #0d0d12; color: white; font-family: inherit; }
+        .btn-submit { width: 100%; padding: 18px; background: var(--primary); color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: 800; }
 
         @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         .high-contrast { filter: contrast(1.2) brightness(1.1); }
         .big-text { font-size: 1.2rem; }
     </style>
 </head>
-<body id="b">
+<body id="pb">
 
     <div class="nav-fixed">
         <button class="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
-        <div class="dropdown" id="m">
+        <div class="dropdown" id="mm">
             <h4>WIDOK</h4>
-            <button onclick="document.getElementById('b').classList.toggle('high-contrast')"><i class="fas fa-adjust"></i> Kontrast</button>
-            <button onclick="document.getElementById('b').classList.toggle('big-text')"><i class="fas fa-text-height"></i> Powiększ</button>
+            <button onclick="document.getElementById('pb').classList.toggle('high-contrast')">Kontrast</button>
+            <button onclick="document.getElementById('pb').classList.toggle('big-text')">Powiększ tekst</button>
             <hr style="border:0; border-top:1px solid #333; margin:10px 0;">
-            <h4>KONTAKT</h4>
-            <a href="https://wa.me/48123456789"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-            <a href="mailto:ela@kontakt.pl"><i class="fas fa-envelope"></i> E-mail</a>
+            <a href="https://wa.me/48123456789">WhatsApp</a>
+            <a href="mailto:ela@kontakt.pl">E-mail</a>
         </div>
     </div>
 
     <section class="hero">
-        <h1>Pokazy i sprzedaż<br><span>Thermomix</span></h1>
-        <p style="color: #888; margin-top: 15px;">Nowoczesne gotowanie zaczyna się tutaj.</p>
+        <h1>Pokazy i sprzedaż <span>Thermomix</span></h1>
+        <p style="color: #888; margin-top: 15px;">Twoja kuchnia zasługuje na najlepszego doradcę.</p>
         <a href="#form" class="btn-main">Zarezerwuj pokaz</a>
     </section>
 
@@ -78,58 +80,57 @@
         <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=1000" alt="Ela">
         <div class="about-text">
             <h2>Cześć, jestem <span>Ela</span></h2>
-            <p>Jako doradca Thermomix pomagam wprowadzić nową jakość do Twojej kuchni. Moje pokazy to nie tylko nauka obsługi, to wspólna przygoda ze smakiem.</p>
-            <p>Pokażę Ci, jak oszczędzać czas i pieniądze, gotując zdrowo i pysznie dla całej rodziny.</p>
+            <p>Pomagam wprowadzić nową jakość do Twojej kuchni. Thermomix to nie tylko urządzenie, to oszczędność czasu i zdrowie dla Twojej rodziny.</p>
+        </div>
+    </section>
+
+    <section class="gallery">
+        <h2 class="gallery-h2">Magia w kuchni</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?q=80&w=800"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?q=80&w=800"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1466637574441-749b8f19452f?q=80&w=800"></div>
         </div>
     </section>
 
     <div class="reviews">
-        <div class="marquee" id="t">
-            </div>
+        <div class="marquee" id="tr"></div>
     </div>
 
     <section class="booking" id="form">
         <div class="form-box">
-            <h2 style="margin-bottom: 25px; text-align: center;">Umów Termin</h2>
+            <h2 style="text-align:center; margin-bottom:20px;">Umów termin</h2>
             <form action="https://formspree.io/f/yourID" method="POST">
-                <input type="text" name="n" placeholder="Imię i Nazwisko" required>
-                <div style="display: flex; gap: 15px;">
-                    <input type="email" name="e" placeholder="E-mail" required>
-                    <input type="tel" name="p" placeholder="Telefon" required>
-                </div>
-                <select name="s">
-                    <option>Pokaz Domowy</option>
-                    <option>Pokaz Online</option>
-                </select>
-                <textarea name="m" rows="4" placeholder="Twoja wiadomość..."></textarea>
+                <input type="text" name="name" placeholder="Imię i Nazwisko" required>
+                <input type="email" name="email" placeholder="E-mail" required>
+                <input type="tel" name="phone" placeholder="Telefon" required>
+                <textarea name="msg" rows="4" placeholder="Twoja wiadomość..."></textarea>
                 <button type="submit" class="btn-submit">WYŚLIJ ZGŁOSZENIE</button>
             </form>
         </div>
     </section>
 
     <script>
-        // NAPRAWA JS - MENU I OPINIE W JEDNYM
-        function toggleMenu() { document.getElementById('m').classList.toggle('active'); }
+        function toggleMenu() { document.getElementById('mm').classList.toggle('active'); }
 
-        const reviews = [
-            { n: "xNothing", t: "Dobrze wykonany skrypt", c: "76b82a" },
-            { n: "Milos18", t: "Polecam plugin na /duel", c: "8a2be2" },
-            { n: "Aspas", t: "Kurs renderów Polecam", c: "ff5722" },
-            { n: "Anna K.", t: "Świetna prezentacja Thermomixa!", c: "4caf50" }
+        const ops = [
+            { n: "xNothing", t: "Dobrze wykonany skrypt!", c: "76b82a" },
+            { n: "Milos18", t: "Polecam pokazy u Eli.", c: "8a2be2" },
+            { n: "Aspas", t: "Najlepszy doradca!", c: "ff5722" }
         ];
 
-        const track = document.getElementById('t');
-        [...reviews, ...reviews, ...reviews].forEach(r => {
-            const div = document.createElement('div');
-            div.className = 'rev-card';
-            div.innerHTML = `
+        const tr = document.getElementById('tr');
+        [...ops, ...ops, ...ops].forEach(o => {
+            const c = document.createElement('div');
+            c.className = 'rev-card';
+            c.innerHTML = `
                 <div class="user-box">
-                    <img src="https://ui-avatars.com/api/?name=${r.n}&background=${r.c}&color=fff">
-                    <div><strong>${r.n}</strong><br><small>KLIENT</small></div>
+                    <img src="https://ui-avatars.com/api/?name=${o.n}&background=${o.c}&color=fff">
+                    <div><strong>${o.n}</strong><br><small>Klient</small></div>
                 </div>
-                <p style="color:#888; font-style:italic;">"${r.t}"</p>
+                <p style="color:#888; font-style:italic;">"${o.t}"</p>
             `;
-            track.appendChild(div);
+            tr.appendChild(c);
         });
     </script>
 </body>
