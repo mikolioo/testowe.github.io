@@ -8,17 +8,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #76b82a; --dark: #111; --light: #ffffff; --gray: #f8f9fa; }
-        * { margin:0; padding:0; box-sizing:border-box; scroll-behavior: smooth; }
+        * { margin:0; padding:0; box-sizing:border-box; scroll-behavior: smooth; user-select: none; } /* user-select: none blokuje zaznaczanie tekstu */
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--light); color: #333; line-height: 1.6; }
 
-        /* PASEK NAWIGACJI (Styl DevHex) */
+        /* PASEK NAWIGACJI */
         .navbar { 
             position: sticky; top: 0; background: rgba(255,255,255,0.95); 
             display: flex; justify-content: space-between; align-items: center; 
             padding: 15px 5%; z-index: 1000; border-bottom: 1px solid #eee; backdrop-filter: blur(10px);
         }
         .nav-links { display: flex; gap: 30px; list-style: none; }
-        .nav-links a { text-decoration: none; color: #333; font-weight: 700; font-size: 0.9rem; position: relative; }
+        .nav-links a { text-decoration: none; color: #333; font-weight: 700; font-size: 0.9rem; transition: 0.3s; }
         .nav-links a:hover { color: var(--primary); }
 
         /* MENU USTAWIEŃ */
@@ -32,24 +32,24 @@
         .dropdown button { width: 100%; padding: 12px; margin-bottom: 8px; border-radius: 8px; border: 1px solid #eee; background: #f9f9f9; text-align: left; cursor: pointer; font-weight: 700; display: flex; justify-content: space-between; }
 
         /* HERO */
-        .hero { height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: radial-gradient(circle at center, #fafffa 0%, #ffffff 100%); }
-        .hero h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 800; color: #222; }
+        .hero { height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .hero h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 800; }
         .hero span { color: var(--primary); }
-        .btn-main { margin-top: 25px; padding: 18px 45px; background: var(--primary); color: white; border-radius: 50px; text-decoration: none; font-weight: 800; box-shadow: 0 10px 25px rgba(118,184,42,0.2); }
+        .btn-main { margin-top: 25px; padding: 18px 45px; background: var(--primary); color: white; border-radius: 50px; text-decoration: none; font-weight: 800; }
 
-        /* O MNIE (PRZYWRÓCONE) */
+        /* O MNIE */
         .about { padding: 80px 5%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 50px; align-items: center; }
-        .about img { width: 100%; border-radius: 30px; border: 8px solid white; box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
-        .about-text h2 { font-size: 2.5rem; margin-bottom: 20px; color: #222; }
+        .about img { width: 100%; border-radius: 30px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
+        .about-text h2 { font-size: 2.5rem; margin-bottom: 20px; }
         .about-text span { color: var(--primary); }
 
-        /* GALERIA ANIMOWANA (MARQUEE) */
+        /* GALERIA ANIMOWANA */
         .gallery-box { padding: 60px 0; background: var(--gray); overflow: hidden; }
         .track { display: flex; gap: 20px; animation: scroll 40s linear infinite; width: max-content; }
         .img-card { width: 320px; height: 320px; border-radius: 20px; overflow: hidden; border: 4px solid white; }
         .img-card img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* OPINIE (CZARNE TŁO) */
+        /* OPINIE (CZARNE) */
         .reviews { padding: 80px 0; background: #0d0d12; color: white; overflow: hidden; }
         .rev-card { width: 350px; background: #16161e; padding: 30px; border-radius: 20px; border: 1px solid #222; }
         .user { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
@@ -58,14 +58,26 @@
         /* FORMULARZ */
         .booking { padding: 80px 5%; max-width: 850px; margin: 0 auto; }
         .form-box { background: var(--gray); padding: 50px; border-radius: 30px; border: 1px solid #eee; }
-        input, select, textarea { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 12px; border: 1px solid #ddd; font-family: inherit; }
+        input, select, textarea { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 12px; border: 1px solid #ddd; }
         .btn-send { width: 100%; padding: 18px; background: #222; color: white; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; }
+
+        /* MODAL BLOKADY (Styl jak na ss) */
+        #copyModal {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: white; border: 2px solid var(--primary); padding: 20px 40px;
+            border-radius: 15px; display: none; z-index: 99999;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            text-align: center; font-weight: 700; color: #000;
+        }
+        #copyModal i { color: #ff4d4d; margin-right: 15px; }
 
         @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         .high-contrast { filter: contrast(1.2); }
     </style>
 </head>
-<body id="b">
+<body id="b" oncontextmenu="return showBlocked(event)">
+
+    <div id="copyModal"><i class="fas fa-shield-alt"></i> Prawy przycisk myszy jest zablokowany</div>
 
     <nav class="navbar">
         <div style="font-weight: 900; font-size: 1.4rem;">Ela <span style="color:var(--primary)">TM6</span></div>
@@ -95,8 +107,8 @@
         <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800" alt="Ela w kuchni">
         <div class="about-text">
             <h2>Cześć, jestem <span>Ela</span></h2>
-            <p>Jako Twój doradca Thermomix, pomagam wprowadzić zdrowie i czas do Twojego domu. Posiadam wieloletnie doświadczenie i dopasuję urządzenie do Twojego stylu życia.</p>
-            <p>Wybierając pokaz u mnie, zyskujesz nie tylko sprzęt, ale stałą opiekę i masę inspiracji każdego dnia.</p>
+            <p>Jako Twój doradca Thermomix, pomagam wprowadzić zdrowie i czas do Twojego domu. Thermomix to nie tylko urządzenie, to styl życia.</p>
+            <p>Moje wieloletnie doświadczenie pozwala mi idealnie dopasować prezentację do Twoich potrzeb kulinarnych.</p>
         </div>
     </section>
 
@@ -135,15 +147,24 @@
     <script>
         function toggleMenu() { document.getElementById('m').classList.toggle('active'); }
 
-        // Klonowanie galerii dla pętli
+        // Blokada prawego przycisku + Modal
+        function showBlocked(e) {
+            e.preventDefault();
+            const modal = document.getElementById('copyModal');
+            modal.style.display = 'block';
+            setTimeout(() => { modal.style.display = 'none'; }, 2000);
+            return false;
+        }
+
+        // Klonowanie galerii
         const gt = document.getElementById('galleryTrack');
         gt.innerHTML += gt.innerHTML;
 
         // Opinie
         const ops = [
-            { n: "xNothing", t: "Dobrze wykonany skrypt, polecam!" },
-            { n: "Milos18", t: "Wszystko sprawnie i pysznie." },
-            { n: "Anna K.", t: "Thermomix zmienił moje podejście do kuchni!" }
+            { n: "Anna K.", t: "Pokaz u Eli to była czysta przyjemność!" },
+            { n: "Marek P.", t: "Pełen profesjonalizm i pyszne jedzenie." },
+            { n: "Kasia N.", t: "Dzięki Eli gotowanie stało się prostsze." }
         ];
         const rt = document.getElementById('reviewTrack');
         [...ops, ...ops, ...ops].forEach(o => {
