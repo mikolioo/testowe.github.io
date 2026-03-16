@@ -3,160 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ela Thermomix | Autoryzowany Doradca</title>
+    <title>Ela Thermomix | Profesjonalny Doradca</title>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+
     <style>
-        /* KOLORYSTYKA CIEMNA - JAK NA SCREENACH */
         :root { 
             --primary: #76b82a; 
-            --accent-purple: #8a2be2;
-            --dark-bg: #0d0d12; 
-            --card-bg: #16161e;
-            --text-gray: #b5b5b5;
+            --accent: #8a2be2;
+            --bg: #0d0d12; 
+            --card: #16161e;
         }
 
         * { margin:0; padding:0; box-sizing:border-box; scroll-behavior: smooth; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--dark-bg); color: white; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: #fff; line-height: 1.6; }
 
-        /* MENU / 3 KRESKI */
-        .nav-container { position: fixed; top: 20px; right: 20px; z-index: 10000; }
-        .hamburger { background: var(--primary); border: none; width: 50px; height: 50px; border-radius: 12px; cursor: pointer; color: white; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; }
-        .dropdown { position: absolute; top: 60px; right: 0; background: #1c1c26; width: 260px; padding: 20px; border-radius: 15px; display: none; border: 1px solid #333; }
+        /* MENU HAMBURGER - NAPRAWIONE */
+        .nav-fixed { position: fixed; top: 20px; right: 20px; z-index: 10000; }
+        .menu-btn { 
+            background: var(--primary); border: none; width: 55px; height: 55px; 
+            border-radius: 15px; cursor: pointer; color: white; font-size: 1.5rem;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .dropdown { 
+            position: absolute; top: 70px; right: 0; background: #1c1c26; width: 280px; 
+            padding: 20px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); 
+            display: none; border: 1px solid #333; 
+        }
         .dropdown.active { display: block; }
-        .dropdown button, .dropdown a { width: 100%; padding: 12px; margin-bottom: 8px; border-radius: 8px; border: 1px solid #333; background: #252533; color: white; text-align: left; text-decoration: none; display: flex; align-items: center; cursor: pointer; font-weight: 600; }
-        .dropdown i { margin-right: 10px; color: var(--primary); }
+        .dropdown button, .dropdown a { 
+            width: 100%; padding: 12px; margin-bottom: 8px; border-radius: 10px; border: 1px solid #333; 
+            background: #252533; color: white; text-align: left; text-decoration: none; display: flex; align-items: center; cursor: pointer; font-weight: 600; 
+        }
+        .dropdown i { margin-right: 12px; color: var(--primary); }
 
-        /* HERO */
-        .hero { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: radial-gradient(circle at center, #1a1a2e 0%, #0d0d12 100%); padding: 20px; }
-        .hero h1 { font-size: clamp(2.5rem, 10vw, 4.5rem); font-weight: 800; line-height: 1.1; }
+        /* SEKCJE */
+        section { padding: 100px 5%; max-width: 1200px; margin: 0 auto; }
+        .hero { height: 90vh; text-align: center; display: flex; flex-direction: column; justify-content: center; }
+        .hero h1 { font-size: clamp(3rem, 10vw, 5rem); font-weight: 800; line-height: 1; margin-bottom: 20px; }
         .hero span { color: var(--primary); }
-        .hero p { color: var(--text-gray); margin: 20px 0; font-size: 1.2rem; }
-        .btn-main { padding: 18px 45px; background: var(--primary); color: white; border-radius: 50px; text-decoration: none; font-weight: 800; transition: 0.3s; box-shadow: 0 10px 25px rgba(118,184,42,0.3); }
 
-        /* SEKCJA O MNIE */
-        .about-section { padding: 100px 5%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 50px; align-items: center; }
-        .about-img { width: 100%; border-radius: 30px; border: 2px solid var(--accent-purple); box-shadow: 0 0 30px rgba(138, 43, 226, 0.2); }
-        .about-text h2 { font-size: 2.5rem; margin-bottom: 20px; color: var(--primary); }
-        .about-text p { color: var(--text-gray); line-height: 1.8; }
+        /* O MNIE - DUŻO TEKSTU */
+        .about-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 60px; align-items: center; }
+        .about-img { width: 100%; border-radius: 30px; border: 2px solid var(--accent); }
+        .about-content h2 { font-size: 3rem; color: var(--primary); margin-bottom: 25px; }
+        .about-content p { color: #ccc; margin-bottom: 15px; font-size: 1.1rem; }
 
-        /* GALERIA ZDJĘĆ */
-        .gallery-section { padding: 80px 5%; background: #08080c; text-align: center; }
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 40px; }
-        .gallery-card { height: 350px; border-radius: 20px; overflow: hidden; position: relative; border: 1px solid #222; }
-        .gallery-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-        .gallery-card:hover img { transform: scale(1.1); filter: brightness(1.2); }
+        /* GALERIA */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 50px; }
+        .gallery-card { height: 400px; border-radius: 20px; overflow: hidden; border: 1px solid #222; background: #111; }
+        .gallery-card img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* OPINIE (KWADRATY JAK NA SCREENIE image_a9e6f6.jpg) */
-        .reviews-section { padding: 100px 0; background: var(--dark-bg); overflow: hidden; }
+        /* OPINIE - MARQUEE */
+        .reviews-container { background: #08080c; padding: 100px 0; overflow: hidden; }
         .marquee { display: flex; gap: 30px; animation: scroll 40s linear infinite; width: max-content; }
-        .review-card { width: 380px; background: var(--card-bg); padding: 35px; border-radius: 25px; border: 1px solid #252533; transition: 0.3s; }
-        .review-card:hover { border-color: var(--accent-purple); }
-        .user-box { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
-        .user-box img { width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--accent-purple); }
-        .user-box span { color: var(--accent-purple); font-size: 0.75rem; font-weight: 800; letter-spacing: 1px; }
+        .review-card { width: 400px; background: var(--card); padding: 40px; border-radius: 25px; border: 1px solid #252533; }
+        .user-info { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+        .user-info img { width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--accent); }
 
-        /* FORMULARZ REZERWACJI (PEŁNY) */
-        .booking-section { padding: 100px 5%; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; max-width: 1200px; margin: 0 auto; }
-        .form-container { background: var(--card-bg); padding: 50px; border-radius: 35px; border: 1px solid #222; }
-        .form-container input, .form-container select, .form-container textarea { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 12px; border: 1px solid #333; background: #0d0d12; color: white; font-family: inherit; }
-        .btn-submit { width: 100%; padding: 20px; background: var(--primary); color: white; border: none; border-radius: 15px; cursor: pointer; font-weight: 800; font-size: 1.1rem; }
+        /* FORMULARZ */
+        .form-box { background: var(--card); padding: 60px; border-radius: 40px; border: 1px solid #222; }
+        .form-box input, .form-box select, .form-box textarea { 
+            width: 100%; padding: 18px; margin-bottom: 20px; border-radius: 15px; 
+            border: 1px solid #333; background: #0d0d12; color: white; font-size: 1rem;
+        }
+        .btn-send { width: 100%; padding: 20px; background: var(--primary); color: white; border: none; border-radius: 15px; font-weight: 800; cursor: pointer; font-size: 1.2rem; }
 
         @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-
-        @media (max-width: 768px) { .booking-section { grid-template-columns: 1fr; } .about-section { text-align: center; } }
+        
+        /* DOSTĘPNOŚĆ */
+        .high-contrast { filter: contrast(1.5) grayscale(0.5); }
+        .big-font { font-size: 1.2rem; }
     </style>
 </head>
-<body>
+<body id="body">
 
-    <div class="nav-container">
-        <button class="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+    <div class="nav-fixed">
+        <button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
         <div class="dropdown" id="menu">
-            <h4>USTAWIENIA</h4>
-            <button onclick="document.body.classList.toggle('high-contrast')"><i class="fas fa-adjust"></i> Wysoki Kontrast</button>
-            <hr style="margin: 10px 0; border: 0; border-top: 1px solid #333;">
+            <h4>DOSTĘPNOŚĆ</h4>
+            <button onclick="document.getElementById('body').classList.toggle('high-contrast')"><i class="fas fa-adjust"></i> Kontrast</button>
+            <button onclick="document.getElementById('body').classList.toggle('big-font')"><i class="fas fa-text-size"></i> Większy tekst</button>
+            <hr style="border:0; border-top:1px solid #333; margin:10px 0;">
+            <h4>KONTAKT</h4>
             <a href="https://wa.me/48123456789"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-            <a href="mailto:kontakt@ela-tm.pl"><i class="fas fa-envelope"></i> E-mail</a>
+            <a href="mailto:ela@kontakt.pl"><i class="fas fa-envelope"></i> E-mail</a>
         </div>
     </div>
 
     <section class="hero">
         <h1>Pokazy i sprzedaż<br><span>Thermomix</span></h1>
-        <p>Twoja kuchnia zasługuje na najlepszego doradcę.</p>
-        <a href="#rezerwuj" class="btn-main">Zarezerwuj pokaz</a>
-    </section>
-
-    <section class="about-section">
-        <img src="https://via.placeholder.com/600x600/16161e/76b82a?text=ZDJĘCIE+ELI" alt="Ela" class="about-img">
-        <div class="about-text">
-            <h2>Cześć, jestem Ela!</h2>
-            <p>Jako Twój osobisty doradca Thermomix, nie tylko sprzedaję urządzenie, ale wprowadzam Cię w świat nowoczesnego gotowania. Zapewniam pełne szkolenie, wsparcie techniczne oraz dostęp do autorskich przepisów.</p>
+        <p style="font-size: 1.5rem; color: #888;">Poznaj smak nowoczesności w Twojej kuchni.</p>
+        <div style="margin-top: 40px;">
+            <a href="#form" class="btn-send" style="text-decoration: none; padding: 20px 50px;">Zarezerwuj pokaz</a>
         </div>
     </section>
 
-    <section class="gallery-section">
-        <h2 style="font-size: 2.5rem; color: white;">Moja Galeria</h2>
-        <div class="gallery-grid">
-            <div class="gallery-card"><img src="https://via.placeholder.com/400x500/16161e/ffffff?text=FOTO+1" alt="1"></div>
-            <div class="gallery-card"><img src="https://via.placeholder.com/400x500/16161e/ffffff?text=FOTO+2" alt="2"></div>
-            <div class="gallery-card"><img src="https://via.placeholder.com/400x500/16161e/ffffff?text=FOTO+3" alt="3"></div>
+    <section class="about-grid">
+        <div id="about-img-container">
+            </div>
+        <div class="about-content">
+            <h2>Pasja do gotowania</h2>
+            <p>Jako autoryzowany doradca Thermomix, moją misją jest pokazanie Ci, jak technologia może ułatwić codzienne życie. Gotowanie nie musi być przykrym obowiązkiem – może stać się pasją, która łączy rodzinę przy wspólnym stole.</p>
+            <p>Od lat pomagam klientom w wyborze najlepszych rozwiązań do ich kuchni. Moje pokazy to nie tylko sucha prezentacja funkcji urządzenia, to wspólne gotowanie, testowanie smaków i nauka trików, które sprawią, że Twoje dania będą smakować jak z najlepszej restauracji.</p>
+            <p>Zapewniam pełną opiekę po zakupie: od instalacji, przez naukę obsługi, aż po wsparcie w doborze przepisów na każdą okazję.</p>
         </div>
     </section>
 
-    <section class="reviews-section">
-        <div class="marquee" id="review-track"></div>
+    <section id="gallery">
+        <h2 style="font-size: 3rem; text-align: center;">Galeria Smaku</h2>
+        <div class="gallery-grid" id="gallery-container">
+            </div>
     </section>
 
-    <section class="booking-section" id="rezerwuj">
-        <div class="form-container">
-            <h2 style="margin-bottom: 25px;">Zarezerwuj termin</h2>
+    <div class="reviews-container">
+        <div class="marquee" id="review-track">
+            </div>
+    </div>
+
+    <section id="form">
+        <div class="form-box">
+            <h2 style="font-size: 2.5rem; margin-bottom: 30px;">Umów się na spotkanie</h2>
             <form action="https://formspree.io/f/yourID" method="POST">
                 <input type="text" name="name" placeholder="Imię i Nazwisko" required>
-                <input type="email" name="email" placeholder="E-mail" required>
-                <input type="tel" name="phone" placeholder="Numer Telefonu" required>
-                <select name="type">
-                    <option value="domowy">Pokaz Stacjonarny (w Twoim domu)</option>
-                    <option value="online">Pokaz Online</option>
-                    <option value="zakup">Chcę od razu kupić TM6</option>
+                <div style="display: flex; gap: 20px;">
+                    <input type="email" name="email" placeholder="E-mail" required>
+                    <input type="tel" name="phone" placeholder="Telefon" required>
+                </div>
+                <select name="service">
+                    <option>Pokaz stacjonarny</option>
+                    <option>Pokaz online</option>
+                    <option>Zakup urządzenia</option>
                 </select>
-                <textarea name="message" rows="4" placeholder="Twoje miasto i preferowana data..."></textarea>
-                <button type="submit" class="btn-submit">WYŚLIJ ZGŁOSZENIE</button>
+                <textarea name="msg" rows="5" placeholder="Twoja wiadomość (preferowana data, miejscowość...)"></textarea>
+                <button type="submit" class="btn-send">WYŚLIJ ZGŁOSZENIE</button>
             </form>
-        </div>
-        <div class="contact-info">
-            <h2 style="color: var(--primary);">Kontakt bezpośredni</h2>
-            <p style="margin: 20px 0; color: var(--text-gray);">Masz pytania? Nie czekaj, napisz lub zadzwoń! Odpowiadam zazwyczaj w kilka minut.</p>
-            <div style="font-size: 1.3rem; line-height: 2.5;">
-                <p><i class="fas fa-phone" style="color:var(--primary)"></i> +48 123 456 789</p>
-                <p><i class="fab fa-instagram" style="color:var(--primary)"></i> @ela_doradca_tm</p>
-                <p><i class="fab fa-facebook" style="color:var(--primary)"></i> Ela Thermomix Polska</p>
-            </div>
         </div>
     </section>
 
     <script>
         function toggleMenu() { document.getElementById('menu').classList.toggle('active'); }
 
-        // GENEROWANIE OPINII - DANE ZE SCREENA image_a9e6f6.jpg
-        const reviews = [
-            { n: "xNothing", t: "Dobrze wykonany skrypt", img: "https://ui-avatars.com/api/?name=xNothing&background=76b82a&color=fff" },
-            { n: "Milos18", t: "Polecam plugin na /duel", img: "https://ui-avatars.com/api/?name=Milos18&background=8a2be2&color=fff" },
-            { n: "Aspas", t: "Kurs renderów Polecam", img: "https://ui-avatars.com/api/?name=Aspas&background=ff5722&color=fff" }
+        // --- KONFIGURACJA ZDJĘĆ (WKLEJ SWOJE LINKI TUTAJ) ---
+        const imageAbout = "https://via.placeholder.com/600x800/16161e/76b82a?text=ZDJĘCIE+ELI";
+        const galleryLinks = [
+            "https://via.placeholder.com/400x600/16161e/ffffff?text=FOTO+1",
+            "https://via.placeholder.com/400x600/16161e/ffffff?text=FOTO+2",
+            "https://via.placeholder.com/400x600/16161e/ffffff?text=FOTO+3"
         ];
 
-        const track = document.getElementById('review-track');
-        [...reviews, ...reviews, ...reviews, ...reviews].forEach(r => {
-            const card = document.createElement('div');
-            card.className = 'review-card';
-            card.innerHTML = `
-                <div class="user-box">
-                    <img src="${r.img}" alt="Avatar">
-                    <div><strong>${r.n}</strong><br><span>KLIENT</span></div>
-                </div>
-                <p style="font-style: italic; color: #888;">"${r.t}"</p>
-            `;
-            track.appendChild(card);
+        // Wstawianie zdjęcia O Mnie
+        document.getElementById('about-img-container').innerHTML = `<img src="${imageAbout}" class="about-img" alt="Ela">`;
+
+        // Wstawianie Galerii
+        const gContainer = document.getElementById('gallery-container');
+        galleryLinks.forEach(link => {
+            gContainer.innerHTML += `<div class="gallery-card"><img src="${link}"></div>`;
         });
+
+        // --- POBIERANIE OPINII Z PLIKU testimonials.json ---
+        fetch('testimonials.json')
+            .then(response => response.json())
+            .then(data => {
+                const track = document.getElementById('review-track');
+                const combined = [...data, ...data, ...data]; // Pętla dla marquee
+                combined.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'review-card';
+                    card.innerHTML = `
+                        <div class="user-info">
+                            <img src="https://ui-avatars.com/api/?name=${item.name}&background=8a2be2&color=fff">
+                            <div><strong>${item.name}</strong><br><small style="color:var(--accent)">KLIENT</small></div>
+                        </div>
+                        <p style="color: #888; font-style: italic;">"${item.text}"</p>
+                    `;
+                    track.appendChild(card);
+                });
+            })
+            .catch(err => console.error("Błąd wczytywania opinii:", err));
     </script>
 </body>
 </html>
