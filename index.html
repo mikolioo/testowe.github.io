@@ -14,48 +14,61 @@
             --light: #ffffff; 
             --gray: #f8f9fa;
             --glass: rgba(255, 255, 255, 0.8);
+            --cog-bg: #eef2f5;
+            --cog-text: #444;
         }
         
         * { margin:0; padding:0; box-sizing:border-box; scroll-behavior: smooth; user-select: none; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--light); color: #333; line-height: 1.6; overflow-x: hidden; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--light); color: #333; line-height: 1.6; overflow-x: hidden; transition: 0.3s; }
 
-        /* ZAAVANSOWANE ANIMACJE */
-        .reveal { opacity: 0; transform: translateY(50px) scale(0.95); transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .reveal.active { opacity: 1; transform: translateY(0) scale(1); }
+        /* --- ZAAVANSOWANE TRYBY DOSTĘPNOŚCI (JS) --- */
+        body.high-contrast { filter: contrast(1.3) brightness(1.1); }
+        body.reduced-motion * { animation: none !important; transition: none !important; }
+        body.cognitive { background: var(--cog-bg) !important; color: var(--cog-text) !important; letter-spacing: 1px; }
+        body.cognitive .section-title, body.cognitive .navbar, body.cognitive .dropdown { background: #fff !important; color: #000 !important; }
+        body.cognitive .scroll-container { display: none; } /* Redukcja rozpraszaczy */
+        body.text-scale { font-size: 1.25rem; }
+        body.blind { border: 5px solid blue; }
+        body.blind * { outline: 1px solid blue; }
 
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
-        }
+        /* ANIMACJE WEJŚCIA */
+        .reveal { opacity: 0; transform: translateY(50px); transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-15px); } }
+        @keyframes rotateGlow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* NAWIGACJA PREMIUM */
-        .navbar { 
-            position: sticky; top: 0; background: var(--glass); 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 15px 5%; z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05); 
-            backdrop-filter: blur(15px);
-        }
+        .navbar { position: sticky; top: 0; background: var(--glass); display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05); backdrop-filter: blur(15px); transition: 0.3s; }
         .nav-links { display: flex; gap: 30px; list-style: none; }
         .nav-links a { text-decoration: none; color: #333; font-weight: 700; font-size: 0.9rem; transition: 0.3s; position: relative; }
         .nav-links a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -5px; left: 0; background: var(--primary); transition: 0.3s; }
         .nav-links a:hover::after { width: 100%; }
 
-        /* MENU USTAWIEŃ */
+        /* MENU PERSONALIZACJI */
         .menu-btn { background: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 12px; cursor: pointer; font-weight: 800; transition: 0.3s; box-shadow: 0 4px 15px rgba(118,184,42,0.3); }
         .menu-btn:hover { background: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(118,184,42,0.4); }
         
-        .dropdown { 
-            position: absolute; top: 80px; right: 5%; background: white; width: 300px; 
-            padding: 25px; border-radius: 25px; box-shadow: 0 25px 60px rgba(0,0,0,0.2); 
-            display: none; border: 1px solid rgba(0,0,0,0.05); z-index: 2000; transform-origin: top right;
-        }
+        .dropdown { position: absolute; top: 80px; right: 5%; background: white; width: 320px; padding: 25px; border-radius: 25px; box-shadow: 0 25px 60px rgba(0,0,0,0.2); display: none; border: 1px solid rgba(0,0,0,0.05); z-index: 2000; transform-origin: top right; transition: 0.3s; }
         .dropdown.active { display: block; animation: zoomIn 0.3s ease forwards; }
+        .dropdown hr { margin: 20px 0; border:0; border-top: 1px solid #eee; }
 
-        /* HERO - EFEKT WOW */
-        .hero { height: 85vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: radial-gradient(circle at center, #fafffa 0%, #ffffff 100%); position: relative; }
-        .hero h1 { font-size: clamp(3.5rem, 12vw, 6rem); font-weight: 800; line-height: 1; margin-bottom: 20px; letter-spacing: -2px; }
-        .hero span { background: linear-gradient(135deg, var(--primary), #a2d94c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 10px 15px rgba(118,184,42,0.3)); }
+        .acc-option { margin-bottom: 12px; }
+        .acc-option-desc { font-size: 12px; color: #777; margin-top: -3px; margin-bottom: 8px; font-weight: 500;}
+        .acc-btn { width: 100%; padding: 12px; border: 1px solid #f0f0f0; border-radius: 15px; background: #fff; font-weight: 800; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.2s; }
+        .acc-btn:hover { background: #f9f9f9; }
+        .acc-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .acc-btn.active i { color: white !important; }
+
+        /* HERO - LUKSUSOWY ZIELONY PRZEBŁYSK */
+        .hero { height: 85vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: radial-gradient(circle at center, #fff 0%, #fff 100%); position: relative; overflow: hidden; }
+        
+        /* Zielony efekt tła */
+        .hero-glow-cont { position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: -1; filter: blur(100px); }
+        .hero-glow-blob { position: absolute; background: radial-gradient(circle, rgba(118,184,42,0.3) 0%, rgba(118,184,42,0) 70%); border-radius: 50%; width: 600px; height: 600px; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; animation: rotateGlow 20s linear infinite; }
+
+        .hero h1 { font-size: clamp(3.5rem, 12vw, 6rem); font-weight: 800; line-height: 1; margin-bottom: 20px; letter-spacing: -2px; z-index: 10; }
+        .hero h1 .pasja-glow { background: linear-gradient(135deg, var(--primary), #a2d94c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 15px rgba(118,184,42,0.5)); }
         .btn-main { padding: 22px 60px; background: var(--primary); color: white; border-radius: 50px; text-decoration: none; font-weight: 800; transition: 0.5s; box-shadow: 0 15px 35px rgba(118,184,42,0.4); animation: float 4s ease-in-out infinite; }
         .btn-main:hover { transform: scale(1.1) rotate(1deg); box-shadow: 0 20px 45px rgba(118,184,42,0.5); }
 
@@ -68,31 +81,30 @@
         /* GALERIA - SZYBKA KARUZELA */
         .scroll-section { padding: 80px 0; background: #fff; overflow: hidden; }
         .track { display: flex; gap: 30px; animation: scroll 40s linear infinite; width: max-content; }
-        .img-card { width: 400px; height: 450px; border-radius: 35px; overflow: hidden; transition: 0.5s; position: relative; }
+        .img-card { width: 400px; height: 450px; border-radius: 35px; overflow: hidden; transition: 0.5s; position: relative; flex-shrink: 0; }
         .img-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.8s; }
         .img-card:hover img { transform: scale(1.1); filter: brightness(0.8); }
 
         /* OPINIE - DARK MODE PREMIUM */
         .dark-section { background: var(--dark); color: white; padding: 100px 0; }
-        .rev-card { width: 400px; background: rgba(255,255,255,0.03); padding: 40px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); transition: 0.4s; }
+        .rev-card { width: 420px; background: rgba(255,255,255,0.03); padding: 40px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); transition: 0.4s; flex-shrink: 0; }
         .rev-card:hover { transform: translateY(-15px); background: rgba(255,255,255,0.07); border-color: var(--primary); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
 
-        /* FORMULARZ - GLASSMorphism */
+        /* FORMULARZ */
         .booking { padding: 120px 5%; background: linear-gradient(180deg, #fff 0%, #f4f9f4 100%); }
-        .form-box { background: #fff; padding: 60px; border-radius: 50px; box-shadow: 0 40px 100px rgba(0,0,0,0.08); border: 1px solid rgba(118,184,42,0.1); max-width: 800px; margin: 0 auto; }
+        .form-box { background: #fff; padding: 60px; border-radius: 50px; box-shadow: 0 40px 100px rgba(0,0,0,0.08); border: 1px solid rgba(118,184,42,0.1); max-width: 800px; margin: 0 auto; transition: 0.5s; }
         input, select, textarea { width: 100%; padding: 20px; margin-bottom: 25px; border-radius: 20px; border: 2px solid #f0f0f0; background: #fafafa; font-weight: 600; transition: 0.3s; }
         input:focus { border-color: var(--primary); background: #fff; box-shadow: 0 0 20px rgba(118,184,42,0.1); outline: none; }
         .btn-send { width: 100%; padding: 22px; background: var(--dark); color: white; border: none; border-radius: 20px; font-weight: 800; cursor: pointer; transition: 0.4s; letter-spacing: 1px; }
         .btn-send:hover { background: var(--primary); transform: translateY(-5px); box-shadow: 0 15px 30px rgba(118,184,42,0.3); }
 
-        /* MODAL */
+        /* MODAL ZABEZPIECZENIA */
         #copyModal { position: fixed; top: 30px; right: 30px; background: white; border-left: 8px solid var(--primary); padding: 25px 40px; border-radius: 20px; display: none; z-index: 999999; box-shadow: 0 20px 50px rgba(0,0,0,0.25); font-weight: 800; animation: slideIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
 
         @keyframes zoomIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
         @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         @keyframes slideIn { from { transform: translateX(120%); } to { transform: translateX(0); } }
         
-        .high-contrast { filter: contrast(1.3) brightness(1.1); }
     </style>
 </head>
 <body id="b" oncontextmenu="return showBlocked(event)">
@@ -110,10 +122,36 @@
         <button class="menu-btn" onclick="toggleMenu()" data-key="btn-settings">PERSONALIZACJA</button>
         <div class="dropdown" id="m">
             <h4 data-key="head-view" style="font-size: 11px; color: #aaa; margin-bottom: 15px; letter-spacing: 2px;">USTAWIENIA WIDOKU</h4>
-            <button onclick="document.getElementById('b').classList.toggle('high-contrast')" style="width:100%; padding:15px; border:1px solid #f0f0f0; border-radius:15px; background:#fff; font-weight:800; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
-                <span data-key="opt-contrast">Kontrast</span> <i class="fas fa-adjust" style="color:var(--primary)"></i>
-            </button>
-            <hr style="margin: 25px 0; border:0; border-top: 1px solid #eee;">
+            
+            <div class="acc-option">
+                <button class="acc-btn" onclick="document.getElementById('b').classList.toggle('high-contrast'); this.classList.toggle('active')">
+                    <span data-key="opt-contrast">Tryb Kontrastu</span> <i class="fas fa-adjust" style="color:var(--primary)"></i>
+                </button>
+                <p class="acc-option-desc">Zwiększa kontrast dla lepszej czytelności.</p>
+            </div>
+
+            <div class="acc-option">
+                <button class="acc-btn" onclick="toggleAcc('reduced-motion', this)">
+                    <span data-key="opt-adhd">Redukcja Ruchu (ADHD)</span> <i class="fas fa-eye-slash" style="color:var(--primary)"></i>
+                </button>
+                <p class="acc-option-desc">Zatrzymuje karuzele i ogranicza animacje.</p>
+            </div>
+
+            <div class="acc-option">
+                <button class="acc-btn" onclick="toggleAcc('text-scale', this)">
+                    <span data-key="opt-scale">Skala Tekstu</span> <i class="fas fa-search-plus" style="color:var(--primary)"></i>
+                </button>
+                <p class="acc-option-desc">Zwiększa rozmiar czcionek na całej stronie.</p>
+            </div>
+
+            <div class="acc-option">
+                <button class="acc-btn" onclick="toggleAcc('cognitive', this)">
+                    <span data-key="opt-cog">Tryb Poznawczy</span> <i class="fas fa-brain" style="color:var(--primary)"></i>
+                </button>
+                <p class="acc-option-desc">Upraszcza widok i usuwa rozpraszacze.</p>
+            </div>
+
+            <hr>
             <h4 data-key="head-lang" style="font-size: 11px; color: #aaa; margin-bottom: 15px; letter-spacing: 2px;">WYBÓR JĘZYKA</h4>
             <select onchange="changeLang(this.value)" id="langSelect">
                 <option value="pl">🇵🇱 Polski</option>
@@ -130,10 +168,11 @@
     </nav>
 
     <section class="hero">
-        <h1 data-key="hero-title" class="reveal active">Gotuj z <br><span>Pasją</span></h1>
+        <div class="hero-glow-cont"><div class="hero-glow-blob" id="mouseGlow"></div></div>
+        <h1 data-key="hero-title" class="reveal active">Gotuj z <br><span class="pasja-glow">Pasją</span></h1>
         <p data-key="hero-sub" class="reveal active" style="font-size: 1.4rem; color: #666; max-width: 600px;">Twoja kuchnia zasługuje na to, co najlepsze. Poznaj moc TM6.</p>
-        <div class="reveal active" style="margin-top: 45px;">
-            <a href="#booking" class="btn-main" data-key="hero-btn">Zarezerwuj darmowy pokaz</a>
+        <div class="reveal active" style="margin-top: 45px; z-index: 10;">
+            <a href="#booking" class="btn-main" data-key="hero-btn">Umów darmowy pokaz</a>
         </div>
     </section>
 
@@ -172,14 +211,14 @@
                     <option value="home" data-key="opt-home">Pokaz stacjonarny w Twoim domu</option>
                     <option value="online" data-key="opt-online">Pokaz interaktywny Online</option>
                 </select>
-                <textarea name="message" id="f-msg" rows="5" placeholder="Czy masz jakieś specjalne życzenia dietetyczne?"></textarea>
+                <textarea name="message" id="f-msg" rows="5" placeholder="W czym mogę Ci pomóc?"></textarea>
                 <button type="submit" class="btn-send" data-key="form-btn">WYŚLIJ ZGŁOSZENIE DO ELI</button>
             </form>
         </div>
     </section>
 
-    <footer style="padding: 50px; text-align: center; color: #bbb; background: #fff;">
-        &copy; 2026 Ela Thermomix. Design by <span style="color:var(--dark); font-weight:800;">Igor król 120</span>.
+    <footer style="padding: 60px 5%; text-align: center; color: #777; background: #fff; font-size: 0.9rem;">
+        &copy; 2026 Ela Thermomix. Design by <span style="color:var(--dark); font-weight:800; letter-spacing: -0.5px;">Igor król 120</span> | Made for Premium Sales.
     </footer>
 
     <script>
@@ -256,12 +295,13 @@
         };
 
         function toggleMenu() { document.getElementById('m').classList.toggle('active'); }
+        function toggleAcc(cls, btn) { document.body.classList.toggle(cls); btn.classList.toggle('active'); }
 
         function renderReviews(lang) {
             const rt = document.getElementById('reviewTrack');
             rt.innerHTML = '';
             const data = langData[lang] || langData['pl'];
-            const reviews = data.revs;
+            const reviews = data.revs || langData['pl'].revs;
             [...reviews, ...reviews, ...reviews, ...reviews].forEach(o => {
                 const c = document.createElement('div');
                 c.className = 'rev-card';
@@ -276,9 +316,9 @@
                 const key = el.getAttribute('data-key');
                 if (data[key]) el.textContent = data[key];
             });
-            document.getElementById('f-name').placeholder = data['f-name'] || "Name";
+            document.getElementById('f-name').placeholder = data['f-name'] || "Full Name";
             document.getElementById('f-phone').placeholder = data['f-phone'] || "Phone";
-            document.getElementById('f-msg').placeholder = data['f-msg'] || "Message";
+            document.getElementById('f-msg').placeholder = data['f-msg'] || "Message?";
             document.getElementById('modalText').textContent = data['modal'] || "Protected";
             renderReviews(lang);
         }
@@ -291,18 +331,30 @@
             return false;
         }
 
-        // SCROLL REVEAL ENGINE
+        // --- INTERAKTYWNY PRZEBŁYSK MYSZY (PREMIUM) ---
+        const glowBlob = document.getElementById('mouseGlow');
+        document.addEventListener('mousemove', (e) => {
+            const hero = document.querySelector('.hero');
+            if (e.target.closest('.hero')) {
+                const rect = hero.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                glowBlob.style.left = `${x}px`;
+                glowBlob.style.top = `${y}px`;
+                glowBlob.style.opacity = '1';
+            } else { glowBlob.style.opacity = '0'; }
+        });
+
+        // SCROLL REVEAL
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) entry.target.classList.add('active');
             });
         }, { threshold: 0.1 });
-
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // DUPLIKACJA DLA PŁYNNOŚCI
-        const gt = document.getElementById('galleryTrack'); 
-        gt.innerHTML += gt.innerHTML; 
+        // GALLERY TRACK DUPLICATION
+        const gt = document.getElementById('galleryTrack'); gt.innerHTML += gt.innerHTML; 
 
         renderReviews('pl');
     </script>
