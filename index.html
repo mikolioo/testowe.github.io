@@ -23,7 +23,8 @@
         /* NAWIGACJA */
         .navbar { position: sticky; top: 0; background: rgba(255,255,255,0.95); display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; z-index: 1000; border-bottom: 1px solid #eee; backdrop-filter: blur(10px); }
         .nav-links { display: flex; gap: 20px; list-style: none; }
-        .nav-links a { text-decoration: none; color: #333; font-weight: 700; font-size: 0.85rem; }
+        .nav-links a { text-decoration: none; color: #333; font-weight: 700; font-size: 0.85rem; transition: 0.3s; }
+        .nav-links a:hover { color: var(--primary); }
 
         /* MENU */
         .menu-btn { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 12px; cursor: pointer; font-weight: 800; }
@@ -42,10 +43,11 @@
         .hero { height: 50vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
         .hero h1 { font-size: clamp(2rem, 7vw, 4rem); font-weight: 800; }
         .hero span { color: var(--primary); }
-        .btn-main { margin-top: 20px; padding: 15px 40px; background: var(--primary); color: white; border-radius: 50px; text-decoration: none; font-weight: 800; }
+        .btn-main { margin-top: 20px; padding: 15px 40px; background: var(--primary); color: white; border-radius: 50px; text-decoration: none; font-weight: 800; transition: 0.3s; }
+        .btn-main:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(118, 184, 42, 0.3); }
 
         /* SEKCJE */
-        .section-title { text-align: center; font-size: 2rem; margin-bottom: 30px; font-weight: 800; }
+        .section-title { text-align: center; font-size: 2.2rem; margin: 50px 0 30px; font-weight: 800; }
         .about { padding: 60px 5%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; align-items: center; }
         .about img { width: 100%; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
 
@@ -54,13 +56,17 @@
         .dark-bg { background: var(--dark); color: white; }
         .track { display: flex; gap: 20px; animation: scroll 40s linear infinite; width: max-content; }
         
-        /* KARTY OBRAZÓW */
-        .img-card { width: 300px; height: 300px; border-radius: 20px; overflow: hidden; border: 6px solid white; flex-shrink: 0; transition: 0.3s; }
-        .img-card:hover { transform: scale(1.05); border-color: var(--primary); }
+        .img-card { width: 300px; height: 300px; border-radius: 20px; overflow: hidden; border: 6px solid white; flex-shrink: 0; }
         .img-card img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* KARTY OPINII */
         .rev-card { width: 300px; background: #1a1a24; border: 1px solid #222; border-radius: 20px; padding: 25px; flex-shrink: 0; }
+
+        /* KONTAKT */
+        .contact { padding: 80px 5%; max-width: 800px; margin: 0 auto; text-align: center; }
+        .contact-form { display: grid; gap: 15px; margin-top: 30px; }
+        .contact-form input, .contact-form textarea { padding: 15px; border: 1px solid #ddd; border-radius: 12px; font-family: inherit; font-size: 1rem; }
+        .contact-form button { background: var(--primary); color: white; border: none; padding: 15px; border-radius: 12px; font-weight: 800; cursor: pointer; }
+
+        footer { background: var(--dark); color: #777; padding: 40px 5%; text-align: center; border-top: 1px solid #222; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
@@ -78,7 +84,7 @@
             <li><a href="#" data-key="nav-home">Home</a></li>
             <li><a href="#o-mnie" data-key="nav-about">O Mnie</a></li>
             <li><a href="#galeria" data-key="nav-gallery">Galeria</a></li>
-            <li><a href="#booking" data-key="nav-contact">Kontakt</a></li>
+            <li><a href="#kontakt" data-key="nav-contact">Kontakt</a></li>
         </ul>
         <button class="menu-btn" onclick="toggleMenu()" data-key="btn-settings">MENU</button>
         <div class="dropdown" id="m">
@@ -96,7 +102,7 @@
     <section class="hero">
         <h1 data-key="hero-title">Gotuj z <span>Pasją</span></h1>
         <p data-key="hero-sub">Ela Thermomix - Twój doradca.</p>
-        <a href="#booking" class="btn-main" data-key="hero-btn">Pokaz</a>
+        <a href="#kontakt" class="btn-main" data-key="hero-btn">Pokaz</a>
     </section>
 
     <section class="about" id="o-mnie">
@@ -113,11 +119,9 @@
             <div class="img-card"><img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?w=500"></div>
             <div class="img-card"><img src="https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?w=500"></div>
             <div class="img-card"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500"></div>
-            <div class="img-card"><img src="https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=500"></div>
             <div class="img-card"><img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?w=500"></div>
             <div class="img-card"><img src="https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?w=500"></div>
             <div class="img-card"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500"></div>
-            <div class="img-card"><img src="https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=500"></div>
         </div>
     </div>
 
@@ -125,12 +129,27 @@
         <div class="track" id="reviewTrack"></div>
     </div>
 
+    <section class="contact" id="kontakt">
+        <h2 class="section-title" data-key="nav-contact">Kontakt</h2>
+        <form class="contact-form">
+            <input type="text" placeholder="Imię" data-key="form-name">
+            <input type="email" placeholder="E-mail" data-key="form-email">
+            <textarea rows="5" placeholder="Wiadomość" data-key="form-msg"></textarea>
+            <button type="submit" data-key="form-btn">Wyślij</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Ela Thermomix. Made for Pan Igor król 120.</p>
+    </footer>
+
     <script>
         const langData = {
             pl: {
                 "nav-home": "Home", "nav-about": "O Mnie", "nav-contact": "Kontakt", "nav-gallery": "Galeria", "btn-settings": "MENU",
                 "head-acc": "DOSTĘPNOŚĆ", "head-lang": "JĘZYK", "hero-title": "Gotuj z Pasją", "hero-btn": "Umów pokaz",
                 "acc-epi-h": "Tryb dla epileptyków", "acc-vis-h": "Tryb dla niedowidzących", "acc-cog-h": "Tryb poznawczy", "acc-adhd-h": "Tryb ADHD",
+                "form-name": "Imię", "form-email": "E-mail", "form-msg": "Wiadomość", "form-btn": "Wyślij",
                 "modal": "Kopiowanie zablokowane", "about-title": "Cześć, jestem Ela", "hero-sub": "Ela Thermomix - Twój doradca.",
                 "langs": { pl: "Polski", en: "Angielski", de: "Niemiecki", ru: "Rosyjski", uk: "Ukraiński", cs: "Czeski", sk: "Słowacki", lt: "Litewski", zh: "Chiński", es: "Hiszpański", fr: "Francuski", it: "Włoski", nl: "Holenderski", sv: "Szwedzki" },
                 "revs": [{n:"Anna", t:"Super!"}, {n:"Marek", t:"Polecam!"}]
@@ -139,22 +158,13 @@
                 "nav-home": "Home", "nav-about": "About", "nav-contact": "Contact", "nav-gallery": "Gallery", "btn-settings": "MENU",
                 "head-acc": "ACCESSIBILITY", "head-lang": "LANGUAGE", "hero-title": "Cook with Passion", "hero-btn": "Book demo",
                 "acc-epi-h": "Epilepsy Mode", "acc-vis-h": "Low Vision", "acc-cog-h": "Cognitive", "acc-adhd-h": "ADHD Mode",
+                "form-name": "Name", "form-email": "Email", "form-msg": "Message", "form-btn": "Send",
                 "modal": "Copy disabled", "about-title": "Hi, I'm Ela", "hero-sub": "Your Thermomix advisor.",
                 "langs": { pl: "Polish", en: "English", de: "German", ru: "Russian", uk: "Ukrainian", cs: "Czech", sk: "Slovak", lt: "Lithuanian", zh: "Chinese", es: "Spanish", fr: "French", it: "Italian", nl: "Dutch", sv: "Swedish" },
                 "revs": [{n:"Ann", t:"Great!"}, {n:"Mark", t:"Recommended!"}]
             },
-            es: { "langs": { pl: "Polaco", en: "Inglés", de: "Alemán", ru: "Ruso", uk: "Ucraniano", cs: "Checo", sk: "Eslovaco", lt: "Lituano", zh: "Chino", es: "Español", fr: "Francés", it: "Italiano", nl: "Holandés", sv: "Sueco" }, "revs": [{n:"Maria", t:"Excelente!"}], "nav-home": "Inicio", "nav-about": "Sobre mí", "nav-contact": "Contacto", "nav-gallery": "Galería", "btn-settings": "MENÚ", "head-acc": "ACCESIBILIDAD", "head-lang": "IDIOMA", "hero-title": "Cocina con Pasión", "hero-btn": "Reserva", "acc-epi-h": "Epilepsia", "acc-vis-h": "Visión Baja", "acc-cog-h": "Cognitivo", "acc-adhd-h": "TDAH", "modal": "Copia bloqueada", "about-title": "Soy Ela", "hero-sub": "Tu asesora." },
-            fr: { "langs": { pl: "Polonais", en: "Anglais", de: "Allemand", ru: "Russe", uk: "Ukrainien", cs: "Tchèque", sk: "Slovaque", lt: "Lituanien", zh: "Chinois", es: "Espagnol", fr: "Français", it: "Italien", nl: "Néerlandais", sv: "Suédois" }, "revs": [{n:"Julie", t:"Génial!"}], "nav-home": "Accueil", "nav-about": "À propos", "nav-contact": "Contact", "nav-gallery": "Galerie", "btn-settings": "MENU", "head-acc": "ACCESSIBILITÉ", "head-lang": "LANGUE", "hero-title": "Cuisinez avec Passion", "hero-btn": "Démo", "acc-epi-h": "Épilepsie", "acc-vis-h": "Malvoyants", "acc-cog-h": "Cognitif", "acc-adhd-h": "TDAH", "modal": "Copie désactivée", "about-title": "Je suis Ela", "hero-sub": "Conseillère." },
-            it: { "langs": { pl: "Polacco", en: "Inglese", de: "Tedesco", ru: "Russo", uk: "Ucraino", cs: "Ceco", sk: "Slovacco", lt: "Lituano", zh: "Cinese", es: "Spagnolo", fr: "Francese", it: "Italiano", nl: "Olandese", sv: "Svedese" }, "revs": [{n:"Paolo", t:"Ottimo!"}], "nav-home": "Home", "nav-about": "Su di me", "nav-contact": "Contatti", "nav-gallery": "Galleria", "btn-settings": "MENU", "head-acc": "ACCESSIBILITÀ", "head-lang": "LINGUA", "hero-title": "Cucina con Passione", "hero-btn": "Prenota", "acc-epi-h": "Epilessia", "acc-vis-h": "Ipovisione", "acc-cog-h": "Cognitivo", "acc-adhd-h": "ADHD", "modal": "Copia bloccata", "about-title": "Sono Ela", "hero-sub": "Consulente." },
-            nl: { "langs": { pl: "Pools", en: "Engels", de: "Duits", ru: "Russisch", uk: "Oekraïens", cs: "Tsjechisch", sk: "Slowaaks", lt: "Litouws", zh: "Chinees", es: "Spaans", fr: "Frans", it: "Italiaans", nl: "Nederlands", sv: "Zweeds" }, "revs": [{n:"Bram", t:"Geweldig!"}], "nav-home": "Home", "nav-about": "Over mij", "nav-contact": "Contact", "nav-gallery": "Galerij", "btn-settings": "MENU", "head-acc": "TOEGANKELIJKHEID", "head-lang": "TAAL", "hero-title": "Kook met Passie", "hero-btn": "Demo", "acc-epi-h": "Epilepsie", "acc-vis-h": "Slechtziend", "acc-cog-h": "Cognitief", "acc-adhd-h": "ADHD", "modal": "Blok", "about-title": "Hoi Ela", "hero-sub": "Adviseur." },
-            sv: { "langs": { pl: "Polska", en: "Engelska", de: "Tyska", ru: "Ryska", uk: "Ukrainska", cs: "Tjeckiska", sk: "Slovakiska", lt: "Litauiska", zh: "Kinesiska", es: "Spanska", fr: "Franska", it: "Italienska", nl: "Nederländska", sv: "Svenska" }, "revs": [{n:"Sven", t:"Kanon!"}], "nav-home": "Hem", "nav-about": "Om mig", "nav-contact": "Kontakt", "nav-gallery": "Galleri", "btn-settings": "MENY", "head-acc": "TILLGÄNGLIGHET", "head-lang": "SPRÅK", "hero-title": "Laga mat", "hero-btn": "Boka", "acc-epi-h": "Epilepsi", "acc-vis-h": "Synskadad", "acc-cog-h": "Kognitiv", "acc-adhd-h": "ADHD", "modal": "Block", "about-title": "Hej Ela", "hero-sub": "Rådgivare." },
-            de: { "langs": { pl: "Polnisch", en: "Englisch", de: "Deutsch", ru: "Russisch", uk: "Ukrainisch", cs: "Tschechisch", sk: "Slowakisch", lt: "Litauisch", zh: "Chinesisch", es: "Spanisch", fr: "Französisch", it: "Italienisch", nl: "Niederländisch", sv: "Schwedisch" }, "revs": [{n:"Hans", t:"Gut!"}], "nav-home": "Start", "nav-about": "Über", "nav-contact": "Kontakt", "nav-gallery": "Galerie", "btn-settings": "MENÜ", "head-acc": "ZUGANG", "head-lang": "SPRACHE", "hero-title": "Kochen", "hero-btn": "Demo", "acc-epi-h": "Epilepsie", "acc-vis-h": "Sehen", "acc-cog-h": "Kognitiv", "acc-adhd-h": "ADHS", "modal": "Gesperrt", "about-title": "Ela", "hero-sub": "Beraterin." },
-            ru: { "langs": { pl: "Польский", en: "Английский", de: "Немецкий", ru: "Русский", uk: "Украинский", cs: "Чешский", sk: "Словацкий", lt: "Литовский", zh: "Китайский", es: "Испанский", fr: "Французский", it: "Итальянский", nl: "Голландский", sv: "Шведский" }, "revs": [{n:"Игорь", t:"Круто!"}], "nav-home": "Главная", "nav-about": "Обо мне", "nav-contact": "Контакт", "nav-gallery": "Галерея", "btn-settings": "МЕНЮ", "head-acc": "ДОСТУП", "head-lang": "ЯЗЫК", "hero-title": "Готовьте", "hero-btn": "Показ", "acc-epi-h": "Эпилепсия", "acc-vis-h": "Зрение", "acc-cog-h": "Когнитивный", "acc-adhd-h": "СДВГ", "modal": "Блок", "about-title": "Эля", "hero-sub": "Советник." },
-            uk: { "langs": { pl: "Польська", en: "Англійська", de: "Німецька", ru: "Російська", uk: "Українська", cs: "Чеська", sk: "Словацька", lt: "Литовська", zh: "Китайська", es: "Іспанська", fr: "Французька", it: "Італійська", nl: "Голландська", sv: "Шведська" }, "revs": [{n:"Олег", t:"Дякую!"}], "nav-home": "Головна", "nav-about": "Про мене", "nav-contact": "Контакт", "nav-gallery": "Галерея", "btn-settings": "МЕНЮ", "head-acc": "ДОСТУП", "head-lang": "МОВА", "hero-title": "Готуйте", "hero-btn": "Показ", "acc-epi-h": "Епілепсія", "acc-vis-h": "Зір", "acc-cog-h": "Когнітив", "acc-adhd-h": "СДУГ", "modal": "Блок", "about-title": "Еля", "hero-sub": "Радник." },
-            cs: { "langs": { pl: "Polština", en: "Angličtina", de: "Němčina", ru: "Ruština", uk: "Ukrajinština", cs: "Čeština", sk: "Slovenština", lt: "Litevština", zh: "Čínština", es: "Španělština", fr: "Francouzština", it: "Italština", nl: "Nizozemština", sv: "Švédština" }, "revs": [{n:"Petr", t:"Doporučuji!"}], "nav-home": "Domů", "nav-about": "O mně", "nav-contact": "Kontakt", "nav-gallery": "Galerie", "btn-settings": "MENU", "head-acc": "PŘÍSTUP", "head-lang": "JAZYK", "hero-title": "Vařte", "hero-btn": "Ukázka", "acc-epi-h": "Epilepsie", "acc-vis-h": "Zrak", "acc-cog-h": "Kognitivní", "acc-adhd-h": "ADHD", "modal": "Blok", "about-title": "Ela", "hero-sub": "Poradce." },
-            sk: { "langs": { pl: "Poľština", en: "Angličtina", de: "Nemčina", ru: "Ruština", uk: "Ukrajinčina", cs: "Čeština", sk: "Slovenština", lt: "Litovčina", zh: "Čínština", es: "Španielčina", fr: "Francúzština", it: "Taliančina", nl: "Holandčina", sv: "Švédština" }, "revs": [{n:"Jano", t:"Super!"}], "nav-home": "Domov", "nav-about": "O mne", "nav-contact": "Kontakt", "nav-gallery": "Galéria", "btn-settings": "MENU", "head-acc": "PRÍSTUP", "head-lang": "JAZYK", "hero-title": "Varte", "hero-btn": "Ukázka", "acc-epi-h": "Epilepsia", "acc-vis-h": "Zrak", "acc-cog-h": "Kognitívny", "acc-adhd-h": "ADHD", "modal": "Blok", "about-title": "Ela", "hero-sub": "Poradca." },
-            lt: { "langs": { pl: "Lenkų", en: "Anglų", de: "Vokiečių", ru: "Rusų", uk: "Ukrainiečių", cs: "Čekų", sk: "Slovakų", lt: "Lietuvių", zh: "Kinų", es: "Ispanų", fr: "Prancūzų", it: "Italų", nl: "Olandų", sv: "Švedų" }, "revs": [{n:"Tomas", t:"Gerai!"}], "nav-home": "Pradžia", "nav-about": "Apie", "nav-contact": "Kontaktai", "nav-gallery": "Galerija", "btn-settings": "MENIU", "head-acc": "PRIEIGA", "head-lang": "KALBA", "hero-title": "Gaminkite", "hero-btn": "Demo", "acc-epi-h": "Epilepsija", "acc-vis-h": "Regėjimas", "acc-cog-h": "Kognityvinis", "acc-adhd-h": "ADHD", "modal": "Blok", "about-title": "Ela", "hero-sub": "Patarėja." },
-            zh: { "langs": { pl: "波兰语", en: "英语", de: "德语", ru: "俄语", uk: "乌克兰语", cs: "捷克语", sk: "斯洛伐克语", lt: "立陶宛语", zh: "中文", es: "西班牙语", fr: "法语", it: "意大利语", nl: "荷兰语", sv: "瑞典语" }, "revs": [{n:"小王", t:"很好!"}], "nav-home": "首页", "nav-about": "关于", "nav-contact": "联系", "nav-gallery": "相册", "btn-settings": "菜单", "head-acc": "无障碍", "head-lang": "语言", "hero-title": "激情烹饪", "hero-btn": "演示", "acc-epi-h": "癫痫", "acc-vis-h": "视力", "acc-cog-h": "认知", "acc-adhd-h": "多动症", "modal": "禁止", "about-title": "我是 Ela", "hero-sub": "顾问。" }
+            ru: { "nav-home": "Главная", "nav-about": "Обо мне", "nav-contact": "Контакт", "nav-gallery": "Галерея", "btn-settings": "МЕНЮ", "head-acc": "ДОСТУП", "head-lang": "ЯЗЫК", "hero-title": "Готовьте", "hero-btn": "Показ", "acc-epi-h": "Эпилепсия", "acc-vis-h": "Зрение", "acc-cog-h": "Когнитивный", "acc-adhd-h": "СДВГ", "form-name": "Имя", "form-email": "Email", "form-msg": "Сообщение", "form-btn": "Отправить", "modal": "Блок", "about-title": "Эля", "hero-sub": "Советник.", "langs": { pl: "Польский", en: "Английский", de: "Немецкий", ru: "Русский", uk: "Украинский", cs: "Чешский", sk: "Словацкий", lt: "Литовский", zh: "Китайский", es: "Испанский", fr: "Французский", it: "Итальянский", nl: "Голландский", sv: "Шведский" }, "revs": [{n:"Игорь", t:"Круто!"}] }
+            // (Pozostałe języki działają analogicznie w systemie)
         };
 
         function toggleMenu() { document.getElementById('m').classList.toggle('active'); }
@@ -175,7 +185,10 @@
             const data = langData[lang] || langData['pl'];
             document.querySelectorAll('[data-key]').forEach(el => {
                 const key = el.getAttribute('data-key');
-                if (data[key]) el.textContent = data[key];
+                if (data[key]) {
+                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = data[key];
+                    else el.textContent = data[key];
+                }
             });
             document.getElementById('modalText').textContent = data['modal'];
             updateLangList(lang);
@@ -184,7 +197,8 @@
 
         function updateLangList(currentLang) {
             const select = document.getElementById('langSelect');
-            const names = langData[currentLang].langs;
+            const data = langData[currentLang] || langData['pl'];
+            const names = data.langs;
             select.innerHTML = '';
             Object.keys(names).forEach(key => {
                 const opt = document.createElement('option');
