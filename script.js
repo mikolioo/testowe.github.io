@@ -1,36 +1,52 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Menu Ustawień
-    const btn = document.getElementById('settingsBtn');
-    const menu = document.getElementById('settingsMenu');
-    btn.onclick = () => menu.classList.toggle('active');
+    // 1. Menu Dostępności
+    const menuBtn = document.getElementById('menuBtn');
+    const menuContent = document.getElementById('menuContent');
+    
+    menuBtn.onclick = (e) => {
+        e.stopPropagation();
+        menuContent.classList.toggle('active');
+    };
 
-    // 2. Obsługa opinii (Kwadratowe karty)
+    window.onclick = () => menuContent.classList.remove('active');
+
+    // 2. Dynamiczne Opinie (Kwadratowe karty)
     fetch('testimonials.json')
         .then(r => r.json())
         .then(data => {
-            const track = document.getElementById('testimonial-container');
-            // Podwajamy dane dla płynnego zapętlenia
-            const list = [...data, ...data]; 
-            list.forEach(t => {
+            const track = document.getElementById('testimonial-track');
+            // Powielamy dla efektu płynnego przejścia
+            const items = [...data, ...data, ...data];
+            items.forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'testimonial-card';
                 card.innerHTML = `
                     <div class="user-info">
-                        <img src="https://i.pravatar.cc/150?u=${t.name}" class="avatar">
+                        <img src="https://ui-avatars.com/api/?name=${item.name}&background=76b82a&color=fff" alt="User">
                         <div>
-                            <div class="user-name">${t.name}</div>
-                            <div class="user-label">KLIENT</div>
+                            <strong>${item.name}</strong><br>
+                            <small style="color:var(--primary)">KLIENT</small>
                         </div>
                     </div>
-                    <p>"${t.text}"</p>
+                    <p style="font-style: italic; color: #555;">"${item.text}"</p>
                 `;
                 track.appendChild(card);
             });
         });
 
-    AOS.init({ duration: 1200 });
+    // 3. Inicjalizacja animacji przy scrollowaniu
+    AOS.init({
+        duration: 1000,
+        once: false, // Animacje odpalają się za każdym razem gdy wjeżdżają
+        mirror: true
+    });
 });
 
-// Funkcje dostępności
-function toggleContrast() { document.body.classList.toggle('high-contrast'); }
-function changeFontSize(size) { document.body.style.zoom = size; }
+// Funkcje accessibility
+function setAccessibility(type) {
+    if(type === 'contrast') document.body.classList.toggle('high-contrast');
+    if(type === 'font') {
+        const currentSize = document.body.style.fontSize || "16px";
+        document.body.style.fontSize = parseInt(currentSize) + 2 + "px";
+    }
+}
