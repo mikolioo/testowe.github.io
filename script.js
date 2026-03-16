@@ -1,37 +1,41 @@
-let opinions=[];
-let index=0;
+document.addEventListener('DOMContentLoaded', () => {
+    const testimonialContainer = document.getElementById('testimonial-container');
 
-fetch('testimonials.json')
-.then(res=>res.json())
-.then(data=>{
-opinions=data;
-render();
-setInterval(nextSlide,4000);
+    // 1. Pobieranie opinii z pliku testimonials.json
+    fetch('testimonials.json')
+        .then(response => response.json())
+        .then(data => {
+            let currentIndex = 0;
+
+            function showTestimonial(index) {
+                const t = data[index];
+                testimonialContainer.innerHTML = `
+                    <div class="testimonial-card">
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                        <p style="font-style: italic; font-size: 1.2rem;">"${t.text}"</p>
+                        <h4 style="margin-top: 20px;">- ${t.name}</h4>
+                    </div>
+                `;
+            }
+
+            // Inicjalizacja pierwszej opinii
+            showTestimonial(0);
+
+            // 2. Automatyczny Slider co 5 sekund
+            setInterval(() => {
+                currentIndex = (currentIndex + 1) % data.length;
+                showTestimonial(currentIndex);
+            }, 5000);
+        })
+        .catch(err => console.error("Błąd ładowania opinii:", err));
+
+    // Smooth scroll dla linków nawigacji
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
 });
-
-function render(){
-
-const slides=document.getElementById("slides");
-slides.innerHTML="";
-
-opinions.forEach(o=>{
-
-const div=document.createElement("div");
-div.className="opinion";
-
-div.innerHTML=`<p>"${o.text}"</p><strong>${o.name}</strong>`;
-
-slides.appendChild(div);
-
-});
-
-}
-
-function nextSlide(){
-
-index++;
-if(index>=opinions.length) index=0;
-
-document.getElementById("slides").style.transform=`translateX(-${index*100}%)`;
-
-}
