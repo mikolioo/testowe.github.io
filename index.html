@@ -30,6 +30,7 @@
         }
         .dropdown.active { display: block; }
         .dropdown button { width: 100%; padding: 12px; margin-bottom: 8px; border-radius: 8px; border: 1px solid #eee; background: #f9f9f9; text-align: left; cursor: pointer; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+        .dropdown img { width: 20px; height: 15px; object-fit: cover; border-radius: 2px; }
 
         /* HERO */
         .hero { height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
@@ -41,7 +42,6 @@
         .about { padding: 80px 5%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 50px; align-items: center; }
         .about img { width: 100%; border-radius: 30px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
         .about-text h2 { font-size: 2.5rem; margin-bottom: 20px; }
-        .about-text span { color: var(--primary); }
 
         /* GALERIA ANIMOWANA */
         .gallery-box { padding: 60px 0; background: var(--gray); overflow: hidden; }
@@ -49,11 +49,9 @@
         .img-card { width: 320px; height: 320px; border-radius: 20px; overflow: hidden; border: 4px solid white; }
         .img-card img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* OPINIE (CZARNE) */
+        /* OPINIE */
         .reviews { padding: 80px 0; background: #0d0d12; color: white; overflow: hidden; }
         .rev-card { width: 350px; background: #16161e; padding: 30px; border-radius: 20px; border: 1px solid #222; }
-        .user { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
-        .user img { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--primary); }
 
         /* FORMULARZ */
         .booking { padding: 80px 5%; max-width: 850px; margin: 0 auto; }
@@ -61,22 +59,24 @@
         input, select, textarea { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 12px; border: 1px solid #ddd; font-family: inherit; }
         .btn-send { width: 100%; padding: 18px; background: #222; color: white; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; }
 
-        /* MODAL BLOKADY */
+        /* POWIADOMIENIE W PRAWYM GÓRNYM ROGU (Zgodnie z życzeniem) */
         #copyModal {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: white; border: 2px solid var(--primary); padding: 20px 40px;
-            border-radius: 15px; display: none; z-index: 99999;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-            text-align: center; font-weight: 700; color: #000;
+            position: fixed; top: 20px; right: 20px;
+            background: white; border: 2px solid var(--primary); padding: 15px 25px;
+            border-radius: 12px; display: none; z-index: 999999;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            font-weight: 700; color: #000;
+            animation: slideIn 0.3s ease-out;
         }
 
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         .high-contrast { filter: contrast(1.2); }
     </style>
 </head>
 <body id="b" oncontextmenu="return showBlocked(event)">
 
-    <div id="copyModal"><i class="fas fa-shield-alt" style="color:#ff4d4d; margin-right:10px;"></i> <span id="modalText">Prawy przycisk myszy jest zablokowany</span></div>
+    <div id="copyModal"><i class="fas fa-shield-alt" style="color:var(--primary); margin-right:10px;"></i> <span id="modalText">Prawy przycisk myszy jest zablokowany</span></div>
 
     <nav class="navbar">
         <div style="font-weight: 900; font-size: 1.4rem;">Ela <span style="color:var(--primary)">TM6</span></div>
@@ -92,8 +92,10 @@
             <button onclick="document.getElementById('b').classList.toggle('high-contrast')"><span data-key="opt-contrast">Kontrast</span> <span>OFF/ON</span></button>
             <hr style="margin: 10px 0; border: 0; border-top: 1px solid #eee;">
             <h4 data-key="head-lang">JĘZYK</h4>
-            <button onclick="changeLang('pl')">Polski <img src="https://flagcdn.com/w20/pl.png" alt="PL"></button>
-            <button onclick="changeLang('en')">English <img src="https://flagcdn.com/w20/gb.png" alt="EN"></button>
+            <button onclick="changeLang('pl')">Polski <img src="https://flagcdn.com/w20/pl.png"></button>
+            <button onclick="changeLang('en')">English <img src="https://flagcdn.com/w20/gb.png"></button>
+            <button onclick="changeLang('uk')">Українська <img src="https://flagcdn.com/w20/ua.png"></button>
+            <button onclick="changeLang('zh')">中文 <img src="https://flagcdn.com/w20/cn.png"></button>
         </div>
     </nav>
 
@@ -131,13 +133,13 @@
         <div class="form-box">
             <h2 style="text-align:center; margin-bottom:30px;" data-key="form-title">Zarezerwuj Pokaz</h2>
             <form action="https://formspree.io/f/yourID" method="POST">
-                <input type="text" name="name" id="f-name" placeholder="Imię i Nazwisko" required>
-                <input type="tel" name="phone" id="f-phone" placeholder="Telefon" required>
-                <select name="type" id="f-type">
+                <input type="text" id="f-name" placeholder="Imię i Nazwisko" required>
+                <input type="tel" id="f-phone" placeholder="Telefon" required>
+                <select id="f-type">
                     <option value="home" data-key="opt-home">Pokaz w Twoim domu</option>
                     <option value="online" data-key="opt-online">Pokaz Online</option>
                 </select>
-                <textarea name="msg" id="f-msg" rows="4" placeholder="Twoja wiadomość..."></textarea>
+                <textarea id="f-msg" rows="4" placeholder="Twoja wiadomość..."></textarea>
                 <button type="submit" class="btn-send" data-key="form-btn">WYŚLIJ ZGŁOSZENIE</button>
             </form>
         </div>
@@ -158,10 +160,28 @@
                 "nav-home": "Home", "nav-about": "About Me", "nav-gallery": "Gallery", "nav-contact": "Contact",
                 "btn-settings": "SETTINGS", "head-view": "VIEW", "opt-contrast": "Contrast", "head-lang": "LANGUAGE",
                 "hero-title": "Cook with Passion", "hero-sub": "Modern cooking starts here. Welcome!", "hero-btn": "Book a demo",
-                "about-title": "Hi, I'm Ela", "about-p1": "As your Thermomix advisor, I help bring health and time to your home.", "about-p2": "My experience allows me to tailor the presentation for you.",
+                "about-title": "Hi, I'm Ela", "about-p1": "As your advisor, I bring health and time to your home.", "about-p2": "My experience helps me tailor the presentation for you.",
                 "gallery-title": "Thermomix Magic", "form-title": "Book a Demo", "form-btn": "SEND REQUEST",
                 "modal": "Right-click is disabled", "f-name": "Full Name", "f-phone": "Phone Number", "f-msg": "Your message...",
                 "opt-home": "At-home demo", "opt-online": "Online demo"
+            },
+            uk: {
+                "nav-home": "Головна", "nav-about": "Про мене", "nav-gallery": "Галерея", "nav-contact": "Контакти",
+                "btn-settings": "НАЛАШТУВАННЯ", "head-view": "ВИГЛЯД", "opt-contrast": "Контраст", "head-lang": "МОВА",
+                "hero-title": "Готуйте з пристрастю", "hero-sub": "Сучасне приготування починається тут!", "hero-btn": "Записатися на показ",
+                "about-title": "Привіт, я Еля", "about-p1": "Як ваш консультант, я допоможу принести здоров'я у ваш дім.", "about-p2": "Мій досвід дозволяє підібрати презентацію саме для вас.",
+                "gallery-title": "Магія Thermomix", "form-title": "Забронювати показ", "form-btn": "ВІДПРАВИТИ ЗАЯВКУ",
+                "modal": "Права кнопка миші заблокована", "f-name": "Ім'я та прізвище", "f-phone": "Телефон", "f-msg": "Ваше повідомлення...",
+                "opt-home": "Показ вдома", "opt-online": "Онлайн показ"
+            },
+            zh: {
+                "nav-home": "首页", "nav-about": "关于我", "nav-gallery": "相册", "nav-contact": "联系我们",
+                "btn-settings": "设置", "head-view": "视图", "opt-contrast": "对比度", "head-lang": "语言",
+                "hero-title": "用激情烹饪", "hero-sub": "现代烹饪从这里开始。欢迎！", "hero-btn": "预约演示",
+                "about-title": "你好，我是 Ela", "about-p1": "作为您的美善品顾问，我为您的家庭带来健康和时间。", "about-p2": "我的经验可以为您的需求量身定制演示。",
+                "gallery-title": "美善品的魔力", "form-title": "预约演示", "form-btn": "提交申请",
+                "modal": "右键点击已禁用", "f-name": "姓名", "f-phone": "电话号码", "f-msg": "您的留言...",
+                "opt-home": "上门演示", "opt-online": "在线演示"
             }
         };
 
@@ -187,13 +207,11 @@
             return false;
         }
 
-        // Klonowanie galerii i opinie
         const gt = document.getElementById('galleryTrack'); gt.innerHTML += gt.innerHTML;
-        const ops = [{n:"Anna K.", t:"Pokaz u Eli to była przyjemność!"}, {n:"Marek P.", t:"Pełen profesjonalizm."}, {n:"Kasia N.", t:"Gotowanie stało się prostsze."}];
         const rt = document.getElementById('reviewTrack');
-        [...ops, ...ops, ...ops].forEach(o => {
+        [{n:"Anna K.", t:"Świetny pokaz!"}, {n:"Milos", t:"Polecam!"}].forEach(o => {
             const c = document.createElement('div'); c.className = 'rev-card';
-            c.innerHTML = `<div class="user"><img src="https://ui-avatars.com/api/?name=${o.n}&background=76b82a&color=fff"><strong>${o.n}</strong></div><p>"${o.t}"</p>`;
+            c.innerHTML = `<div style="display:flex;align-items:center;gap:10px;"><img src="https://ui-avatars.com/api/?name=${o.n}&background=76b82a&color=fff" style="width:40px;border-radius:50%;"><strong>${o.n}</strong></div><p style="margin-top:10px;color:#aaa;">"${o.t}"</p>`;
             rt.appendChild(c);
         });
     </script>
