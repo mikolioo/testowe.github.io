@@ -1,0 +1,90 @@
+# WymianaSystem
+
+Pełny system wymiany przedmiotów między graczami dla serwera Minecraft Paper 1.20.x.
+
+## Wymagania
+
+- **PaperMC** 1.20.x (lub nowszy)
+- **Java** 17+
+- **Maven** 3.6+ (do kompilacji)
+- Opcjonalnie: **PlaceholderAPI** (do placeholderów `%wymiana_*%`)
+
+## Kompilacja
+
+```bash
+cd plugin
+mvn clean package
+```
+
+Plik `WymianaSystem-1.0.0.jar` pojawi się w katalogu `target/`.
+
+## Instalacja
+
+1. Skopiuj `target/WymianaSystem-1.0.0.jar` do folderu `plugins/` serwera.
+2. Uruchom / zrestartuj serwer.
+3. Plugin wygeneruje `config.yml` i `messages.yml` w folderze `plugins/WymianaSystem/`.
+4. Dostosuj konfigurację według własnych potrzeb.
+5. Użyj `/wymiana reload` aby przeładować konfigurację bez restartu.
+
+## Komendy
+
+| Komenda | Opis |
+|---|---|
+| `/wymiana <gracz>` | Wysyła zaproszenie do wymiany |
+| `/wymiana akceptuj <gracz>` | Akceptuje zaproszenie i otwiera GUI |
+| `/wymiana odrzuc <gracz>` | Odrzuca zaproszenie |
+| `/wymiana reload` | Przeładowuje konfigurację |
+
+## Uprawnienia
+
+- `wymiana.use` — używanie komend (domyślnie dla wszystkich)
+- `wymiana.reload` — przeładowywanie konfiguracji (tylko op)
+- `wymiana.bypass.cooldown` — omijanie cooldownów (tylko op)
+
+## PlaceholderAPI
+
+- `%wymiana_in_trade%` — czy gracz jest w wymianie (`true`/`false`)
+- `%wymiana_state%` — stan sesji (`OPEN`, `COUNTDOWN`, `COMPLETED`, `CANCELLED`, `NONE`)
+- `%wymiana_countdown%` — pozostały czas odliczania
+- `%wymiana_partner%` — nick partnera
+- `%wymiana_accepted%` — czy gracz zaakceptował
+
+## Struktura projektu
+
+```
+plugin/src/main/java/pl/wymiana/
+├── Main.java                 # Klasa główna pluginu
+├── command/
+│   └── CommandWymiana.java   # Obsługa komendy /wymiana
+├── listener/
+│   ├── InventoryListener.java  # Zabezpieczenia GUI
+│   └── PlayerListener.java     # Obsługa wyjścia/śmierci
+├── manager/
+│   ├── ConfigManager.java     # Ładowanie config.yml
+│   ├── MessageManager.java    # Ładowanie messages.yml
+│   ├── SoundManager.java      # Efekty dźwiękowe
+│   ├── GUIManager.java        # Budowanie GUI wymiany
+│   └── WymianaManager.java    # Centralny manager sesji
+├── session/
+│   └── WymianaSession.java    # Model sesji wymiany
+├── hook/
+│   └── PlaceholderHook.java   # Integracja z PlaceholderAPI
+└── util/
+    ├── ItemUtil.java          # Narzędzia przedmiotów
+    └── SmallCapsUtil.java     # Konwersja Unicode small caps
+```
+
+## Bezpieczeństwo
+
+Plugin zabezpiecza przed:
+- Duplikacją przedmiotów
+- Shift-click / number-key swap / drag / double-click
+- Reconnect abuse
+- Jednoczesnymi zaproszeniami
+- Wymianą z offline graczami
+- Śmiercią / wylogowaniem w trakcie wymiany
+- Zmianą przedmiotów podczas odliczania
+
+## Licencja
+
+MIT

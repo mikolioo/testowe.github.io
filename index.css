@@ -1,0 +1,197 @@
+package pl.wymiana.manager;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import pl.wymiana.Main;
+import pl.wymiana.util.SmallCapsUtil;
+
+import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Zarządza plikiem messages.yml.
+ *
+ * Kolejność przetwarzania jest istotna:
+ *   1. konwersja small caps na szablonie (chroni kody kolorów i placeholdery)
+ *   2. podstawienie placeholderów (nicki graczy pozostają nietknięte)
+ *   3. PlaceholderAPI
+ *   4. kolorowanie
+ */
+public final class MessageManager {
+
+    private final Main plugin;
+    private FileConfiguration messages;
+    private String prefix;
+
+    public MessageManager(Main plugin) {
+        this.plugin = plugin;
+        reload();
+    }
+
+    public void reload() {
+        File file = new File(plugin.getDataFolder(), "messages.yml");
+        if (!file.exists()) {
+            plugin.saveResource("messages.yml", false);
+        }
+        this.messages = YamlConfiguration.loadConfiguration(file);
+
+        InputStream def = plugin.getResource("messages.yml");
+        if (def != null) {
+            YamlConfiguration defaults = YamlConfiguration.loadConfiguration(
+                    new InputStreamReader(def, StandardCharsets.UTF_8));
+            messages.setDefaults(defaults);
+        }
+        // Prefiks NIE jest konwertowany ponownie - jest już zapisany w small caps.
+        this.prefix = messages.getString("prefix", "&8[&6ᴡʏᴍɪᴀɴᴀ&8] &7");
+    }
+
+    public String getPrefix() {
+        return color(prefix);
+    }
+
+    /**
+     * Tytuł GUI jako komponent Adventure (Paper API).
+     */
+    public Component getGuiTitle() {
+        String raw = plugin.getConfigManager().getGuiTitle();
+        if (plugin.getConfigManager().isUseSmallCaps()) {
+            raw = SmallCapsUtil.convertPreserving(raw);
+        }
+        return toComponent(raw);
+    }
+
+    // ============ Pobieranie pojedynczych wiadomości ============
+
+    public String get(String path) {
+        return format(messages.getString(path, path), null, null, null, null);
+    }
+
+    public String get(String path, Player player, String target) {
+        return format(messages.getString(path, path), player, target, null, null);
+    }
+
+    public String get(String path, Player player, String target, String extraKey, String extraValue) {
+        return format(messages.getString(path, path), player, target, extraKey, extraValue);
+    }
+
+    /**
+     * Surowa wiadomość bez small caps i bez kolorów - przeznaczona dla konsoli.
+     */
+    public String getRaw(String path, String... replacements) {
+        String out = messages.getString(path, path);
+        for (int i = 0; i + 1 < replacements.length; i += 2) {
+            out = out.replace(replacements[i], replacements[i + 1]);
+        }
+        return ChatColor.stripColor(color(out));
+    }
+
+    // ============ Pobieranie list ============
+
+    public List<String> getList(String path) {
+        return getList(path, null, null);
+    }
+
+    public List<String> getList(String path, Player player, String target) {
+        return getList(path, player, target, null, null);
+    }
+
+    public List<String> getList(String path, Player player, String target, int seconds) {
+        return getList(path, player, target, "%seconds%", String.valueOf(seconds));
+    }
+
+    /**
+     * Zawsze zwraca modyfikowalną listę (ważne dla replaceAll w GUIManager).
+     */
+    public List<String> getList(String path, Player player, String target, String extraKey, String extraValue) {
+        List<String> raw = messages.getStringList(path);
+        List<String> out = new ArrayList<>();
+        if (raw.isEmpty()) {
+            String single = messages.getString(path, null);
+            if (single != null) {
+                out.add(format(single, player, target, extraKey, extraValue));
+            }
+            return out;
+        }
+        for (String s : raw) {
+            out.add(format(s, player, target, extraKey, extraValue));
+        }
+        return out;
+    }
+
+    // ============ Formatowanie ============
+
+    public String format(String text, Player player, String target, String extraKey, String extraValue) {
+        if (text == null) return "";
+
+        String out = text;
+
+        // 1. Small caps na SZABLONIE - chroni &kody i %placeholdery%
+        if (plugin.getConfigManager().isUseSmallCaps()) {
+            out = SmallCapsUtil.convertPreserving(out);
+        }
+
+        // 2. Prefiks (już zapisany w small caps w messages.yml)
+        out = out.replace("%prefix%", prefix);
+
+        // 3. Placeholdery wewnętrzne - nicki NIE są konwertowane
+        if (player != null) {
+            out = out.replace("%player%", player.getName());
+            out = out.replace("%player_name%", player.getName());
+        }
+        if (target != null) {
+            out = out.replace("%target%", target);
+        }
+        if (extraKey != null && extraValue != null) {
+            out = out.replace(extraKey, extraValue);
+        }
+
+        // 4. PlaceholderAPI (opcjonalnie, przez refleksję-safe wrapper)
+        out = plugin.applyPlaceholders(player, out);
+
+        // 5. Kolory
+        return color(out);
+    }
+
+    @SuppressWarnings("deprecation")
+    public static String color(String text) {
+        if (text == null) return "";
+        return ChatColor.translateAlternateColorCodes('&', text);
+    }
+
+    public Component toComponent(String text) {
+        return LegacyComponentSerializer.legacySection().deserialize(color(text));
+    }
+
+    // ============ Wysyłanie ============
+
+    public void send(CommandSender sender, String path) {
+        String m = get(path);
+        if (!m.isEmpty()) sender.sendMessage(m);
+    }
+
+    public void send(CommandSender sender, String path, Player player, String target) {
+        String m = get(path, player, target);
+        if (!m.isEmpty()) sender.sendMessage(m);
+    }
+
+    public void sendList(CommandSender sender, String path) {
+        for (String s : getList(path)) sender.sendMessage(s);
+    }
+
+    public void sendList(CommandSender sender, String path, Player player, String target) {
+        for (String s : getList(path, player, target)) sender.sendMessage(s);
+    }
+
+    public void sendList(CommandSender sender, String path, Player player, String target, int seconds) {
+        for (String s : getList(path, player, target, seconds)) sender.sendMessage(s);
+    }
+}

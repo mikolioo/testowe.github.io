@@ -1,0 +1,300 @@
+package pl.wymiana.manager;
+
+import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
+import pl.wymiana.Main;
+
+import java.util.*;
+
+/**
+ * Zarządza plikiem config.yml - wszystkie opcje są ładowane z pliku konfiguracyjnego.
+ */
+public final class ConfigManager {
+
+    private final Main plugin;
+
+    // Timeout zaproszenia
+    private int requestTimeout;
+    // Cooldown wysyłania
+    private int requestCooldown;
+    // Maksymalna liczba oczekujących
+    private int maxPendingPerTarget;
+    private int maxPendingPerSender;
+    // Czas odliczania
+    private int countdownSeconds;
+    // Włączone funkcje
+    private boolean countdownAnimation;
+    private boolean useSmallCaps;
+    private boolean placeholderApiEnabled;
+    private boolean blockCrossWorld;
+    private boolean logTrades;
+    private boolean useActionBar;
+    // Odległość
+    private double maxDistance;
+
+    // Uprawnienia
+    private String permissionUse;
+    private String permissionReload;
+    private String permissionBypassCooldown;
+
+    // Sloty GUI
+    private String guiTitle;
+    private int guiSize;
+    private List<Integer> slotsPlayerA;
+    private List<Integer> slotsPlayerB;
+    private List<Integer> slotsCenterDecorative;
+    private int slotPlayerAAccept;
+    private int slotPlayerBAccept;
+    private int slotCountdownDisplay;
+    private int slotPlayerAInfo;
+    private int slotPlayerBInfo;
+    private List<Integer> slotsFill;
+
+    // Zbiór slotów handlowych (A + B) dla szybkiego sprawdzenia
+    private Set<Integer> allTradeSlots;
+    private Set<Integer> playerAEditable;
+    private Set<Integer> playerBEditable;
+    private Set<Integer> readOnlySlots;
+
+    // Materiały
+    private Material decorativePaneMat;
+    private Material fillPaneMat;
+    private Material acceptReadyMat;
+    private Material acceptConfirmedMat;
+    private Material acceptWaitingMat;
+    private Material countdownFrameMat;
+
+    // Custom Model Data
+    private int cmdDecorative;
+    private int cmdFill;
+    private int cmdAcceptReady;
+    private int cmdAcceptConfirmed;
+    private int cmdAcceptWaiting;
+
+    // Zablokowane przedmioty
+    private boolean blockedItemsEnabled;
+    private Set<Material> blockedMaterials;
+    private List<String> blockedLoreContains;
+    private List<Integer> blockedCustomModelData;
+
+    public ConfigManager(Main plugin) {
+        this.plugin = plugin;
+        reload();
+    }
+
+    public void reload() {
+        plugin.reloadConfig();
+        FileConfiguration cfg = plugin.getConfig();
+
+        this.requestTimeout = cfg.getInt("request-timeout", 30);
+        this.requestCooldown = cfg.getInt("request-cooldown", 5);
+        this.maxPendingPerTarget = cfg.getInt("max-pending-per-target", 3);
+        this.maxPendingPerSender = cfg.getInt("max-pending-per-sender", 3);
+        this.countdownSeconds = cfg.getInt("countdown-seconds", 5);
+        this.countdownAnimation = cfg.getBoolean("countdown-animation-enabled", true);
+        this.useSmallCaps = cfg.getBoolean("use-small-caps", true);
+        this.placeholderApiEnabled = cfg.getBoolean("enable-placeholder-api", true);
+        this.blockCrossWorld = cfg.getBoolean("block-cross-world", false);
+        this.logTrades = cfg.getBoolean("log-trades", true);
+        this.useActionBar = cfg.getBoolean("use-action-bar", false);
+        this.maxDistance = cfg.getDouble("max-distance", -1);
+
+        this.permissionUse = cfg.getString("permissions.use", "wymiana.use");
+        this.permissionReload = cfg.getString("permissions.reload", "wymiana.reload");
+        this.permissionBypassCooldown = cfg.getString("permissions.bypass-cooldown", "wymiana.bypass.cooldown");
+
+        this.guiTitle = cfg.getString("gui.title", "ᴡʏᴍɪᴀɴᴀ");
+
+        // Rozmiar GUI musi być wielokrotnością 9 z zakresu 9-54
+        int rawSize = cfg.getInt("gui.size", 54);
+        if (rawSize < 9 || rawSize > 54 || rawSize % 9 != 0) {
+            plugin.getLogger().warning("Nieprawidłowy 'gui.size' (" + rawSize + "). Ustawiono 54.");
+            rawSize = 54;
+        }
+        this.guiSize = rawSize;
+
+        this.slotsPlayerA = cfg.getIntegerList("gui.slots.player-a-trade");
+        this.slotsPlayerB = cfg.getIntegerList("gui.slots.player-b-trade");
+        this.slotsCenterDecorative = cfg.getIntegerList("gui.slots.center-decorative");
+        this.slotPlayerAAccept = cfg.getInt("gui.slots.player-a-accept", 38);
+        this.slotPlayerBAccept = cfg.getInt("gui.slots.player-b-accept", 41);
+        this.slotCountdownDisplay = cfg.getInt("gui.slots.countdown-display", 4);
+        this.slotPlayerAInfo = cfg.getInt("gui.slots.player-a-info", 0);
+        this.slotPlayerBInfo = cfg.getInt("gui.slots.player-b-info", 8);
+        this.slotsFill = cfg.getIntegerList("gui.slots.fill-slots");
+
+        // Zbiór slotów
+        this.allTradeSlots = new HashSet<>();
+        this.allTradeSlots.addAll(slotsPlayerA);
+        this.allTradeSlots.addAll(slotsPlayerB);
+
+        this.playerAEditable = new HashSet<>(slotsPlayerA);
+        this.playerBEditable = new HashSet<>(slotsPlayerB);
+
+        this.readOnlySlots = new HashSet<>();
+        readOnlySlots.addAll(slotsCenterDecorative);
+        readOnlySlots.addAll(slotsFill);
+        readOnlySlots.add(slotPlayerAAccept);
+        readOnlySlots.add(slotPlayerBAccept);
+        readOnlySlots.add(slotCountdownDisplay);
+        readOnlySlots.add(slotPlayerAInfo);
+        readOnlySlots.add(slotPlayerBInfo);
+
+        // Materiały
+        this.decorativePaneMat = parseMat(cfg, "gui-materials.decorative-pane", Material.GRAY_STAINED_GLASS_PANE);
+        this.fillPaneMat = parseMat(cfg, "gui-materials.fill-pane", Material.BLACK_STAINED_GLASS_PANE);
+        this.acceptReadyMat = parseMat(cfg, "gui-materials.accept-ready", Material.LIME_STAINED_GLASS_PANE);
+        this.acceptConfirmedMat = parseMat(cfg, "gui-materials.accept-confirmed", Material.LIME_WOOL);
+        this.acceptWaitingMat = parseMat(cfg, "gui-materials.accept-waiting", Material.RED_STAINED_GLASS_PANE);
+        this.countdownFrameMat = parseMat(cfg, "gui-materials.countdown-frame", Material.YELLOW_STAINED_GLASS_PANE);
+
+        // Custom Model Data
+        ConfigurationSection cmdSection = cfg.getConfigurationSection("gui-custom-model-data");
+        if (cmdSection != null) {
+            this.cmdDecorative = cmdSection.getInt("decorative-pane", 0);
+            this.cmdFill = cmdSection.getInt("fill-pane", 0);
+            this.cmdAcceptReady = cmdSection.getInt("accept-ready", 0);
+            this.cmdAcceptConfirmed = cmdSection.getInt("accept-confirmed", 0);
+            this.cmdAcceptWaiting = cmdSection.getInt("accept-waiting", 0);
+        }
+
+        // Zablokowane przedmioty
+        this.blockedItemsEnabled = cfg.getBoolean("blocked-items.enabled", false);
+        this.blockedMaterials = new HashSet<>();
+        for (String s : cfg.getStringList("blocked-items.materials")) {
+            try {
+                blockedMaterials.add(Material.valueOf(s.toUpperCase(Locale.ROOT)));
+            } catch (Exception ignored) {
+            }
+        }
+        this.blockedLoreContains = cfg.getStringList("blocked-items.blocked-lore-contains");
+        this.blockedCustomModelData = cfg.getIntegerList("blocked-items.blocked-custom-model-data");
+
+        validateSlots();
+    }
+
+    /**
+     * Usuwa sloty spoza zakresu GUI oraz wykrywa nakładanie się stref graczy.
+     */
+    private void validateSlots() {
+        slotsPlayerA.removeIf(this::outOfRange);
+        slotsPlayerB.removeIf(this::outOfRange);
+        slotsCenterDecorative.removeIf(this::outOfRange);
+        slotsFill.removeIf(this::outOfRange);
+
+        // Strefa gracza B nie może pokrywać się ze strefą gracza A
+        int before = slotsPlayerB.size();
+        slotsPlayerB.removeIf(slotsPlayerA::contains);
+        if (slotsPlayerB.size() != before) {
+            plugin.getLogger().warning("Sloty graczy A i B nakładały się - konflikty zostały usunięte ze strefy B.");
+        }
+
+        // Sloty funkcyjne nie mogą być slotami handlowymi
+        slotsPlayerA.removeIf(this::isFunctionalSlot);
+        slotsPlayerB.removeIf(this::isFunctionalSlot);
+
+        // Odbudowa zbiorów pomocniczych po walidacji
+        this.allTradeSlots.clear();
+        this.allTradeSlots.addAll(slotsPlayerA);
+        this.allTradeSlots.addAll(slotsPlayerB);
+
+        this.playerAEditable.clear();
+        this.playerAEditable.addAll(slotsPlayerA);
+        this.playerBEditable.clear();
+        this.playerBEditable.addAll(slotsPlayerB);
+
+        this.readOnlySlots.clear();
+        this.readOnlySlots.addAll(slotsCenterDecorative);
+        this.readOnlySlots.addAll(slotsFill);
+        this.readOnlySlots.add(slotPlayerAAccept);
+        this.readOnlySlots.add(slotPlayerBAccept);
+        this.readOnlySlots.add(slotCountdownDisplay);
+        this.readOnlySlots.add(slotPlayerAInfo);
+        this.readOnlySlots.add(slotPlayerBInfo);
+        // Sloty handlowe nigdy nie są tylko-do-odczytu
+        this.readOnlySlots.removeAll(allTradeSlots);
+
+        if (slotsPlayerA.isEmpty() || slotsPlayerB.isEmpty()) {
+            plugin.getLogger().severe("Brak poprawnych slotow handlowych w config.yml! Sprawdz sekcje 'gui.slots'.");
+        }
+    }
+
+    private boolean outOfRange(int slot) {
+        if (slot < 0 || slot >= guiSize) {
+            plugin.getLogger().warning("Slot " + slot + " jest poza zakresem GUI (0-" + (guiSize - 1) + ") - pominieto.");
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isFunctionalSlot(int slot) {
+        return slot == slotPlayerAAccept
+                || slot == slotPlayerBAccept
+                || slot == slotCountdownDisplay
+                || slot == slotPlayerAInfo
+                || slot == slotPlayerBInfo;
+    }
+
+    private Material parseMat(FileConfiguration cfg, String path, Material def) {
+        String name = cfg.getString(path, def.name());
+        try {
+            return Material.valueOf(name.toUpperCase(Locale.ROOT));
+        } catch (Exception ex) {
+            return def;
+        }
+    }
+
+    // Getters
+    public int getRequestTimeout() { return requestTimeout; }
+    public int getRequestCooldown() { return requestCooldown; }
+    public int getMaxPendingPerTarget() { return maxPendingPerTarget; }
+    public int getMaxPendingPerSender() { return maxPendingPerSender; }
+    public int getCountdownSeconds() { return countdownSeconds; }
+    public boolean isCountdownAnimation() { return countdownAnimation; }
+    public boolean isUseSmallCaps() { return useSmallCaps; }
+    public boolean isPlaceholderApiEnabled() { return placeholderApiEnabled; }
+    public boolean isBlockCrossWorld() { return blockCrossWorld; }
+    public boolean isLogTrades() { return logTrades; }
+    public boolean isUseActionBar() { return useActionBar; }
+    public double getMaxDistance() { return maxDistance; }
+
+    public String getPermissionUse() { return permissionUse; }
+    public String getPermissionReload() { return permissionReload; }
+    public String getPermissionBypassCooldown() { return permissionBypassCooldown; }
+
+    public String getGuiTitle() { return guiTitle; }
+    public int getGuiSize() { return guiSize; }
+    public List<Integer> getSlotsPlayerA() { return slotsPlayerA; }
+    public List<Integer> getSlotsPlayerB() { return slotsPlayerB; }
+    public List<Integer> getSlotsCenterDecorative() { return slotsCenterDecorative; }
+    public int getSlotPlayerAAccept() { return slotPlayerAAccept; }
+    public int getSlotPlayerBAccept() { return slotPlayerBAccept; }
+    public int getSlotCountdownDisplay() { return slotCountdownDisplay; }
+    public int getSlotPlayerAInfo() { return slotPlayerAInfo; }
+    public int getSlotPlayerBInfo() { return slotPlayerBInfo; }
+    public List<Integer> getSlotsFill() { return slotsFill; }
+
+    public Set<Integer> getAllTradeSlots() { return allTradeSlots; }
+    public Set<Integer> getPlayerAEditable() { return playerAEditable; }
+    public Set<Integer> getPlayerBEditable() { return playerBEditable; }
+    public Set<Integer> getReadOnlySlots() { return readOnlySlots; }
+
+    public Material getDecorativePaneMat() { return decorativePaneMat; }
+    public Material getFillPaneMat() { return fillPaneMat; }
+    public Material getAcceptReadyMat() { return acceptReadyMat; }
+    public Material getAcceptConfirmedMat() { return acceptConfirmedMat; }
+    public Material getAcceptWaitingMat() { return acceptWaitingMat; }
+    public Material getCountdownFrameMat() { return countdownFrameMat; }
+
+    public int getCmdDecorative() { return cmdDecorative; }
+    public int getCmdFill() { return cmdFill; }
+    public int getCmdAcceptReady() { return cmdAcceptReady; }
+    public int getCmdAcceptConfirmed() { return cmdAcceptConfirmed; }
+    public int getCmdAcceptWaiting() { return cmdAcceptWaiting; }
+
+    public boolean isBlockedItemsEnabled() { return blockedItemsEnabled; }
+    public Set<Material> getBlockedMaterials() { return blockedMaterials; }
+    public List<String> getBlockedLoreContains() { return blockedLoreContains; }
+    public List<Integer> getBlockedCustomModelData() { return blockedCustomModelData; }
+}
